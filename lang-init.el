@@ -1,6 +1,5 @@
 ;;; lang-init --- various language-specific modes   [sj--95/11/06]
 ;;;
-;;; $Id: lang-init.el,v 1.24 2001/05/25 05:02:02 sj Exp $
 
 ;; imenu
 (setq imenu-sort-function 'imenu--sort-by-name)

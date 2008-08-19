@@ -1,6 +1,5 @@
 ;;; bbdb-init --- the Insidious Big Brother Database   [sj 95/06/11]
 ;;;
-;;; $Id: bbdb-init.el,v 1.7 1999/03/06 06:37:07 sj Exp $
 
 (require 'bbdb)
 (and (fboundp 'bbdb-initialize) (bbdb-initialize))

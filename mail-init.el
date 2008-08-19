@@ -1,6 +1,5 @@
 ;;; mail-init --- mail-related stuff    [sj 95/06/11]
 ;;;
-;;; $Id: mail-init.el,v 1.15 2001/05/25 05:02:02 sj Exp $
 
 ;; packages used to customise mail
 (require 'mail-hist)

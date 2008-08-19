@@ -1,6 +1,5 @@
 ;;; face-init --- all face/font-related stuff    [sj 95/06/11]
 ;;;
-;;; $Id: face-init.el,v 1.9 1999/03/06 06:37:07 sj Exp $
 
 ;; Hack for OS X necessittated by recent borkage in Emacs
 (set-default-font "-*-Courier-*-140-*")

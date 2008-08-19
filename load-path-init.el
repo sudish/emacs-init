@@ -1,6 +1,5 @@
 ;;; load-path-init.el --- add packages to load-path
 ;;;
-;;; $Id: paths.el,v 1.10 2001/05/25 05:02:02 sj Exp $
 
 ;; some handy stuff
 (defvar load-path-prepend-prefix "~/gnuemacs/site-lisp/"

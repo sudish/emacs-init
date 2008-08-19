@@ -1,5 +1,4 @@
 ;;; -*- emacs-lisp -*-
-;;; $Id: .vip,v 1.9 2001/05/25 05:02:02 sj Exp $
 
 (setq viper-expert-level 5
       viper-want-ctl-h-help t

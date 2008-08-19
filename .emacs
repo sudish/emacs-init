@@ -1,5 +1,8 @@
 ;; EMACS startup file
 
+;; You'd think this would be the default in all Emacsen, all the time.
+(cd (expand-file-name "~"))
+
 (defvar sj/emacs-type
   (if (string-match "xemacs\\|lucid" emacs-version)
       'xemacs

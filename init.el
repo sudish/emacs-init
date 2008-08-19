@@ -1,6 +1,5 @@
 ;;; init --- main init file   [sj--95/06/11]
 ;;;
-;;; $Id: init.el,v 1.28 2001/05/25 05:02:02 sj Exp $
 
 ;; I wish cl were the default
 (require 'cl)

@@ -1,5 +1,4 @@
 ;;; VM's init file,   -*- emacs-lisp -*-
-;;; $Id: .vm,v 1.2 1998/11/26 17:47:47 sj Exp $
 
 (define-key vm-mail-mode-map "\C-cy" 'vm-yank-message-other-folder)
 

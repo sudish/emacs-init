@@ -1,6 +1,5 @@
 ;;; mode-init --- various modes we use   [sj--95/11/06]
 ;;;
-;;; $Id: mode-init.el,v 1.27 2000/02/08 22:11:02 sj Exp $
 
 ;; semantic
 ;(setq semantic-load-turn-everything-on t)

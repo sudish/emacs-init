@@ -1,5 +1,4 @@
 ;; zenirc startup stuff -*- emacs-lisp -*-
-;; $Id: zenirc-init.el,v 1.4 2001/05/25 05:02:02 sj Exp $
 
 (require 'zenirc)
 

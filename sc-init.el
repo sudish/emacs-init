@@ -1,6 +1,5 @@
 ;;; sc-init --- supercite    [sj 95/06/11]
 ;;;
-;;; $Id: sc-init.el,v 1.3 1998/03/24 23:25:21 sj Exp $
 
 (autoload 'sc-cite-original "supercite" "Supercite 3.1" t)
 ;(add-hook 'mail-citation-hook 'sc-cite-original)

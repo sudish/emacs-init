@@ -1,6 +1,5 @@
 ;;; keyboard-init --- keyboard settings    [sj 95/06/11]
 ;;;
-;;; $Id: keymap-init.el,v 1.11 1999/06/06 06:08:07 sj Exp $
 
 (when user-sj-p
   (global-set-key [?\C-x ?f] 'find-file) ; set-fill-column is a pita

@@ -1,6 +1,5 @@
 ;;; misc-init --- miscellaneous utils   [sj--95/11/06]
 ;;;
-;;; $Id: misc-init.el,v 1.12 2000/02/08 22:11:02 sj Exp $
 
 ;; Originally by Stephen Gildea, Nov. 88
 ;; From the LCD -- ~/as-is/swap-wins.el
