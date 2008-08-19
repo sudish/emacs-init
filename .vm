@@ -1,0 +1,188 @@
+;;; VM's init file,   -*- emacs-lisp -*-
+;;; $Id: .vm,v 1.2 1998/11/26 17:47:47 sj Exp $
+
+(define-key vm-mail-mode-map "\C-cy" 'vm-yank-message-other-folder)
+
+;;; Rick Sladkey <jrs@world.std.com>
+;(define-key vm-mode-map "\C-m" 'vm-scroll-one-line)
+;(define-key vm-summary-mode-map "\C-m" 'vm-scroll-one-line)
+;(define-key vm-mode-map "q" 'vm-quit-just-iconify)
+;(define-key vm-summary-mode-map "q" 'vm-quit-just-iconify)
+;(define-key vm-mode-map "Q" 'vm-quit)
+;(define-key vm-summary-mode-map "Q" 'vm-quit)
+
+(add-hook 'vm-quit-hook
+	  '(lambda ()
+	     (if vm-folder-read-only
+		 ()
+	       (vm-expunge-folder)
+	       (vm-save-folder))))
+;(add-hook 'vm-mail-mode-hook 'mime-mode)
+
+(if (file-executable-p "/usr/local/lib/movemail")
+    (setq vm-movemail-program "/usr/local/lib/movemail"))
+
+(defun vm-scroll-one-line ()
+  (interactive)
+  (vm-scroll-forward 1))
+
+(setq vm-primary-inbox    (expand-file-name "~/Mail/INBOX")
+      vm-crash-box        (expand-file-name "~/Mail/INBOX.CRASH")
+      vm-folder-directory (expand-file-name "~/Mail/"))
+
+;(setq vm-summary-format "%*%-17.17UB %-3.3m %2d %a [%4l] %I\"%s\"\n")
+
+(setq vm-visit-when-saving     0
+      vm-startup-with-summary  t
+      vm-preview-lines         nil
+      vm-auto-center-summary   1
+      vm-follow-summary-cursor t
+      vm-keep-sent-messages    5)
+
+(setq-default vm-summary-show-threads t)
+
+(setq vm-circular-folders          t
+      vm-delete-empty-folders      nil
+      vm-delete-after-saving       t
+      vm-move-after-deleting       'movement-only
+      vm-reply-subject-prefix      "Re: "
+      vm-forwarding-subject-format "[%F] %s")
+
+(setq vm-summary-uninteresting-senders
+      "\\(sj\\|sudish\\)@.*mindspring\\.\\(com\\|net\\)"
+      vm-reply-ignored-addresses       (list vm-summary-uninteresting-senders))
+
+(setq vm-visible-headers
+      '("From" "Sender" "Newsgroups" "To" "Cc" "Subject" "In-Reply-To:" "Date"
+	"Reply-To:" "X-Bonus:" "Resent"))
+;(setq vm-invisible-header-regexp "Received\\|Resent\\|Mime\\|Content\\|Message-Id:\\|References:\\|X-\\|X400\\|Precedence:\\|Organization:")
+(setq vm-forwarded-headers
+      '("From" "Sender" "Newsgroups" "To" "Cc" "Subject" "Date" ))
+(setq vm-unforwarded-header-regexp "Received\\|Resent")
+(setq vm-included-text-headers
+      '("From" "Sender" "Newsgroups" "To" "Cc" "Subject" "Date" ))
+(setq vm-included-text-discard-header-regexp "Received\\|Resent")
+
+
+;; frames/highlights/urls etc.
+
+(setq vm-highlighted-header-regexp nil
+      vm-highlighted-header-face   'bold
+      vm-frame-per-folder          nil
+      vm-frame-per-composition     nil
+      vm-warp-mouse-to-new-frame   t)
+
+(when window-system
+  (sj/set-face 'vm-highlight-url-face 'yellow-bold)
+  (setq vm-url-browser 'sj/netscape))
+
+
+;(setq vm-auto-folder-alist
+;      '(("From:\\|Sender:"
+;	 ("gnu" . "gnu")
+;	 ("bibl" . "bibl")
+;	 ("[Dd]igianarch" . "digianarch"))
+;	("To:\\|Cc:"
+;	 (".*inria.fr" . "gwm")
+;	 ("procmail" . "procmail")
+;	 ("nef" . "nef")
+;	 ("ding" . "ding"))))
+
+
+;; win-vm.el stuff starts here
+
+;(setq win-vm-confirm-quit nil)
+;(setq win-vm-style 'single)
+;(setq win-vm-no-mail-frame nil)
+;(setq win-vm-confirm-mail-kill nil)
+;(setq win-vm-warp-mouse-on-raise t)
+;(setq win-vm-expunge-when-iconify t)
+;(add-hook 'win-vm-iconify-hook 'win-vm-bury)
+
+
+;; Runs metamail on the current VM message, uses metamail.el functionality
+;; Author: Gardner Cohen <gec@Mti.Sgi.Com> 
+
+(defun vm-show-mime (&optional do-header)
+  "Show a MIME message in current buffer using a View mode.
+If an optional argument DO-HEADER is non-nil, interpret a header part,
+too.  Otherwise, a body part is only interpreted.
+The contents of current buffer are not changed at all."
+  (interactive "P")
+  (vm-select-folder-buffer)
+  (vm-check-for-killed-summary)
+  (vm-error-if-folder-empty)
+  (let ((buffer (get-buffer-create "*metamail*"))
+	(pop-up-windows (and pop-up-windows (eq vm-mutable-windows t)))
+	(all-that-stuff)
+	(m)
+	;; prefix arg doesn't have "normal" meaning here, so only call
+	;; vm-select-marked-or-prefixed-messages if we're using marks.
+	(mlist (if (eq last-command 'vm-next-command-uses-marks)
+		   (vm-select-marked-or-prefixed-messages 0)
+		 (list (car vm-message-pointer)))))
+    (while mlist
+      (set-buffer buffer)
+      (erase-buffer)
+      (setq m (vm-real-message-of (car mlist)))
+      (set-buffer (vm-buffer-of m))
+      (save-restriction
+	(widen)
+	(goto-char (vm-headers-of m))
+	(setq all-that-stuff (buffer-substring (point) (vm-text-end-of m)))
+	(set-buffer buffer)
+	(insert all-that-stuff)
+	(let ((pop-up-windows (and pop-up-windows (eq vm-mutable-windows t))))
+	  (if do-header
+	      (metamail-interpret-header))
+	  (let ((metamail-switches	    ;Suppress header fields in a body.
+		 (append metamail-switches '("-q"))))
+	    (metamail-interpret-body))))
+      (setq mlist (cdr mlist)))
+     (set-buffer buffer)
+     (if (not (zerop (buffer-size)))
+	 (vm-display buffer t '(vm-pipe-message-to-command)
+		     '(vm-pipe-message-to-command))
+       (vm-display nil nil '(vm-pipe-message-to-command)
+		   '(vm-pipe-message-to-command)))))
+
+;(define-key vm-mode-map "!" 'vm-show-mime)
+
+
+;; bbdb's hook into VM
+
+;(bbdb-insinuate-vm)
+;(setq bbdb/mail-auto-create-p nil)
+
+;(autoload 'tra-vm-mime-select-message "tra-vm-mime"
+;  "MIME hook for VM select message: decodes Content-Transfer-Encoding
+;typically using metamail (or some analogous) program." t)
+
+;(add-hook 'vm-select-message-hook 'tra-vm-mime-select-message)
+
+
+;; random stuff
+
+
+;; vm-spool-files must be setup to reflect the various mail-list folders that
+;; are delivered to by procmail.  sj/vm-get-vm-spool-files will return a list
+;; of lists of the correct form.  sj/vm-mail-list-names must contain the
+;; names of all the lists handled by procmail.
+
+(when nil
+  (setq sj/vm-mail-list-names nil)
+  (setq sj/old-vm-spool-files
+	(append
+	 (mapcar
+	  (function
+	   (lambda (file)
+	     (let ((maildir (expand-file-name "~/Mail/")))
+	       (list
+		(concat maildir file)
+		(concat maildir "Spool/" file)
+		(concat maildir file ".CRASH")))))
+	  sj/vm-mail-list-names)
+	 (list vm-primary-inbox (concat "/usr/spool/mail/" (user-login-name))
+	       vm-crash-box))))
+
+;(setq vm-spool-files '("/usr/spool/mail/sj"))

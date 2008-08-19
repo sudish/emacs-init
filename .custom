@@ -1,0 +1,20 @@
+(custom-set-variables
+  ;; custom-set-variables was added by Custom -- don't edit or cut/paste it!
+  ;; Your init file should contain only one such instance.
+ '(confirm-kill-emacs (quote y-or-n-p))
+ '(font-lock-maximum-decoration t)
+ '(frame-background-mode (quote light))
+ '(global-font-lock-mode t nil (font-lock))
+ '(gnus-group-highlight (quote (((and (= unread 0) (not mailp) (eq level 1)) . gnus-group-news-1-empty-face) ((and (not mailp) (eq level 1)) . gnus-group-news-1-face) ((and (= unread 0) (not mailp) (eq level 2)) . gnus-group-news-2-empty-face) ((and (not mailp) (eq level 2)) . gnus-group-news-2-face) ((and (= unread 0) (not mailp) (eq level 3)) . gnus-group-news-3-empty-face) ((and (not mailp) (eq level 3)) . gnus-group-news-3-face) ((and (= unread 0) (not mailp) (eq level 4)) . gnus-group-news-4-empty-face) ((and (not mailp) (eq level 4)) . gnus-group-news-4-face) ((and (= unread 0) (not mailp) (eq level 5)) . gnus-group-news-5-empty-face) ((and (not mailp) (eq level 5)) . gnus-group-news-5-face) ((and (= unread 0) (not mailp) (eq level 6)) . gnus-group-news-6-empty-face) ((and (not mailp) (eq level 6)) . gnus-group-news-6-face) ((and (= unread 0) (not mailp)) . gnus-group-news-low-empty-face) ((and (not mailp)) . gnus-group-news-low-face) ((and (= unread 0) (eq level 1)) . gnus-group-mail-1-empty-face) ((eq level 1) . gnus-group-mail-1-face) ((and (= unread 0) (eq level 2)) . gnus-group-mail-2-empty-face) ((eq level 2) . gnus-group-mail-2-face) ((and (= unread 0) (eq level 3)) . gnus-group-mail-3-empty-face) ((eq level 3) . gnus-group-mail-3-face) ((= unread 0) . gnus-group-mail-low-empty-face) (t . gnus-group-mail-low-face))))
+ '(hi-lock-mode t nil (hi-lock))
+ '(iswitchb-mode t nil (iswitchb))
+ '(transient-mark-mode t))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom -- don't edit or cut/paste it!
+  ;; Your init file should contain only one such instance.
+ '(Info-title-1-face ((((type tty pc) (class color)) (:foreground "red" :weight bold))))
+ '(Info-title-2-face ((((type tty pc) (class color)) (:foreground "purple" :weight bold))))
+ '(font-lock-keyword-face ((((type tty) (class color)) (:foreground "purple" :weight bold))))
+ '(gnus-group-news-2-empty-face ((((class color) (background light)) (:foreground "Blue"))))
+ '(gnus-group-news-2-face ((t (:foreground "Blue" :weight bold))))
+ '(vhdl-font-lock-reserved-words-face ((t (:foreground "purple" :weight bold)))))
