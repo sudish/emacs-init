@@ -102,7 +102,6 @@ throw away your non-warranty.")
 (load "mode-init")
 (load "keymap-init")
 (load "mail-init")
-(load "sc-init")
 
 ;; gnus5
 (defun sj/gnus (&optional level)
