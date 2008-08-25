@@ -1,8 +1,9 @@
 ;;; face-init --- all face/font-related stuff    [sj 95/06/11]
 ;;;
 
-;; Hack for OS X necessittated by recent borkage in Emacs
-(set-default-font "-*-Courier-*-140-*")
+;; Change the default font for all frames
+(or default-frame-alist (setq default-frame-alist nil))
+(push '(font . "-*-Monaco-*-120-*") default-frame-alist)
 
 ;; This has been heavily reworked from hilit-lookup-face-create, all
 ;; it retains is the interface and some of the ideas.
@@ -26,7 +27,7 @@ a hexadecimal specification of the form \"hex-[0-9A-Fa-f]+\", or \"default\"."
 	(buffer-disable-undo (current-buffer))
 	(erase-buffer)
 	(setq case-fold-search t)
-	(insert-string (symbol-name face))
+	(insert (symbol-name face))
 	(goto-char 0)
 
 	;; Parse face specs -- we cannot modify the new face until

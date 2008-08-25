@@ -2,7 +2,7 @@
 
 (setq gnus-activate-foreign-newsgroups gnus-level-subscribed)
 
-(setq gnus-select-method             '(nntp "news.damballa")
+(setq gnus-select-method             '(nntp "news.gmane.org")
       gnus-secondary-select-methods  nil
       gnus-check-new-newsgroups      'ask-server
       gnus-save-killed-list          nil
@@ -482,9 +482,7 @@ Better formatting can be achieved through gnus-summary-line-format."
 (defun sj/gnus-position-cursor ()
   ;; replacement for gnus-goto-colon
   (beginning-of-line)
-  (search-forward-regexp "[0-9]+" (gnus-point-at-eol) t))
-
-;(or noninteractive (featurep 'bbdb-gnus) (bbdb-insinuate-gnus))
+  (search-forward-regexp "[0-9]+" (point-at-eol) t))
 
 
 ;;; Local Variables:

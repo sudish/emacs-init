@@ -40,9 +40,9 @@
 					   (block-close . c-snug-do-while)))
     (c-electric-pound-behavior 	. (alignleft))
     ;; copied from the K&R settings
-    (c-basic-offset 		. 4)
+    (c-basic-offset 		. 2)
     (c-comment-only-line-offset . 0)
-    (c-offsets-alist 		. ((statement-block-intro . +)
+    (c-offsets-alist 		. ((statement-block-intro . 2)
 				   (knr-argdecl-intro	  . 0)
 				   (substatement-open	  . 0)
 				   (inline-open		  . 0)
@@ -53,7 +53,7 @@
     )
   "Settings for my c-mode buffers.  Copy at your own risk.")
 (defun sj/c-electric-comma ()
-  "Add a newline after comma's when preceded by braces.
+  "Add a newline after commas when preceded by braces.
 See the docs for c-hanging-semi&comma-criteria."
   (if (and (eq last-command-char ?,)
            (save-excursion
@@ -64,6 +64,8 @@ See the docs for c-hanging-semi&comma-criteria."
     nil))
 (defun sj/c-mode-common-hook ()
   (define-key c-mode-map "\C-m" 'newline-and-indent)
+;  (define-key viper-insert-local-user-map [backspace] 'c-electric-backspace)
+;  (define-key (current-local-map) [backspace] 'c-electric-backspace)
   (c-add-style "PERSONAL" sj/c-style t)
   (c-toggle-auto-hungry-state 1)
   (setq indent-tabs-mode nil)

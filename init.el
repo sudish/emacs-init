@@ -41,7 +41,11 @@ throw away your non-warranty.")
       (mapcar 'expand-file-name
 	      '("/opt/local/share/info"
 		"/usr/share/info"
-		"/usr/info")))
+		"/usr/info"
+		"~/gnuemacs/site-lisp/cedet/ede"
+		"~/gnuemacs/site-lisp/cedet/eieio"
+		"~/gnuemacs/site-lisp/cedet/semantic/doc"
+		"~/gnuemacs/site-lisp/cedet/speedbar")))
 
 ;; load misc. functions we need later
 (load "misc-init")
@@ -162,7 +166,7 @@ throw away your non-warranty.")
 
 ;; gnuserv
 (setenv "GNUSERV_SHOW_EMACS" "1")        ;; always raise Emacs window
-;(when (memq window-system '(x mac win32 w32))
+;(when (memq window-system '(x ns win32 w32))
 ;  (require 'gnuserv)
 ;  (gnuserv-start))
 

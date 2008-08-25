@@ -1,9 +1,22 @@
 ;;; mode-init --- various modes we use   [sj--95/11/06]
 ;;;
 
-;; semantic
-;(setq semantic-load-turn-everything-on t)
-;(require 'semantic-load)
+;; Load CEDET
+(setq semantic-load-turn-everything-on t)
+(load-file "~/gnuemacs/site-lisp/cedet/common/cedet.el")
+
+;; * This enables some tools useful for coding, such as summary mode
+;;   imenu support, and the semantic navigator
+(semantic-load-enable-code-helpers)
+
+;; * This enables even more coding tools such as the nascent intellisense mode
+;;   decoration mode, and stickyfunc mode (plus regular code helpers)
+(semantic-load-enable-gaudy-code-helpers)
+
+;; * This turns on which-func support (Plus all other code helpers)
+(semantic-load-enable-excessive-code-helpers)
+
+
 
 ;; jde
 ;(require 'jde)
@@ -70,7 +83,7 @@
   )
 
 ;; ispell
-;(setq ispell-program-name "c:/cygwin/usr/local/bin/ispell.exe")
+(setq ispell-program-name "/opt/local/bin/ispell")
 
 ;; changelog mode
 (setq add-log-full-name (if user-sj-p "Sudish Joseph" (user-full-name))
@@ -84,9 +97,9 @@
 ;(require 'yasb)
 
 ;; iswitchb
-(setq iswitchb-default-method 'samewindow)
-(setq-default iswitchb-method 'samewindow)
-(iswitchb-default-keybindings)
+(setq iswitchb-default-method 'always-frame)
+(setq-default iswitchb-method 'always-frame)
+(iswitchb-mode 1)
 (when nil
   (setq iswitchb-buffer-ignore '("Minibuf")
 	iswitchb-regexp nil)
@@ -106,8 +119,7 @@ matching later regexps will be moved further back in the list.")
       (iswitchb-to-end hidden)))
   (defun sj/iswitchb-move-to-end ()
     (mapc 'sj/iswitchb-move-to-end-1 sj/iswitchb-at-end-regexps))
-  (add-hook 'iswitchb-make-buflist-hook 'sj/iswitchb-move-to-end)
-  )
+  (add-hook 'iswitchb-make-buflist-hook 'sj/iswitchb-move-to-end))
 
 ;; efs: ange-ftp++
 (setq efs-generate-anonymous-password t
