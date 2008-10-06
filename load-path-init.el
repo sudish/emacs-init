@@ -40,8 +40,7 @@ and missing trailing /'s in DIRECTORY are handled correctly."
 (load-path-prepend '("~/gnuemacs/init" "~/gnuemacs/site-lisp"))
 
 ;; add various directories onto load-path
-(load-path-prepend '("dmacro"
-		     ))
+(load-path-prepend '("dmacro"))
 
 
 ;;; Local Variables:

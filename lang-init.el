@@ -1,9 +1,6 @@
 ;;; lang-init --- various language-specific modes   [sj--95/11/06]
 ;;;
 
-;; imenu
-(setq imenu-sort-function 'imenu--sort-by-name)
-
 ;; makefile-mode
 (push '("[mM]akefile$" . makefile-mode) auto-mode-alist)
 
@@ -12,9 +9,20 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
-;; tcl mode
-(add-hook 'tcl-mode-hook 'turn-on-font-lock)
-(push '("expect" . tcl-mode) interpreter-mode-alist)
+;; Clojure and SLIME
+(load-path-prepend '("~/gnuemacs/external/swank-clojure"
+		     "~/gnuemacs/external/slime"
+		     "~/gnuemacs/external/clojure-mode"))
+(setq swank-clojure-jar-path "/opt/local/share/java/clojure/lib/clojure.jar")
+(require 'clojure-auto)
+(require 'clojure-paredit)
+(require 'swank-clojure-autoload)
+(require 'slime-autoloads)
+(slime-setup '(slime-scratch slime-editing-commands))
+(defun run-clojure ()
+  "Starts clojure in slime"
+  (interactive)
+  (slime 'clojure))
 
 ;; cc-mode stuff
 (defconst sj/c-style
@@ -88,10 +96,10 @@ See the docs for c-hanging-semi&comma-criteria."
       cperl-electric-linefeed     t
       cperl-auto-newline          t
       ;; indentation
-      cperl-indent-level           4
-      cperl-brace-offset          -4
+      cperl-indent-level           2
+      cperl-brace-offset          -2
       cperl-brace-imaginary-offset 0
-      cperl-label-offset          -4
+      cperl-label-offset          -2
       cperl-min-label-indent       1
       cperl-continued-statement-offset 2
       cperl-continued-brace-offset 0)
@@ -103,14 +111,10 @@ See the docs for c-hanging-semi&comma-criteria."
   (setq fill-column 76)
   (local-set-key "\C-m" 'cperl-linefeed)
   (local-set-key "\C-j" 'newline-and-indent))
-
-;; tuareg: caml/ocaml/labl/olabl mode
-(push '("\\.ml\\w?" . tuareg-mode) auto-mode-alist)
-(autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
-(autoload 'camldebug "camldebug" "Run the Caml debugger" t)
-(add-hook 'tuareg-mode-hook 'sj/tuareg-mode-hook)
-(defun sj/tuareg-mode-hook ()
-  (local-set-key "\C-m" 'newline-and-indent))
+(mapc (lambda (x) 
+	(and (eq (cdr x) 'perl-mode)
+	     (setcdr x 'cperl-mode)))
+      auto-mode-alist)
 
 ;; dmacro: dynamic macros
 (when user-sj-p
@@ -128,6 +132,28 @@ See the docs for c-hanging-semi&comma-criteria."
 
 ;; RPC .x files
 (push '("\\.x$" . c-mode) auto-mode-alist)
+
+;; imenu
+(setq imenu-sort-function 'imenu--sort-by-name)
+
+;; Load CEDET
+;(setq semantic-load-turn-everything-on t)
+(setq semantic-imenu-bucketize-file nil
+      semantic-imenu-expand-type-members nil
+      semanticdb-default-save-directory (expand-file-name "~/.semanticdb"))
+(load-file "~/gnuemacs/site-lisp/cedet/common/cedet.el")
+;; * This enables some tools useful for coding, such as summary mode
+;;   imenu support, and the semantic navigator
+(semantic-load-enable-code-helpers)
+;; * This enables even more coding tools such as the nascent intellisense mode
+;;   decoration mode, and stickyfunc mode (plus regular code helpers)
+;(semantic-load-enable-gaudy-code-helpers)
+;; * This turns on which-func support (Plus all other code helpers)
+;(semantic-load-enable-excessive-code-helpers)
+(mapc (lambda (dir)
+	(semantic-add-system-include dir 'c-mode)
+	(semantic-add-system-include dir 'c++-mode))
+      '("/opt/local/include" "/usr/include"))
 
 
 ;;; Local Variables:
