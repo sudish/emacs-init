@@ -69,8 +69,9 @@ A directory is added to the list iff it exists."
 		(add-to-list 'dirs (expand-file-name file) 'append)))
 	  dirs)))))
 
-;; put any PATH elements in sj/exec-path-config-file at the head of exec-path
-(setq exec-path (append (sj/load-exec-path-config-file) exec-path))
+;; set exec-path to a better value
+(setq exec-path
+      (delete-dups (append (sj/load-exec-path-config-file) exec-path)))
 
 
 ;;; Local Variables:
