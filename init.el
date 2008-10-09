@@ -104,6 +104,11 @@
 ;  (require 'gnuserv)
 ;  (gnuserv-start))
 
+;; file-cache: caches names of files for use from minibuffer
+;; initialize the cache as the very last thing we do, once load-path is 
+;; fully initialized
+(file-cache-add-directory-list load-path)
+
 
 ;;; Local Variables:
 ;;; sj/recompile-file:t
