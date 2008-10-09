@@ -4,7 +4,7 @@
 ;; sgml
 (setq sgml-quick-keys t)
 
-;; igrep
+;; igrep -- a better interface to the greps
 (autoload 'igrep "igrep"
   "*Run `grep` PROGRAM to match EXPRESSION in FILES..." t)
 (autoload 'igrep-find "igrep" "*Run `grep` via `find`..." t)
@@ -122,44 +122,11 @@ matching later regexps will be moved further back in the list.")
 ;(load "allout" nil t)
 ;(outline-init t)
 
-;; pcl-cvs
-(when nil
-  (defvar sj/cvs-orig-q-binding nil)
-  (add-hook 'cvs-mode-hook
-	    (defun sj/cvs-mode-hook ()
-	      (unless sj/cvs-orig-q-binding
-		(setq sj/cvs-orig-q-binding
-		      (lookup-key (current-local-map) "q")))
-	      (local-set-key "k"    'sj/cvs-kill-buffers)
-	      (local-set-key "q"    'sj/cvs-quit)
-	      (local-set-key [up]   'cvs-mode-previous-line)
-	      (local-set-key [down] 'cvs-mode-next-line)))
-  (setenv "CVS_RSH" "/export/home/sj/bin/ssh-quietly")
-  (setenv "CVSROOT" nil 'unset)	     ; cvs can figure it out from CVS/
-  (setq cvs-diff-flags '("-u")
-	cvs-program    "c:/cygwin/bin/cvs"
-	cvs-cvsroot    nil
-	cvs-auto-remove-handled             t
-	cvs-auto-remove-handled-directories t
-	cvs-changelog-full-paragraphs	  t)
-  (defun sj/cvs-kill-buffers ()
-    (interactive)
-    (loop for buf in (buffer-list)
-	  when (string-match "^\\*cvs-.*" (buffer-name buf))
-	  do (kill-buffer buf))
-    (delete-other-windows))
-  (defun sj/cvs-quit ()
-    (interactive)
-    (sj/cvs-kill-buffers)
-    (call-interactively sj/cvs-orig-q-binding)))
-
 ;; vc: the other way to access cvs
-(setq vc-diff-switches '("-u" "-kk" "-N"))
-(require 'vc)
-
-;; igrep -- a better interface to the greps
-(when nil
-  (require 'igrep))
+;(setq vc-diff-switches '("-u" "-kk" "-N"))
+(eval-when-compile
+  (require 'vc))
+(add-to-list 'vc-handled-backends 'Git)
 
 ;; w3 settings, from Per Abrahamsen
 (setq w3-user-fonts-take-precedence t)  ; Use _my_ font.
