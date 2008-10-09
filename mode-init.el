@@ -1,6 +1,56 @@
 ;;; mode-init --- various modes we use   [sj--95/11/06]
 ;;;
 
+;; gnus5
+(defun sj/gnus (&optional level)
+  "Wrapper to startup gnus.  Uses level 3 by default."
+  (interactive "P")
+  ;(require 'gnus-load)
+  (gnus (or level 3)))
+(defun sj/gnus-just-mail (&optional level)
+  "Start gnus at level 2.  Ie., just mail groups."
+  (interactive "P")
+  ;(require 'gnus-load)
+  ;; workaround for old XEmacs bug
+  ;;(push (character-to-event ?l) unread-command-events)
+  (gnus (or level 2)))
+(global-set-key "\C-cn" 'sj/gnus)
+(global-set-key "\C-cN" 'sj/gnus-just-mail)
+
+;; icomplete: incremental minibuffer completion
+(require 'icomplete)
+(setq icomplete-dynamic-default nil)
+
+;; complete: partial completion etc.  must be before ffap
+(load "complete")
+(partial-completion-mode t)
+
+;; ffap: find file at point
+(setq ffap-require-prefix t)
+(autoload 'gnus-ffap-next-url "ffap") ; if ffap is not preloaded
+(require 'ffap)
+(ffap-bindings)
+(require 'ffap-url)
+(setq ffap-url-fetcher 'ffap-url-fetcher)
+
+;; ff-paths: much-enhanced find-file
+(setq ff-paths-list
+  '(("\\.awk$" "$AWKPATH")              ; awk files in AWKPATH env variable.
+    ("^\\." "~/")                       ; .* (dot) files in user's home
+    ("\\.el$" load-path)))
+(setq ff-paths-display-non-existant-filename nil
+      ff-paths-use-locate nil)
+(require 'ff-paths)
+
+;; new-dabbrev: dabbrev across selectable buffers, dabbrev completion, etc.
+(setq dabbrev-always-check-other-buffers t
+      dabbrev-abbrev-char-regexp 	"\\sw\\|\\s_"
+      dabbrev-case-fold-search 		'case-fold-search
+      dabbrev-case-replace 	        'case-replace)
+
+;; diff
+(setq diff-switches '("-u"))
+
 ;; sgml
 (setq sgml-quick-keys t)
 

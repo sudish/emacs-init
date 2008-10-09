@@ -1,10 +1,6 @@
 ;;; face-init --- all face/font-related stuff    [sj 95/06/11]
 ;;;
 
-;; Change the default font for all frames
-(or default-frame-alist (setq default-frame-alist nil))
-(push '(font . "-*-Monaco-*-120-*") default-frame-alist)
-
 ;; This has been heavily reworked from hilit-lookup-face-create, all
 ;; it retains is the interface and some of the ideas.
 (defun sj/hilit-lookup-face-create (face)

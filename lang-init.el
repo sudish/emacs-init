@@ -10,9 +10,9 @@
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
 ;; Clojure and SLIME
-(load-path-prepend '("~/gnuemacs/external/swank-clojure"
-		     "~/gnuemacs/external/slime"
-		     "~/gnuemacs/external/clojure-mode"))
+(sj/load-path-prepend '("~/gnuemacs/external/swank-clojure"
+			"~/gnuemacs/external/slime"
+			"~/gnuemacs/external/clojure-mode"))
 (setq swank-clojure-jar-path "/opt/local/share/java/clojure/lib/clojure.jar")
 (require 'clojure-auto)
 (require 'clojure-paredit)
@@ -144,7 +144,7 @@ See the docs for c-hanging-semi&comma-criteria."
 (setq semantic-imenu-bucketize-file nil
       semantic-imenu-expand-type-members nil
       semanticdb-default-save-directory (expand-file-name "~/.semanticdb"))
-(load-file "~/gnuemacs/site-lisp/cedet/common/cedet.el")
+(load-file "~/gnuemacs/external/cedet/common/cedet.el")
 ;; * This enables some tools useful for coding, such as summary mode
 ;;   imenu support, and the semantic navigator
 (semantic-load-enable-code-helpers)

@@ -1,19 +1,14 @@
 ;;; init --- main init file   [sj--95/06/11]
 ;;;
 
-;; I wish cl were the default
 (require 'cl)
 
 (defconst user-sj-p (string-match "^\\(sj\\|sudish\\|joseph\\)$"
 				(user-login-name))
-  "Non-nil iff the user is me.
-Used to protect people who copy this from potential havoc.
+  "Non-nil iff the user is me.")
 
-If you want all the gimmicks, put your login name in the above and
-throw away your non-warranty.")
-
-;; Initialize load-path really early on
-(load "~/gnuemacs/init/load-path-init")
+;; Initialize load-path and exec-path really early on
+(load "~/gnuemacs/init/path-init")
 
 ;; custom
 (setq custom-file "~/.custom")
@@ -57,9 +52,9 @@ throw away your non-warranty.")
 
 (setq default-major-mode 'indented-text-mode)
 (add-hook 'text-mode-hook
-	  '(lambda ()
-	     (auto-fill-mode t)
-	     (setq adaptive-fill-mode t)))
+	  (defun sj/text-mode-hook ()
+	    (auto-fill-mode t)
+	    (setq adaptive-fill-mode t)))
 
 (setq track-eol 		t
       scroll-step 		0
@@ -81,12 +76,8 @@ throw away your non-warranty.")
 (setq-default truncate-lines         nil
 	      next-line-add-newlines nil)
 
-;; 8 bit character support
-;(standard-display-european t)
-;(set-input-mode (car (current-input-mode)) (cadr (current-input-mode)) t)
-
 ;; garbage collection settings
-(setq gc-cons-threshold 1048576)
+(setq gc-cons-threshold (* 4 1024 1024))
 
 ;; better autosave, in a fixed directory
 (setq auto-save-default 	t
@@ -106,63 +97,6 @@ throw away your non-warranty.")
 (load "mode-init")
 (load "keymap-init")
 (load "mail-init")
-
-;; gnus5
-(defun sj/gnus (&optional level)
-  "Wrapper to startup gnus.  Uses level 3 by default."
-  (interactive "P")
-  ;(require 'gnus-load)
-  (gnus (or level 3)))
-(defun sj/gnus-just-mail (&optional level)
-  "Start gnus at level 2.  Ie., just mail groups."
-  (interactive "P")
-  ;(require 'gnus-load)
-  ;; workaround for old XEmacs bug
-  ;;(push (character-to-event ?l) unread-command-events)
-  (gnus (or level 2)))
-(global-set-key "\C-cn" 'sj/gnus)
-(global-set-key "\C-cN" 'sj/gnus-just-mail)
-
-;; icomplete: incremental minibuffer completion
-(require 'icomplete)
-(setq icomplete-dynamic-default nil)
-
-;; complete: partial completion etc.  must be before ffap
-(load "complete")
-(partial-completion-mode t)
-
-;; ffap: find file at point
-(setq ffap-require-prefix t)
-(autoload 'gnus-ffap-next-url "ffap") ; if ffap is not preloaded
-(require 'ffap)
-(ffap-bindings)
-(require 'ffap-url)
-(setq ffap-url-fetcher 'ffap-url-fetcher)
-
-;; ff-paths: much-enhanced find-file
-(setq ff-paths-list
-  '(("\\.awk$" "$AWKPATH")              ; awk files in AWKPATH env variable.
-    ("^\\." "~/")                       ; .* (dot) files in user's home
-    ("\\.el$" load-path)))
-(setq ff-paths-display-non-existant-filename nil
-      ff-paths-use-locate nil)
-(require 'ff-paths)
-
-;; new-dabbrev: dabbrev across selectable buffers, dabbrev completion, etc.
-(setq dabbrev-always-check-other-buffers t
-      dabbrev-abbrev-char-regexp 	"\\sw\\|\\s_"
-      dabbrev-case-fold-search 		'case-fold-search
-      dabbrev-case-replace 	        'case-replace)
-
-;; namedmarks: multiple, named, per-buffer marks
-;(require 'namedmarks)
-
-;; for metamail
-(setenv "X_VIEWER" "xv -geometry +1+1")
-(setenv "METAMAIL_TMPDIR" "/tmp/")
-
-;; diff
-(setq diff-switches '("-u"))
 
 ;; gnuserv
 (setenv "GNUSERV_SHOW_EMACS" "1")        ;; always raise Emacs window
