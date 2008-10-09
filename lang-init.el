@@ -114,9 +114,9 @@ See the docs for c-hanging-semi&comma-criteria."
   (setq fill-column 76)
   (local-set-key "\C-m" 'cperl-linefeed)
   (local-set-key "\C-j" 'newline-and-indent))
-(mapc (lambda (x) 
-	(and (eq (cdr x) 'perl-mode)
-	     (setcdr x 'cperl-mode)))
+(mapc #'(lambda (x)			; prefer cperl-mode over perl-mode
+	  (and (eq (cdr x) 'perl-mode)
+	       (setcdr x 'cperl-mode)))
       auto-mode-alist)
 
 ;; dmacro: dynamic macros
@@ -153,9 +153,9 @@ See the docs for c-hanging-semi&comma-criteria."
 ;(semantic-load-enable-gaudy-code-helpers)
 ;; * This turns on which-func support (Plus all other code helpers)
 ;(semantic-load-enable-excessive-code-helpers)
-(mapc (lambda (dir)
-	(semantic-add-system-include dir 'c-mode)
-	(semantic-add-system-include dir 'c++-mode))
+(mapc #'(lambda (dir)
+	  (semantic-add-system-include dir 'c-mode)
+	  (semantic-add-system-include dir 'c++-mode))
       '("/opt/local/include" "/usr/include"))
 
 

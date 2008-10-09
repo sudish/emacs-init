@@ -88,7 +88,8 @@
   (interactive)
   (let* ((from
 	  (completing-read "From address: "
-			   (mapcar (lambda (x) (cons x nil)) sj/mail-from-list)
+			   (mapcar #'(lambda (x) 
+				       (cons x nil)) sj/mail-from-list)
 			   nil
 			   nil
 			   (cons (car sj/mail-from-list) 0)
