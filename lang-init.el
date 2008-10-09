@@ -25,6 +25,8 @@
   (slime 'clojure))
 
 ;; cc-mode stuff
+(eval-when-compile
+  (require 'cc-mode))
 (defconst sj/c-style
   '((c-echo-syntactic-information-p 	. t)
     (c-tab-always-indent		. t)
@@ -57,8 +59,7 @@
 				   (inextern-lang	  . 0)
 				   (statement-case-open	  . 0)
 				   (label		  . -)
-				   (statement-cont	  . +)))
-    )
+				   (statement-cont	  . +))))
   "Settings for my c-mode buffers.  Copy at your own risk.")
 (defun sj/c-electric-comma ()
   "Add a newline after commas when preceded by braces.
@@ -88,6 +89,8 @@ See the docs for c-hanging-semi&comma-criteria."
 (add-hook 'c-mode-common-hook 'sj/c-mode-common-hook)
 
 ;; cperl mode
+(eval-when-compile
+  (require 'cperl-mode))
 (setq cperl-hairy                 nil
       cperl-electric-parens       "{"
       cperl-font-lock             t

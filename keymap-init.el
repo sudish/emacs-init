@@ -19,7 +19,6 @@
 ;(global-set-key [(hyper u)]   'advertised-undo)
 
 (define-key sj/private-keymap [?a] 'add-time-log-entry-other-window)
-(define-key sj/private-keymap [?c] 'cvs-update)
 (define-key sj/private-keymap [?d] 'insert-dmacro)
 (define-key sj/private-keymap [?g] 'agrep)
 (define-key sj/private-keymap [?i] 'insert-buffer)
