@@ -153,10 +153,12 @@ See the docs for c-hanging-semi&comma-criteria."
 ;(semantic-load-enable-gaudy-code-helpers)
 ;; * This turns on which-func support (Plus all other code helpers)
 ;(semantic-load-enable-excessive-code-helpers)
+;; add header file mappings for c/c++
 (mapc #'(lambda (dir)
-	  (semantic-add-system-include dir 'c-mode)
-	  (semantic-add-system-include dir 'c++-mode))
-      '("/opt/local/include" "/usr/include"))
+	  (when (file-directory-p dir)
+	    (semantic-add-system-include dir 'c-mode)
+	    (semantic-add-system-include dir 'c++-mode)))
+      '("/opt/local/include" "/usr/local/include" "/usr/include"))
 
 
 ;;; Local Variables:
