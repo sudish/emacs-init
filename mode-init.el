@@ -19,15 +19,13 @@
 
 ;; icomplete: incremental minibuffer completion
 (require 'icomplete)
-(setq icomplete-dynamic-default nil)
+(icomplete-mode)
 
 ;; complete: partial completion etc.  must be before ffap
-(load "complete")
+(require 'complete)
 (partial-completion-mode t)
 
 ;; ffap: find file at point
-(setq ffap-require-prefix t)
-(autoload 'gnus-ffap-next-url "ffap") ; if ffap is not preloaded
 (require 'ffap)
 (ffap-bindings)
 (require 'ffap-url)

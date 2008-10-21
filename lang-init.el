@@ -24,6 +24,11 @@
   (interactive)
   (slime 'clojure))
 
+;; ruby
+(require 'ruby-mode)
+(require 'ruby-electric)
+(require 'inf-ruby)
+
 ;; cc-mode stuff
 (eval-when-compile
   (require 'cc-mode))
