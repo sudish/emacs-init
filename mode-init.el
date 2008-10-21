@@ -1,6 +1,10 @@
 ;;; mode-init --- various modes we use   [sj--95/11/06]
 ;;;
 
+;; show-paren
+(show-paren-mode t)
+(setq show-paren-style 'mixed)
+
 ;; gnus5
 (defun sj/gnus (&optional level)
   "Wrapper to startup gnus.  Uses level 3 by default."
@@ -10,9 +14,6 @@
 (defun sj/gnus-just-mail (&optional level)
   "Start gnus at level 2.  Ie., just mail groups."
   (interactive "P")
-  ;(require 'gnus-load)
-  ;; workaround for old XEmacs bug
-  ;;(push (character-to-event ?l) unread-command-events)
   (gnus (or level 2)))
 (global-set-key "\C-cn" 'sj/gnus)
 (global-set-key "\C-cN" 'sj/gnus-just-mail)

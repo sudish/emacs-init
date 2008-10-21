@@ -1,6 +1,9 @@
 ;;; lang-init --- various language-specific modes   [sj--95/11/06]
 ;;;
 
+;; sql
+(setq sql-product 'postgres)
+
 ;; makefile-mode
 (push '("[mM]akefile$" . makefile-mode) auto-mode-alist)
 
