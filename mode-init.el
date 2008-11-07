@@ -26,11 +26,11 @@
 (require 'complete)
 (partial-completion-mode t)
 
-;; ffap: find file at point
-(require 'ffap)
-(ffap-bindings)
-(require 'ffap-url)
-(setq ffap-url-fetcher 'ffap-url-fetcher)
+;; ffap: find file at point (now using ido)
+;; (require 'ffap)
+;; (ffap-bindings)
+;; (require 'ffap-url)
+;; (setq ffap-url-fetcher 'ffap-url-fetcher)
 
 ;; ff-paths: much-enhanced find-file
 (setq ff-paths-list
@@ -100,30 +100,34 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward)
 
-;; iswitchb
-(setq iswitchb-default-method 'always-frame)
-(setq-default iswitchb-method 'always-frame)
-(iswitchb-mode 1)
-(when nil
-  (setq iswitchb-buffer-ignore '("Minibuf")
-	iswitchb-regexp nil)
-  (defvar sj/iswitchb-at-end-regexps '("^ ") ;'("^\\*" "^\\." "^ ")
-    "Buffers matching these regexps are moved to the end of the buffer list.
+;; ido -- a better iswitchb
+(require 'ido)
+(ido-mode t)
 
-Buffers are moved in the order of the regexps in the list.  I.e., buffers
-matching later regexps will be moved further back in the list.")
-  (defun sj/iswitchb-move-to-end-1 (regexp)
- ;; iswitchb-buffer-ignore is too drastic.  moving stuff to the end of
-    ;; the offered list is preferable for some stuff.
-    ;; `iswitchb-temp-buflist' is magical, ugh.
-    (let ((hidden nil))
-      (dolist (buf iswitchb-temp-buflist)
-	(if (string-match regexp buf)
-	    (push buf hidden)))
-      (iswitchb-to-end hidden)))
-  (defun sj/iswitchb-move-to-end ()
-    (mapc 'sj/iswitchb-move-to-end-1 sj/iswitchb-at-end-regexps))
-  (add-hook 'iswitchb-make-buflist-hook 'sj/iswitchb-move-to-end))
+;; iswitchb
+;; (setq iswitchb-default-method 'always-frame)
+;; (setq-default iswitchb-method 'always-frame)
+;; (iswitchb-mode 1)
+;; (when nil
+;;   (setq iswitchb-buffer-ignore '("Minibuf")
+;; 	iswitchb-regexp nil)
+;;   (defvar sj/iswitchb-at-end-regexps '("^ ") ;'("^\\*" "^\\." "^ ")
+;;     "Buffers matching these regexps are moved to the end of the buffer list.
+
+;; Buffers are moved in the order of the regexps in the list.  I.e., buffers
+;; matching later regexps will be moved further back in the list.")
+;;   (defun sj/iswitchb-move-to-end-1 (regexp)
+;;  ;; iswitchb-buffer-ignore is too drastic.  moving stuff to the end of
+;;     ;; the offered list is preferable for some stuff.
+;;     ;; `iswitchb-temp-buflist' is magical, ugh.
+;;     (let ((hidden nil))
+;;       (dolist (buf iswitchb-temp-buflist)
+;; 	(if (string-match regexp buf)
+;; 	    (push buf hidden)))
+;;       (iswitchb-to-end hidden)))
+;;   (defun sj/iswitchb-move-to-end ()
+;;     (mapc 'sj/iswitchb-move-to-end-1 sj/iswitchb-at-end-regexps))
+;;   (add-hook 'iswitchb-make-buflist-hook 'sj/iswitchb-move-to-end))
 
 ;; efs: ange-ftp++
 (setq efs-generate-anonymous-password t

@@ -31,6 +31,11 @@
 (require 'ruby-mode)
 (require 'ruby-electric)
 (require 'inf-ruby)
+(push '("\\.rb$" . ruby-mode) auto-mode-alist)
+
+;; Rinari
+(sj/load-path-prepend "~/gnuemacs/external/rinari")
+(require 'rinari)
 
 ;; cc-mode stuff
 (eval-when-compile
