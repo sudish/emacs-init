@@ -27,7 +27,7 @@
 (partial-completion-mode t)
 
 ;; ffap: find file at point (now using ido)
-;; (require 'ffap)
+(require 'ffap)
 ;; (ffap-bindings)
 ;; (require 'ffap-url)
 ;; (setq ffap-url-fetcher 'ffap-url-fetcher)
@@ -103,6 +103,19 @@
 ;; ido -- a better iswitchb
 (require 'ido)
 (ido-mode t)
+(ido-everywhere 1)
+(setq ido-enable-flex-matching t
+      ido-use-filename-at-point t
+      ido-max-work-file-list 30)
+
+;; recentf -- recently visited files
+(require 'recentf)
+(setq recentf-max-saved-items 100)
+(defun sj/ido-choose-from-recentf ()
+  "Use ido to select a recently opened file from the `recentf-list'"
+  (interactive)
+  (find-file (ido-completing-read "Open file: " recentf-list nil t)))
+(global-set-key [(meta f11)] 'sj/ido-choose-from-recentf)
 
 ;; iswitchb
 ;; (setq iswitchb-default-method 'always-frame)

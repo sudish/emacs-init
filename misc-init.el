@@ -70,6 +70,18 @@ a normal delete is carried out"
   (insert ?\))
   (newline-and-indent))
 
+(defun sj/load-and-byte-compile-library (library)
+  "Byte-compile a library after first locating it using load-path.
+Loads the library file first."
+  (interactive "sLibrary name: ")
+  (let ((file
+	 (locate-library
+	  (concat library
+		  (unless (equal (substring library -3) ".el") ".el")))))
+    (and file
+	 (load-library file)
+	 (byte-compile-file file))))
+
 
 ;;; Local Variables:
 ;;; sj/recompile-file:t
