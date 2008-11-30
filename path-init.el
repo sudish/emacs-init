@@ -69,9 +69,12 @@ A directory is added to the list iff it exists."
 		(add-to-list 'dirs (expand-file-name file) 'append)))
 	  dirs)))))
 
-;; set exec-path to a better value
+;; Initialize exec-path and $PATH to a better value.
+;; Some Emacs commands use your login shell whilst others use /bin/sh,
+;; setting PATH here is the easiest way to communicate with these sub-shells.
 (setq exec-path
       (delete-dups (append (sj/load-exec-path-config-file) exec-path)))
+(setenv "PATH" (mapconcat #'identity exec-path ":"))
 
 
 ;;; Local Variables:

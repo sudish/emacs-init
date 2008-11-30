@@ -5,6 +5,28 @@
 (show-paren-mode t)
 (setq show-paren-style 'mixed)
 
+;; cua-mode
+(setq cua-enable-cua-keys nil
+      cua-highlight-region-shift-only t
+      cua-toggle-set-mark nil)
+(cua-mode)
+
+;; project-root
+(require 'project-root)
+(setq project-roots
+      '(("Generic Rails Project"
+         :root-contains-files ("app" "config" "db" "lib" "script" "test")
+         :on-hit (lambda (p) (message (car p))))
+	("Generic Perl Project"
+         :root-contains-files ("t" "lib")
+         :on-hit (lambda (p) (message (car p))))))
+
+;; anything
+(require 'anything)
+(require 'anything-config)
+(add-to-list 'anything-sources project-root-anything-config-bookmarks)
+(add-to-list 'anything-sources project-root-anything-config-files)
+
 ;; gnus5
 (defun sj/gnus (&optional level)
   "Wrapper to startup gnus.  Uses level 3 by default."
