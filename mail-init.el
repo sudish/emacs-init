@@ -5,6 +5,9 @@
 (require 'mail-hist)
 (mail-hist-enable)
 
+(eval-when-compile
+  (require 'message))
+
 ;; smtpmail
 (setq send-mail-function 'smtpmail-send-it)
 (setq message-send-mail-function 'message-smtpmail-send-it)
@@ -12,15 +15,6 @@
 ;;(setq smtpmail-local-domain "YOUR DOMAIN NAME")
 ;;(setq smtpmail-sendto-domain "YOUR DOMAIN NAME")
 ;;(setq smtpmail-debug-info t) ; only to debug problems
-
-(defun sj/gnus-group-mail ()
-  (interactive)
-  (if (gnus-alive-p)
-      (gnus-group-mail)
-    (message "WARNING: no GNUS archival for this message!")
-    (message-mail)))
-(global-set-key "\C-xm" 'sj/gnus-group-mail)
-(global-set-key "\C-x5m" 'message-mail-other-frame)
 
 (setq display-time-mail-file 'dont-check)
 (setq message-cite-function 'sc-cite-original
@@ -57,7 +51,7 @@
 		(t
 		 (forward-char 2)
 		 (insert ?')))))
-      (isearch-dehighlight t))))
+      (isearch-dehighlight))))
 ;(add-hook 'message-send-hook 'sj/check-grammar)
 ;(add-hook 'message-send-hook 'ispell-message)
 
@@ -145,10 +139,10 @@ replacement with REPLACEMENT.")
 	  (when (re-search-forward old nil t)
 	    (isearch-highlight (match-beginning 0) (match-end 0))
 	    (when (y-or-n-p
-		   (format "Replace %s with %s? " (match-string 0) new t))
+		   (format "Replace %s with %s? " (match-string 0) new))
 	      (replace-match new 'fixed-case 'literally)
 	      (undo-boundary))
-	    (isearch-dehighlight t)))
+	    (isearch-dehighlight)))
 	;; we're done with this header line; don't infloop over it
 	(end-of-line)))))
 (add-hook 'message-send-hook 'sj/gnus-rewrite-outgoing-addresses)
@@ -181,19 +175,6 @@ If OVERWRITE is non-nil, any existing header is overwritten."
 	  (insert "\nReturn-Receipt-To: "
 		  (or user-mail-address
 		      (concat (user-login-name) "@" (system-name))))))))
-
-;; Coerce emacs into automagically rebuilding mail aliasii when
-;; .mailrc is edited.  Based upon code by Mike Meissner (meissner@osf.org),
-;; which was later altered by Kayvan Sylvan (kayvan@satyr.Sylvan.COM)
-;; to work with Emacs 19 and then munged by me.
-;; Munged further by me: assumes mail-abbrevs and message-mode.
-(defun check-and-rebuild-mail-aliases ()
-  "Hook to rebuild the mail aliases whenever ~/.mailrc is updated."
-  (when (string-equal buffer-file-name (expand-file-name "~/.mailrc"))
-    (setq mail-aliases t) ; gets rid of the obarray, forcing a re-read
-    (mail-aliases-setup))
-  nil) ; Continue. Save buffer normally.
-(add-hook 'write-file-hooks 'check-and-rebuild-mail-aliases)
 
 ;; reporter: generic bug report package
 (setq reporter-mailer '(message-mail reporter-mail))

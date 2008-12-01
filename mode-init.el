@@ -54,15 +54,6 @@
 ;; (require 'ffap-url)
 ;; (setq ffap-url-fetcher 'ffap-url-fetcher)
 
-;; ff-paths: much-enhanced find-file
-(setq ff-paths-list
-  '(("\\.awk$" "$AWKPATH")              ; awk files in AWKPATH env variable.
-    ("^\\." "~/")                       ; .* (dot) files in user's home
-    ("\\.el$" load-path)))
-(setq ff-paths-display-non-existant-filename nil
-      ff-paths-use-locate nil)
-(require 'ff-paths)
-
 ;; new-dabbrev: dabbrev across selectable buffers, dabbrev completion, etc.
 (setq dabbrev-always-check-other-buffers t
       dabbrev-abbrev-char-regexp 	"\\sw\\|\\s_"
