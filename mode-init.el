@@ -24,8 +24,13 @@
 ;; anything
 (require 'anything)
 (require 'anything-config)
-(add-to-list 'anything-sources project-root-anything-config-bookmarks)
-(add-to-list 'anything-sources project-root-anything-config-files)
+(setq anything-sources
+      '(anything-c-source-buffers
+	anything-c-source-buffer-not-found
+	project-root-anything-config-bookmarks
+	project-root-anything-config-files
+	anything-c-source-file-name-history
+	anything-c-source-locate))
 
 ;; gnus5
 (defun sj/gnus (&optional level)
