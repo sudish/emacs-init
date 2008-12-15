@@ -89,20 +89,22 @@ compiled version. Also lists uncompiled libraries."
   "Re-byte-compile all libs with newer source in load-path that have paths
 beginning with PREFIX. Returns alist of (FILE . ERROR) for libs that didn't
 compile."
-  (interactive "sPrefix directory: ")
+  (interactive)
   (setq prefix (expand-file-name (or prefix "~/gnuemacs")))
-  (delq nil
-	(let ((l (length prefix)))
-	  (mapcar
-	   #'(lambda (lib)
-	       (when (string-equal prefix (substring lib 0 l))
-		 (condition-case err
-		     (and
+  (message
+   "Didn't compile: %s" 
+   (delq nil
+	 (let ((l (length prefix)))
+	   (mapcar
+	    #'(lambda (lib)
+		(when (string-equal prefix (substring lib 0 l))
+		  (condition-case err
+		      (and
 		       (load-library lib)
 		       (byte-compile-file lib)
 		       nil) ; ignore 'no-byte-compile msgs from the compiler
-		   (error (cons lib err)))))
-	   (sj/find-newer-libraries load-path)))))
+		    (error (cons lib err)))))
+	    (sj/find-newer-libraries load-path))))))
 
 (defun sj/load-and-byte-compile-library (library)
   "Byte-compile a library after first locating it using load-path.

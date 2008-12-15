@@ -5,6 +5,16 @@
 (show-paren-mode t)
 (setq show-paren-style 'mixed)
 
+;; paredit mode
+(autoload 'paredit-mode "paredit" "" t)
+(eval-after-load 'paredit
+  (progn
+    (define-key paredit-mode-map (kbd ")") 'paredit-close-brocket-and-newline)
+    (define-key paredit-mode-map (kbd "M-)") 'paredit-close-brocket)))
+(mapc #'(lambda (hook)
+	  (add-hook hook #'(lambda () (paredit-mode 1))))
+      '(emacs-lisp-mode-hook lisp-mode-hook slime-repl-mode-hook))
+
 ;; cua-mode
 (setq cua-enable-cua-keys nil
       cua-highlight-region-shift-only t
@@ -211,6 +221,10 @@
 (eval-when-compile
   (require 'vc))
 (add-to-list 'vc-handled-backends 'Git)
+
+;; magit -- git interface
+(sj/load-path-prepend "~/gnuemacs/external/magit")
+(autoload 'magit-status "magit" nil t)
 
 ;; w3 settings, from Per Abrahamsen
 (setq w3-user-fonts-take-precedence t)  ; Use _my_ font.

@@ -25,7 +25,7 @@
        '("~/src/git/clojure-contrib/clojure-contrib.jar"
 	 "~/.clojure/*.jar")))
 (require 'slime)
-(slime-setup '(slime-scratch slime-editing-commands))
+(slime-setup '(slime-scratch slime-editing-commands slime-fancy))
 (define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
 (define-key slime-mode-map (kbd "C-j") 'newline)
 
