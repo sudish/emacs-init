@@ -16,18 +16,18 @@
 (sj/load-path-prepend '("~/gnuemacs/external/swank-clojure"
 			"~/gnuemacs/external/slime"
 			"~/gnuemacs/external/clojure-mode"))
-(setq swank-clojure-jar-path "~/src/clojure/clojure.jar")
 (require 'clojure-auto)
 (require 'clojure-paredit)
 (require 'swank-clojure-autoload)
-(require 'slime-autoloads)
+(swank-clojure-config
+ (setq swank-clojure-jar-path "~/src/git/clojure/clojure.jar")
+ (setq swank-clojure-extra-classpaths
+       '("~/src/git/clojure-contrib/clojure-contrib.jar"
+	 "~/.clojure/*.jar")))
+(require 'slime)
 (slime-setup '(slime-scratch slime-editing-commands))
 (define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
 (define-key slime-mode-map (kbd "C-j") 'newline)
-(defun run-clojure ()
-  "Starts clojure in slime"
-  (interactive)
-  (slime 'clojure))
 
 ;; Rinari
 (sj/load-path-prepend "~/gnuemacs/external/rinari")
