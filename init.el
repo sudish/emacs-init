@@ -60,6 +60,7 @@
       scroll-step 		0
       scroll-conservatively     100
       next-screen-context-lines 2
+      column-number-mode	t
       require-final-newline 	'ask
       signal-error-on-buffer-boundary nil
       kill-whole-line 		t
