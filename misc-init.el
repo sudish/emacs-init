@@ -70,6 +70,40 @@ a normal delete is carried out"
   (insert ?\))
   (newline-and-indent))
 
+;; misc funcs for locating and byte-compiling newer libraries
+(defun sj/find-newer-libraries (paths)
+  "Return list of libraries from dirs in PATHS that are newer than their
+compiled version. Also lists uncompiled libraries."
+  (delq nil
+	(apply 'nconc
+	       (mapcar 
+		#'(lambda (dir)
+		    (mapcar 
+		     #'(lambda (file)
+			 (if (file-newer-than-file-p file (concat file "c")) 
+			     file))
+		     (directory-files dir 'full "\\.el$" 'no-sort)))
+		paths))))
+
+(defun sj/recompile-newer-libs (&optional prefix)
+  "Re-byte-compile all libs with newer source in load-path that have paths
+beginning with PREFIX. Returns alist of (FILE . ERROR) for libs that didn't
+compile."
+  (interactive "sPrefix directory: ")
+  (setq prefix (expand-file-name (or prefix "~/gnuemacs")))
+  (delq nil
+	(let ((l (length prefix)))
+	  (mapcar
+	   #'(lambda (lib)
+	       (when (string-equal prefix (substring lib 0 l))
+		 (condition-case err
+		     (and
+		       (load-library lib)
+		       (byte-compile-file lib)
+		       nil) ; ignore 'no-byte-compile msgs from the compiler
+		   (error (cons lib err)))))
+	   (sj/find-newer-libraries load-path)))))
+
 (defun sj/load-and-byte-compile-library (library)
   "Byte-compile a library after first locating it using load-path.
 Loads the library file first."
