@@ -7,7 +7,7 @@
 (setq sj/load-path-prepend-prefix
       (file-name-as-directory (expand-file-name sj/load-path-prepend-prefix)))
 
-(defun sj/load-path-prepend (directory &optional path)
+(defmacro sj/load-path-prepend (directory &optional path)
   "*Prepend DIRECTORY onto PATH.
 PATH should be a symbol; if omitted, it defaults to 'load-path.
 
@@ -17,12 +17,16 @@ all elements of the list are prepended.
 If DIRECTORY is relative, sj/load-path-prepend-prefix is prepended to DIRECTORY
 first.  DIRECTORY is not prepended if it is already in PATH.  Tilde escapes
 and missing trailing /'s in DIRECTORY are handled correctly."
-  (interactive "DDirectory to add: ")
+  `(eval-and-compile
+     (sj/load-path-prepend-1 ,directory ,path)))
+
+(defun sj/load-path-prepend-1 (directory &optional path)
+  "See sj/load-path-prepend."
   (cond
    ((listp directory)
     (unless (null directory)
-      (sj/load-path-prepend (cdr directory) path)
-      (sj/load-path-prepend (car directory) path)))
+      (sj/load-path-prepend-1 (cdr directory) path)
+      (sj/load-path-prepend-1 (car directory) path)))
    ((stringp directory)
     (setq directory
 	  (file-name-as-directory

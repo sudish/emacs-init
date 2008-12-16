@@ -96,6 +96,7 @@
 (load "face-init")
 (load "lang-init")
 (load "mode-init")
+(load "anything-init")
 (load "keymap-init")
 (load "mail-init")
 

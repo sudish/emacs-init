@@ -6,11 +6,9 @@
 (setq show-paren-style 'mixed)
 
 ;; paredit mode
-(autoload 'paredit-mode "paredit" "" t)
-(eval-after-load 'paredit
-  (progn
-    (define-key paredit-mode-map (kbd ")") 'paredit-close-brocket-and-newline)
-    (define-key paredit-mode-map (kbd "M-)") 'paredit-close-brocket)))
+(require 'paredit)
+(define-key paredit-mode-map (kbd ")") 'paredit-close-brocket-and-newline)
+(define-key paredit-mode-map (kbd "M-)") 'paredit-close-brocket)
 (mapc #'(lambda (hook)
 	  (add-hook hook #'(lambda () (paredit-mode 1))))
       '(emacs-lisp-mode-hook lisp-mode-hook slime-repl-mode-hook))
@@ -30,17 +28,6 @@
 	("Generic Perl Project"
          :root-contains-files ("t" "lib")
          :on-hit (lambda (p) (message (car p))))))
-
-;; anything
-(require 'anything)
-(require 'anything-config)
-(setq anything-sources
-      '(anything-c-source-buffers
-	anything-c-source-buffer-not-found
-	project-root-anything-config-bookmarks
-	project-root-anything-config-files
-	anything-c-source-file-name-history
-	anything-c-source-locate))
 
 ;; gnus5
 (defun sj/gnus (&optional level)
@@ -77,6 +64,22 @@
 
 ;; diff
 (setq diff-switches '("-u"))
+
+;; vc: the other way to access cvs
+;(setq vc-diff-switches '("-u" "-kk" "-N"))
+(eval-when-compile
+  (require 'vc))
+(add-to-list 'vc-handled-backends 'Git)
+
+;; magit -- git interface
+(sj/load-path-prepend "~/gnuemacs/external/magit")
+(autoload 'magit-status "magit" nil t)
+
+;; yasnippet -- dynamic template expansion
+(sj/load-path-prepend "~/gnuemacs/external/yasnippet")
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/gnuemacs/external/yasnippet/snippets")
 
 ;; sgml
 (setq sgml-quick-keys t)
@@ -215,16 +218,6 @@
 			     (perl-mode . "###_")))
 ;(load "allout" nil t)
 ;(outline-init t)
-
-;; vc: the other way to access cvs
-;(setq vc-diff-switches '("-u" "-kk" "-N"))
-(eval-when-compile
-  (require 'vc))
-(add-to-list 'vc-handled-backends 'Git)
-
-;; magit -- git interface
-(sj/load-path-prepend "~/gnuemacs/external/magit")
-(autoload 'magit-status "magit" nil t)
 
 ;; w3 settings, from Per Abrahamsen
 (setq w3-user-fonts-take-precedence t)  ; Use _my_ font.

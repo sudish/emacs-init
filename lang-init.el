@@ -19,11 +19,10 @@
 (require 'clojure-auto)
 (require 'clojure-paredit)
 (require 'swank-clojure-autoload)
-(swank-clojure-config
- (setq swank-clojure-jar-path "~/src/git/clojure/clojure.jar")
- (setq swank-clojure-extra-classpaths
-       '("~/src/git/clojure-contrib/clojure-contrib.jar"
-	 "~/.clojure/*.jar")))
+(setq swank-clojure-jar-path "~/src/git/clojure/clojure.jar")
+(setq swank-clojure-extra-classpaths
+      '("~/src/git/clojure-contrib/clojure-contrib.jar"
+	"~/.clojure/*.jar"))
 (require 'slime)
 (slime-setup '(slime-scratch slime-editing-commands slime-fancy))
 (define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
