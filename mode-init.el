@@ -3,7 +3,7 @@
 
 ;; show-paren
 (show-paren-mode t)
-(setq show-paren-style 'mixed)
+(setq show-paren-style 'parenthesis)
 
 ;; paredit mode
 (require 'paredit)
@@ -28,19 +28,6 @@
 	("Generic Perl Project"
          :root-contains-files ("t" "lib")
          :on-hit (lambda (p) (message (car p))))))
-
-;; gnus5
-(defun sj/gnus (&optional level)
-  "Wrapper to startup gnus.  Uses level 3 by default."
-  (interactive "P")
-  ;(require 'gnus-load)
-  (gnus (or level 3)))
-(defun sj/gnus-just-mail (&optional level)
-  "Start gnus at level 2.  Ie., just mail groups."
-  (interactive "P")
-  (gnus (or level 2)))
-(global-set-key "\C-cn" 'sj/gnus)
-(global-set-key "\C-cN" 'sj/gnus-just-mail)
 
 ;; icomplete: incremental minibuffer completion
 (require 'icomplete)
@@ -173,15 +160,6 @@
 ;;     (mapc 'sj/iswitchb-move-to-end-1 sj/iswitchb-at-end-regexps))
 ;;   (add-hook 'iswitchb-make-buflist-hook 'sj/iswitchb-move-to-end))
 
-;; efs: ange-ftp++
-(setq efs-generate-anonymous-password t
-      efs-default-user                "anonymous"
-      ange-ftp-default-user           efs-default-user)
-(add-hook 'efs-load-hook 'efs-display-ftp-activity)
-(setq efs-ftp-program-name "/usr/krb5/bin/ftp"
-      efs-ftp-program-args '("-i" "-g" "-v")
-      efs-kerberos-private t)
-
 (setq dired-compression-method 'gzip
       dired-dwim-target t
       dired-find-subdir t
@@ -207,11 +185,37 @@
 (add-hook 'dired-after-readin-hook 'sj/dired-after-readin-hook)
 
 ;; ibuff-menu: better buffer menu
-(global-set-key "\C-x\C-b" 'ibuff-menu)
-(autoload 'ibuff-menu "ibuff-menu" "Edit the buffer list." t)
-(setq ibuff-show-buffer-size-in-menu t)
-(setq ibuff-hide-buffers-regexp
-      "^\\( .*\\|\\*[^s].*\\|INBOX.*\\|\\.diary\\|\\.bbdb\\|\\.bibl\\|sent .*\\|\\*ftp .*\\)$")
+;; (global-set-key "\C-x\C-b" 'ibuff-menu)
+;; (autoload 'ibuff-menu "ibuff-menu" "Edit the buffer list." t)
+;; (setq ibuff-show-buffer-size-in-menu t)
+;; (setq ibuff-hide-buffers-regexp
+;;       "^\\( .*\\|\\*[^s].*\\|INBOX.*\\|\\.diary\\|\\.bbdb\\|\\.bibl\\|sent .*\\|\\*ftp .*\\)$")
+
+;; ibuffer -- ya improved buffer menu, included with emacs 22+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(setq ibuffer-show-empty-filter-groups nil)
+(setq ibuffer-saved-filter-groups
+      '(("default"
+	 ("Ruby" (mode . ruby-mode))
+	 ("Shell" (mode . sh-mode))
+	 ("Emacs" (or
+		   (mode . emacs-lisp-mode)
+		   (name . "^\\*scratch\\*$")
+		   (name . "^\\*Messages\\*$")))
+	 ("Gnus" (or
+		  (mode . message-mode)
+		  (mode . bbdb-mode)
+		  (mode . mail-mode)
+		  (mode . gnus-group-mode)
+		  (mode . gnus-summary-mode)
+		  (mode . gnus-article-mode)
+		  (name . "^\\.bbdb$")
+		  (name . "^\\.newsrc-dribble")))
+	 ("Dired" (mode . dired-mode))
+	 ("Perl" (mode . cperl-mode)))))
+(add-hook 'ibuffer-mode-hook
+	  #'(lambda ()
+	      (ibuffer-switch-to-saved-filter-groups "default")))
 
 ;; allout: better outline mode
 (setq outline-mode-leaders '((c-mode . "/\\*\\*\\*_")
@@ -219,13 +223,25 @@
 ;(load "allout" nil t)
 ;(outline-init t)
 
-;; w3 settings, from Per Abrahamsen
-(setq w3-user-fonts-take-precedence t)  ; Use _my_ font.
-(setq w3-user-colors-take-precedence t) ; Use _my_ colors.
-(setq w3-honor-stylesheets nil)         ; No, just do it..
-(setq w3-use-terminal-characters nil)   ; No weird characters.
-(setq w3-horizontal-rule-char 45)       ; I said: no weird characters.
+;; gnus5
+(defun sj/gnus (&optional level)
+  "Wrapper to startup gnus.  Uses level 3 by default."
+  (interactive "P")
+  ;(require 'gnus-load)
+  (gnus (or level 3)))
+(defun sj/gnus-just-mail (&optional level)
+  "Start gnus at level 2.  Ie., just mail groups."
+  (interactive "P")
+  (gnus (or level 2)))
+(global-set-key "\C-cn" 'sj/gnus)
+(global-set-key "\C-cN" 'sj/gnus-just-mail)
 
+;; w3 settings, from Per Abrahamsen
+(setq w3-user-fonts-take-precedence t
+      w3-user-colors-take-precedence t
+      w3-honor-stylesheets nil
+      w3-use-terminal-characters nil
+      w3-horizontal-rule-char 45)
 
 
 ;;; Local Variables:
