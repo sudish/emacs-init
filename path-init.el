@@ -47,37 +47,31 @@ and missing trailing /'s in DIRECTORY are handled correctly."
 (sj/load-path-prepend '("dmacro"))
 
 ;; exec-path
-(defvar sj/exec-path-config-file "~/.sj-config/PATH"
-  "File containing list of directories to add to exec-path.")
-(setq sj/exec-path-config-file (expand-file-name sj/exec-path-config-file))
+(defun sj/get-shell-exec-path ()
+  "Load list of directories to add to PATH from login shell.
 
-(defun sj/load-exec-path-config-file ()
-  "Load list of directories to add to PATH from sj/load-exec-path-config-file.
-
-Returns list of directories or nil if the file does not exist or is empty.
-A directory is added to the list iff it exists."
-  (when (file-readable-p sj/exec-path-config-file)
-    (save-excursion
-      (with-temp-buffer
-	(insert-file-contents-literally sj/exec-path-config-file)
-	(goto-char (point-min))
-	(let (dirs file beg)
-	  (while (not (eq (point) (point-max)))
-	    (setq file (buffer-substring (line-beginning-position)
-					    (line-end-position)))
-	    (setq file (progn
-			 (string-match "^\\s-*\\(\\S-+\\)\\s-*$" file)
-			 (match-string 1 file)))
-	    (forward-line)
-	    (if (and file (file-directory-p file))
-		(add-to-list 'dirs (expand-file-name file) 'append)))
-	  dirs)))))
+Returns list of directories or nil otherwise.
+A directory is added to the list iff it exists on this machine."
+  (save-excursion
+    (with-temp-buffer
+      (call-process-shell-command "echo $PATH" nil t)
+      (goto-char (point-min))
+      (let (dirs dir)
+	(while (not (eq (point) (point-max)))
+	  (setq dir (buffer-substring (point)
+				       (progn
+					 (skip-chars-forward "^:")
+					 (point))))
+	  (if (and dir (file-directory-p dir))
+	      (setq dirs (append (list (expand-file-name dir)) dirs)))
+	  (skip-chars-forward ":"))
+	(nreverse dirs)))))
 
 ;; Initialize exec-path and $PATH to a better value.
 ;; Some Emacs commands use your login shell whilst others use /bin/sh,
 ;; setting PATH here is the easiest way to communicate with these sub-shells.
 (setq exec-path
-      (delete-dups (append (sj/load-exec-path-config-file) exec-path)))
+      (delete-dups (nconc (sj/get-shell-exec-path) exec-path)))
 (setenv "PATH" (mapconcat #'identity exec-path ":"))
 
 
