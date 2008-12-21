@@ -22,12 +22,34 @@
 ;; project-root
 (require 'project-root)
 (setq project-roots
-      '(("Generic Rails Project"
+      `(("Rails Project"
          :root-contains-files ("app" "config" "db" "lib" "script" "test")
          :on-hit (lambda (p) (message (car p))))
-	("Generic Perl Project"
+	("Emacs config"
+         :path-matches ,(format "\\(%s\\)" (expand-file-name "~/gnuemacs"))
+	 :on-hit (lambda (p) (message (car p))))
+	("Perl Project"
          :root-contains-files ("t" "lib")
          :on-hit (lambda (p) (message (car p))))))
+(global-set-key (kbd "C-c p f") 'project-root-find-file)
+(global-set-key (kbd "C-c p g") 'project-root-grep)
+(global-set-key (kbd "C-c p a") 'project-root-ack)
+(global-set-key (kbd "C-c p d") 'project-root-goto-root)
+(global-set-key (kbd "C-c p M-x")
+		'project-root-execute-extended-command)
+(global-set-key
+ (kbd "C-c p v")
+ #'(lambda ()
+     (interactive)
+     (with-project-root
+	 (let ((root (cdr project-details)))
+	   (cond
+	    ((file-exists-p ".svn")
+	     (svn-status root))
+	    ((file-exists-p ".git")
+	     (git-status root))
+	    (t
+	     (vc-directory root nil)))))))
 
 ;; icomplete: incremental minibuffer completion
 (require 'icomplete)
@@ -67,6 +89,13 @@
 (require 'yasnippet)
 (yas/initialize)
 (yas/load-directory "~/gnuemacs/external/yasnippet/snippets")
+
+;; color-theme
+;; (sj/load-path-prepend "color-theme")
+;; (require 'color-theme)
+;; (color-theme-initialize)
+;; (color-theme-jonadabian-slate)
+;; (color-theme-robin-hood)
 
 ;; sgml
 (setq sgml-quick-keys t)
@@ -128,6 +157,7 @@
 
 ;; recentf -- recently visited files
 (require 'recentf)
+(recentf-mode 1)
 (setq recentf-max-saved-items 100)
 (defun sj/ido-choose-from-recentf ()
   "Use ido to select a recently opened file from the `recentf-list'"

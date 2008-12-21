@@ -72,6 +72,15 @@
 
 (setq mm-discouraged-alternatives '("text/html" "text/richtext"))
 
+;; SOUP
+(setq gnus-soup-directory (expand-file-name "~/News/Soup")
+      gnus-soup-replies-directory (concat gnus-soup-directory "/Replies")
+      gnus-soup-packet-directory gnus-soup-replies-directory
+      nnsoup-tmp-directory (concat gnus-soup-directory "/tmp")
+      nnsoup-directory (concat gnus-soup-directory "/nnsoup")
+      nnsoup-replies-directory (concat nnsoup-directory "/replies")
+      nnsoup-active-file (concat nnsoup-directory "/active"))
+
 ;; do total-expiry on all groups
 (defun sj/gnus-do-total-expire ()
   (interactive)

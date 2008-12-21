@@ -16,17 +16,22 @@
 (sj/load-path-prepend '("~/gnuemacs/external/swank-clojure"
 			"~/gnuemacs/external/slime"
 			"~/gnuemacs/external/clojure-mode"))
+(setq clojure-mode-use-backtracking-indent t
+      clojure-mode-font-lock-comment-sexp t)
 (require 'clojure-auto)
+(autoload 'clojure-indent-function "clojure-mode") ; for use in slime buffers
 (require 'clojure-paredit)
 (require 'swank-clojure-autoload)
 (setq swank-clojure-jar-path "~/src/git/clojure/clojure.jar")
 (setq swank-clojure-extra-classpaths
       '("~/src/git/clojure-contrib/clojure-contrib.jar"
 	"~/.clojure/*.jar"))
-(require 'slime)
-(slime-setup '(slime-scratch slime-editing-commands slime-fancy))
-(define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
-(define-key slime-mode-map (kbd "C-j") 'newline)
+(autoload 'slime "slime" nil t)
+(eval-after-load 'slime
+  '(progn
+     (slime-setup '(slime-scratch slime-editing-commands slime-fancy))
+     (define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
+     (define-key slime-mode-map (kbd "C-j") 'newline)))
 
 ;; Rinari
 (sj/load-path-prepend "~/gnuemacs/external/rinari")
