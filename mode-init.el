@@ -81,14 +81,14 @@
 (add-to-list 'vc-handled-backends 'Git)
 
 ;; magit -- git interface
-(sj/load-path-prepend (sj/emacs-path 'ext "magit"))
+(sj/load-path-prepend "external/magit")
 (autoload 'magit-status "magit" nil t)
 
 ;; yasnippet -- dynamic template expansion
-(sj/load-path-prepend (sj/emacs-path 'ext "yasnippet"))
+(sj/load-path-prepend "external/yasnippet")
 (require 'yasnippet)
 (yas/initialize)
-(yas/load-directory (sj/emacs-path 'ext "yasnippet/snippets"))
+(yas/load-directory (sj/emacs-path "external/yasnippet/snippets"))
 
 ;; color-theme
 ;; (sj/load-path-prepend "color-theme")

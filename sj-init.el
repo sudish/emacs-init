@@ -1,4 +1,4 @@
-;;; init --- main init file   [sj--95/06/11]
+;;; sj-init --- main init file   [sj--95/06/11]
 ;;;
 
 (require 'cl)
@@ -7,17 +7,13 @@
 				(user-login-name))
   "Non-nil iff the user is me.")
 
-;; Initialize load-path and exec-path really early on
-(load (sj/emacs-path 'init "path-init"))
-
 ;; custom
 (setq custom-file "~/.custom")
 (load "~/.custom")
 
+;; viper
 (require 'viper-util)
 (require 'loadhist)
-
-;; viper
 (setq viper-mode t)
 (require 'viper)
 
@@ -36,11 +32,11 @@
       (list "/opt/local/share/info"
 	    "/usr/share/info"
 	    "/usr/info"
-	    (sj/emacs-path 'ext "slime/doc")
-	    (sj/emacs-path 'site "cedet/ede")
-	    (sj/emacs-path 'site "cedet/eieio")
-	    (sj/emacs-path 'site "cedet/semantic/doc")
-	    (sj/emacs-path 'site "cedet/speedbar")))
+	    (sj/emacs-path "external/slime/doc")
+	    (sj/emacs-path "site-lisp/cedet/ede")
+	    (sj/emacs-path "site-lisp/cedet/eieio")
+	    (sj/emacs-path "site-lisp/cedet/semantic/doc")
+	    (sj/emacs-path "site-lisp/cedet/speedbar")))
 
 ;; load misc. functions we need later
 (load "misc-init")

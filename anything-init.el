@@ -74,7 +74,7 @@
 
 ;; anything
 (require 'anything)
-(sj/load-path-prepend (sj/emacs-path 'ext "anything-config"))
+(sj/load-path-prepend "external/anything-config")
 (require 'anything-config)
 (setq anything-sources
       '(anything-c-source-file-name-history

@@ -22,8 +22,8 @@ Returns a list of the added directories."
   (cond
    ((listp directory)
     (unless (null directory)
-      (append (sj/load-path-prepend-1 (car directory) path)
-	      (sj/load-path-prepend-1 (cdr directory) path))))
+      (nconc (sj/load-path-prepend-1 (cdr directory) path)
+	     (sj/load-path-prepend-1 (car directory) path))))
    ((stringp directory)
     (setq directory
 	  (file-name-as-directory
@@ -39,11 +39,12 @@ Returns a list of the added directories."
    (t
     (signal 'args-out-of-range `(stringp ,directory)))))
 
-; make sure init and site-lisp are on load-path
-(sj/load-path-prepend (list sj/emacs-init-dir sj/emacs-site-dir))
-
-;; add various directories onto load-path
-(sj/load-path-prepend '("dmacro"))
+;; Convenience macro for paths
+(defmacro sj/emacs-path (path)
+  "Returns path relative to sj/emacs-base-dir."
+  (if (not (eq "/" (substring path 0 1)))
+      (setq path (concat "/" path)))
+  (expand-file-name (concat sj/emacs-base-dir path)))
 
 ;; exec-path
 (defun sj/get-shell-exec-path ()

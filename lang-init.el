@@ -19,9 +19,7 @@
 		`(sbcl (,sj/slime-sbcl-path) :coding-system utf-8-unix)))
 
 ;; Clojure, swank
-(sj/load-path-prepend (list (sj/emacs-path 'ext "swank-clojure")
-			    (sj/emacs-path 'ext "clojure-mode")))
-
+(sj/load-path-prepend '("external/swank-clojure" "external/clojure-mode"))
 (setq clojure-mode-use-backtracking-indent t
       clojure-mode-font-lock-comment-sexp t)
 (require 'clojure-auto)
@@ -34,7 +32,7 @@
 	"~/.clojure/*.jar"))
 
 ;; SLIME -- LISP blissage
-(sj/load-path-prepend (sj/emacs-path 'ext "slime"))
+(sj/load-path-prepend "external/slime")
 (require 'slime-autoloads)
 (eval-after-load 'slime
   '(progn
@@ -43,7 +41,7 @@
      (define-key slime-mode-map (kbd "C-j") 'newline)))
 
 ;; Rinari
-(sj/load-path-prepend (sj/emacs-path 'ext "rinari"))
+(sj/load-path-prepend "external/rinari")
 (require 'rinari)
 
 ;; ruby
@@ -148,13 +146,14 @@ See the docs for c-hanging-semi&comma-criteria."
       auto-mode-alist)
 
 ;; dmacro: dynamic macros
+(sj/load-path-prepend "site-lisp/dmacro")
 (require 'dmacro)
-(dmacro-load (sj/emacs-path "dmacro" "defaults.dm"))
-(dmacro-load (sj/emacs-path "dmacro" "elisp.dm"))
-(dmacro-load (sj/emacs-path "dmacro" "makefile.dm"))
-(dmacro-load (sj/emacs-path "dmacro" "perl.dm"))
-(dmacro-load (sj/emacs-path "dmacro" "c.dm"))
-(dmacro-load (sj/emacs-path "dmacro" "c++.dm"))
+(dmacro-load (sj/emacs-path "dmacro/defaults.dm"))
+(dmacro-load (sj/emacs-path "dmacro/elisp.dm"))
+(dmacro-load (sj/emacs-path "dmacro/makefile.dm"))
+(dmacro-load (sj/emacs-path "dmacro/perl.dm"))
+(dmacro-load (sj/emacs-path "dmacro/c.dm"))
+(dmacro-load (sj/emacs-path "dmacro/c++.dm"))
 (setq auto-dmacro-alist '(("\\.c\\(pp\\|xx\\|c\\)?$" . c_masthead)
 			  ("\\.h\\(pp\\|xx\\|h\\)?$" . h_masthead)
 			  ("\\.x$" . rpc_masthead)
@@ -171,7 +170,7 @@ See the docs for c-hanging-semi&comma-criteria."
 (setq semantic-imenu-bucketize-file nil
       semantic-imenu-expand-type-members nil
       semanticdb-default-save-directory (expand-file-name "~/.semanticdb"))
-(load-file (sj/emacs-path 'ext "cedet/common/cedet.el"))
+(load-file (sj/emacs-path "external/cedet/common/cedet.el"))
 ;; * This enables some tools useful for coding, such as summary mode
 ;;   imenu support, and the semantic navigator
 (semantic-load-enable-code-helpers)
