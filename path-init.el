@@ -25,13 +25,13 @@ and missing trailing /'s in DIRECTORY are handled correctly."
    ((stringp directory)
     (setq directory
 	  (file-name-as-directory
-	   (expand-file-name directory sj/emacs-site-dir)))
+	   (expand-file-name directory sj/emacs-base-dir)))
     (when (file-directory-p directory)
       (if (null path)
 	  (setq path 'load-path))
       (unless (member directory (eval path))
 	(push directory (symbol-value path)))
-      path))
+      directory))
    (t
     (signal 'args-out-of-range `(stringp ,directory)))))
 

@@ -4,9 +4,8 @@
 (cd (expand-file-name "~"))
 
 (defvar sj/emacs-type
-  (if (string-match "xemacs\\|lucid" emacs-version)
-      'xemacs
-    'emacs))
+  (cond ((string-match "xemacs\\|lucid" emacs-version) 'xemacs)
+	(t 'emacs)))
 
 ;; Base directory for all my emacs files.
 (setq sj/emacs-base-dir	(expand-file-name "~/gnuemacs"))
@@ -59,7 +58,7 @@ SUFFIX, if present, is appended to the end of the path computed above."
 ;; Load init.el, which bootstraps everything else
 (load (sj/emacs-path 'init "init"))
 
-;; the message below appears only on succesful loading of all the init
+;; The message below appears only on succesful loading of all the init
 ;; files, making it easier to notice failed loading
 (defun sj/after-init-hook ()
   (message (emacs-version)))

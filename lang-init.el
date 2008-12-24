@@ -12,6 +12,12 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
+;; SBCL
+(setq sj/slime-sbcl-path "/opt/local/bin/sbcl")
+(eval-after-load 'slime
+  '(add-to-list 'slime-lisp-implementations
+		`(sbcl (,sj/slime-sbcl-path) :coding-system utf-8-unix)))
+
 ;; Clojure, swank
 (sj/load-path-prepend (list (sj/emacs-path 'ext "swank-clojure")
 			    (sj/emacs-path 'ext "clojure-mode")))
@@ -26,12 +32,6 @@
 (setq swank-clojure-extra-classpaths
       '("~/src/git/clojure-contrib/clojure-contrib.jar"
 	"~/.clojure/*.jar"))
-
-;; SBCL
-(setq sj/slime-sbcl-path "/opt/local/bin/sbcl")
-(eval-after-load 'slime
-  '(add-to-list 'slime-lisp-implementations
-		`(sbcl (,sj/slime-sbcl-path) :coding-system utf-8-unix)))
 
 ;; SLIME -- LISP blissage
 (sj/load-path-prepend (sj/emacs-path 'ext "slime"))

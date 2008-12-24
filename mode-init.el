@@ -226,8 +226,12 @@
 (setq ibuffer-show-empty-filter-groups nil)
 (setq ibuffer-saved-filter-groups
       '(("default"
+	 ("Lisp" (or
+		  (mode . lisp-mode)
+		  (name . "^\\*slime-repl")))
 	 ("Ruby" (mode . ruby-mode))
 	 ("Shell" (mode . sh-mode))
+	 ("Perl" (mode . cperl-mode))
 	 ("Emacs" (or
 		   (mode . emacs-lisp-mode)
 		   (name . "^\\*scratch\\*$")
@@ -242,7 +246,9 @@
 		  (name . "^\\.bbdb$")
 		  (name . "^\\.newsrc-dribble")))
 	 ("Dired" (mode . dired-mode))
-	 ("Perl" (mode . cperl-mode)))))
+	 ("Slime misc" (or
+			(name . "^\\*inferior-lisp")
+			(name . "^\\*slime"))))))
 (add-hook 'ibuffer-mode-hook
 	  #'(lambda ()
 	      (ibuffer-switch-to-saved-filter-groups "default")))
