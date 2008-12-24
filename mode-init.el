@@ -26,7 +26,7 @@
          :root-contains-files ("app" "config" "db" "lib" "script" "test")
          :on-hit (lambda (p) (message (car p))))
 	("Emacs config"
-         :path-matches ,(format "\\(%s\\)" (expand-file-name "~/gnuemacs"))
+         :path-matches ,(format "\\(%s\\)" sj/emacs-base-dir)
 	 :on-hit (lambda (p) (message (car p))))
 	("Perl Project"
          :root-contains-files ("t" "lib")
@@ -81,14 +81,14 @@
 (add-to-list 'vc-handled-backends 'Git)
 
 ;; magit -- git interface
-(sj/load-path-prepend "~/gnuemacs/external/magit")
+(sj/load-path-prepend (sj/emacs-path 'ext "magit"))
 (autoload 'magit-status "magit" nil t)
 
 ;; yasnippet -- dynamic template expansion
-(sj/load-path-prepend "~/gnuemacs/external/yasnippet")
+(sj/load-path-prepend (sj/emacs-path 'ext "yasnippet"))
 (require 'yasnippet)
 (yas/initialize)
-(yas/load-directory "~/gnuemacs/external/yasnippet/snippets")
+(yas/load-directory (sj/emacs-path 'ext "yasnippet/snippets"))
 
 ;; color-theme
 ;; (sj/load-path-prepend "color-theme")

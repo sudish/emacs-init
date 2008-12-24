@@ -8,7 +8,7 @@
   "Non-nil iff the user is me.")
 
 ;; Initialize load-path and exec-path really early on
-(load "~/gnuemacs/init/path-init")
+(load (sj/emacs-path 'init "path-init"))
 
 ;; custom
 (setq custom-file "~/.custom")
@@ -33,14 +33,14 @@
 
 ;; Info search path
 (setq Info-additional-directory-list
-      (mapcar 'expand-file-name
-	      '("/opt/local/share/info"
-		"/usr/share/info"
-		"/usr/info"
-		"~/gnuemacs/site-lisp/cedet/ede"
-		"~/gnuemacs/site-lisp/cedet/eieio"
-		"~/gnuemacs/site-lisp/cedet/semantic/doc"
-		"~/gnuemacs/site-lisp/cedet/speedbar")))
+      (list "/opt/local/share/info"
+	    "/usr/share/info"
+	    "/usr/info"
+	    (sj/emacs-path 'ext "slime/doc")
+	    (sj/emacs-path 'site "cedet/ede")
+	    (sj/emacs-path 'site "cedet/eieio")
+	    (sj/emacs-path 'site "cedet/semantic/doc")
+	    (sj/emacs-path 'site "cedet/speedbar")))
 
 ;; load misc. functions we need later
 (load "misc-init")

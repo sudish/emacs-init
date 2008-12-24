@@ -90,7 +90,7 @@ compiled version. Also lists uncompiled libraries."
 beginning with PREFIX. Returns alist of (FILE . ERROR) for libs that didn't
 compile."
   (interactive)
-  (setq prefix (expand-file-name (or prefix "~/gnuemacs")))
+  (setq prefix (expand-file-name (or prefix sj/emacs-base-dir)))
   (message
    "Didn't compile: %s" 
    (delq nil

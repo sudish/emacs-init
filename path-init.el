@@ -2,11 +2,6 @@
 ;;;
 
 ;; load-path
-(defvar sj/load-path-prepend-prefix "~/gnuemacs/site-lisp/"
-  "Default prefix path to be prepended.  Used by sj/load-path-prepend")
-(setq sj/load-path-prepend-prefix
-      (file-name-as-directory (expand-file-name sj/load-path-prepend-prefix)))
-
 (defmacro sj/load-path-prepend (directory &optional path)
   "*Prepend DIRECTORY onto PATH.
 PATH should be a symbol; if omitted, it defaults to 'load-path.
@@ -14,7 +9,7 @@ PATH should be a symbol; if omitted, it defaults to 'load-path.
 DIRECTORY should be either a string or a list of strings.  In the latter case,
 all elements of the list are prepended.
 
-If DIRECTORY is relative, sj/load-path-prepend-prefix is prepended to DIRECTORY
+If DIRECTORY is relative, sj/emacs-site-dir is prepended to DIRECTORY
 first.  DIRECTORY is not prepended if it is already in PATH.  Tilde escapes
 and missing trailing /'s in DIRECTORY are handled correctly."
   `(eval-and-compile
@@ -30,7 +25,7 @@ and missing trailing /'s in DIRECTORY are handled correctly."
    ((stringp directory)
     (setq directory
 	  (file-name-as-directory
-	   (expand-file-name directory sj/load-path-prepend-prefix)))
+	   (expand-file-name directory sj/emacs-site-dir)))
     (when (file-directory-p directory)
       (if (null path)
 	  (setq path 'load-path))
@@ -40,8 +35,8 @@ and missing trailing /'s in DIRECTORY are handled correctly."
    (t
     (signal 'args-out-of-range `(stringp ,directory)))))
 
-; make sure init and site-list are on load-path
-(sj/load-path-prepend '("~/gnuemacs/init" "~/gnuemacs/site-lisp"))
+; make sure init and site-lisp are on load-path
+(sj/load-path-prepend (list sj/emacs-init-dir sj/emacs-site-dir))
 
 ;; add various directories onto load-path
 (sj/load-path-prepend '("dmacro"))

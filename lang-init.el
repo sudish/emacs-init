@@ -12,10 +12,10 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
-;; Clojure and SLIME
-(sj/load-path-prepend '("~/gnuemacs/external/swank-clojure"
-			"~/gnuemacs/external/slime"
-			"~/gnuemacs/external/clojure-mode"))
+;; Clojure, swank
+(sj/load-path-prepend (list (sj/emacs-path 'ext "swank-clojure")
+			    (sj/emacs-path 'ext "clojure-mode")))
+
 (setq clojure-mode-use-backtracking-indent t
       clojure-mode-font-lock-comment-sexp t)
 (require 'clojure-auto)
@@ -26,7 +26,16 @@
 (setq swank-clojure-extra-classpaths
       '("~/src/git/clojure-contrib/clojure-contrib.jar"
 	"~/.clojure/*.jar"))
-(autoload 'slime "slime" nil t)
+
+;; SBCL
+(setq sj/slime-sbcl-path "/opt/local/bin/sbcl")
+(eval-after-load 'slime
+  '(add-to-list 'slime-lisp-implementations
+		`(sbcl (,sj/slime-sbcl-path) :coding-system utf-8-unix)))
+
+;; SLIME -- LISP blissage
+(sj/load-path-prepend (sj/emacs-path 'ext "slime"))
+(require 'slime-autoloads)
 (eval-after-load 'slime
   '(progn
      (slime-setup '(slime-scratch slime-editing-commands slime-fancy))
@@ -34,7 +43,7 @@
      (define-key slime-mode-map (kbd "C-j") 'newline)))
 
 ;; Rinari
-(sj/load-path-prepend "~/gnuemacs/external/rinari")
+(sj/load-path-prepend (sj/emacs-path 'ext "rinari"))
 (require 'rinari)
 
 ;; ruby
@@ -139,18 +148,17 @@ See the docs for c-hanging-semi&comma-criteria."
       auto-mode-alist)
 
 ;; dmacro: dynamic macros
-(when user-sj-p
-  (require 'dmacro)
-  (dmacro-load "~/gnuemacs/dmacro/defaults.dm")
-  (dmacro-load "~/gnuemacs/dmacro/elisp.dm")
-  (dmacro-load "~/gnuemacs/dmacro/makefile.dm")
-  (dmacro-load "~/gnuemacs/dmacro/perl.dm")
-  (dmacro-load "~/gnuemacs/dmacro/c.dm")
-  (dmacro-load "~/gnuemacs/dmacro/c++.dm")
-  (setq auto-dmacro-alist '(("\\.c\\(pp\\|xx\\|c\\)?$" . c_masthead)
-			    ("\\.h\\(pp\\|xx\\|h\\)?$" . h_masthead)
-			    ("\\.x$" . rpc_masthead)
-			    ("." . masthead))))
+(require 'dmacro)
+(dmacro-load (sj/emacs-path "dmacro" "defaults.dm"))
+(dmacro-load (sj/emacs-path "dmacro" "elisp.dm"))
+(dmacro-load (sj/emacs-path "dmacro" "makefile.dm"))
+(dmacro-load (sj/emacs-path "dmacro" "perl.dm"))
+(dmacro-load (sj/emacs-path "dmacro" "c.dm"))
+(dmacro-load (sj/emacs-path "dmacro" "c++.dm"))
+(setq auto-dmacro-alist '(("\\.c\\(pp\\|xx\\|c\\)?$" . c_masthead)
+			  ("\\.h\\(pp\\|xx\\|h\\)?$" . h_masthead)
+			  ("\\.x$" . rpc_masthead)
+			  ("." . masthead)))
 
 ;; RPC .x files
 (push '("\\.x$" . c-mode) auto-mode-alist)
@@ -163,7 +171,7 @@ See the docs for c-hanging-semi&comma-criteria."
 (setq semantic-imenu-bucketize-file nil
       semantic-imenu-expand-type-members nil
       semanticdb-default-save-directory (expand-file-name "~/.semanticdb"))
-(load-file "~/gnuemacs/external/cedet/common/cedet.el")
+(load-file (sj/emacs-path 'ext "cedet/common/cedet.el"))
 ;; * This enables some tools useful for coding, such as summary mode
 ;;   imenu support, and the semantic navigator
 (semantic-load-enable-code-helpers)
