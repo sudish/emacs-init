@@ -10,8 +10,10 @@ DIRECTORY should be either a string or a list of strings.  In the latter case,
 all elements of the list are prepended.
 
 If DIRECTORY is relative, sj/emacs-site-dir is prepended to DIRECTORY
-first.  DIRECTORY is not prepended if it is already in PATH.  Tilde escapes
-and missing trailing /'s in DIRECTORY are handled correctly."
+first.  DIRECTORY is not prepended if it is already in PATH.  Any expansion
+permitted by expand-file-name, including ~'s, is allowed.
+
+Returns a list of the added directories."
   `(eval-and-compile
      (sj/load-path-prepend-1 ,directory ,path)))
 
@@ -20,18 +22,20 @@ and missing trailing /'s in DIRECTORY are handled correctly."
   (cond
    ((listp directory)
     (unless (null directory)
-      (sj/load-path-prepend-1 (cdr directory) path)
-      (sj/load-path-prepend-1 (car directory) path)))
+      (append (sj/load-path-prepend-1 (car directory) path)
+	      (sj/load-path-prepend-1 (cdr directory) path))))
    ((stringp directory)
     (setq directory
 	  (file-name-as-directory
 	   (expand-file-name directory sj/emacs-base-dir)))
-    (when (file-directory-p directory)
-      (if (null path)
-	  (setq path 'load-path))
-      (unless (member directory (eval path))
-	(push directory (symbol-value path)))
-      directory))
+    (if (file-directory-p directory)
+	(progn
+	  (if (null path)
+	      (setq path 'load-path))
+	  (unless (member directory (eval path))
+	    (push directory (symbol-value path)))
+	  (list directory))
+      (signal 'args-out-of-range `(file-directory-p ,directory))))
    (t
     (signal 'args-out-of-range `(stringp ,directory)))))
 
