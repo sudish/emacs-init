@@ -72,10 +72,8 @@
     (volatile)
     (delayed)))
 
-;; anything
-(require 'anything)
-(sj/load-path-prepend "external/anything-config")
-(require 'anything-config)
+;; Initialize anything-sources before loading 'anything to prevent it from
+;; pre-loading the content for sources we're not interested in
 (setq anything-sources
       '(anything-c-source-file-name-history
 	anything-c-source-imenu
@@ -85,6 +83,9 @@
 	project-root-anything-config-bookmarks
 	project-root-anything-config-files
 	anything-c-source-locate))
+(require 'anything)
+(sj/load-path-prepend "external/anything-config")
+(require 'anything-config)
 
 
 ;;; Local Variables:

@@ -12,26 +12,41 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
+;; Lisp HyperSpec from
+(setq common-lisp-hyperspec-root (concat
+				  "file://"
+				  (expand-file-name
+				   "~/src/CommonLisp/HyperSpec-7.0/HyperSpec/"))
+      common-lisp-hyperspec-symbol-table (concat
+					  common-lisp-hyperspec-root
+					  "Data/Map_Sym.txt"))
+
 ;; SBCL
 (setq sj/slime-sbcl-path "/opt/local/bin/sbcl")
 (eval-after-load 'slime
   '(add-to-list 'slime-lisp-implementations
 		`(sbcl (,sj/slime-sbcl-path) :coding-system utf-8-unix)))
 
-;; Clojure, swank
+;; Clojure, swank-clojure
 (sj/load-path-prepend '("external/swank-clojure" "external/clojure-mode"))
 (setq clojure-mode-use-backtracking-indent t
       clojure-mode-font-lock-comment-sexp t)
-(require 'clojure-auto)
 (autoload 'clojure-indent-function "clojure-mode") ; for use in slime buffers
-(require 'clojure-paredit)
-(require 'swank-clojure-autoload)
 (setq swank-clojure-jar-path "~/src/git/clojure/clojure.jar")
 (setq swank-clojure-extra-classpaths
       '("~/src/git/clojure-contrib/clojure-contrib.jar"
 	"~/.clojure/*.jar"))
+(require 'clojure-auto)
+(require 'clojure-paredit)
+(require 'swank-clojure-autoload)
 
-;; SLIME -- LISP blissage
+;; CMUCL
+(setq sj/slime-cmucl-path (expand-file-name "~/src/cmucl/bin/lisp"))
+(eval-after-load 'slime
+  '(add-to-list 'slime-lisp-implementations
+		`(cmucl (,sj/slime-cmucl-path))))
+
+;; Slime -- Lisp environment
 (sj/load-path-prepend "external/slime")
 (require 'slime-autoloads)
 (eval-after-load 'slime

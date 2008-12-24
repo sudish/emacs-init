@@ -49,9 +49,9 @@
       gnus-expert-user t)
 
 (setq gnus-split-methods nil
-;;      gnus-keep-backlog 10
+      gnus-keep-backlog 10
       gnus-asynchronous t
-      gnus-use-article-prefetch 25)
+      gnus-use-article-prefetch 100)
 
 (setq gnus-article-save-directory (expand-file-name "~/News/archive/")
       gnus-default-article-saver  #'gnus-summary-save-in-mail
