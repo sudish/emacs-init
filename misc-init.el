@@ -90,21 +90,19 @@ compiled version. Also lists uncompiled libraries."
 beginning with PREFIX. Returns alist of (FILE . ERROR) for libs that didn't
 compile."
   (interactive)
-  (setq prefix (expand-file-name (or prefix sj/emacs-base-dir)))
-  (message
-   "Didn't compile: %s" 
-   (delq nil
-	 (let ((l (length prefix)))
-	   (mapcar
-	    #'(lambda (lib)
-		(when (string-equal prefix (substring lib 0 l))
+  (let ((prefix (expand-file-name (or prefix sj/emacs-base-dir))))
+    (message
+     "Didn't compile: %s" 
+     (delq nil
+	   (let ((l (length prefix)))
+	     (mapcar
+	      #'(lambda (lib)
 		  (condition-case err
-		      (and
-		       (load-library lib)
-		       (byte-compile-file lib)
-		       nil) ; ignore 'no-byte-compile msgs from the compiler
-		    (error (cons lib err)))))
-	    (sj/find-newer-libraries load-path))))))
+		      (when (and (string-equal prefix (substring lib 0 l))
+				 (load-library lib))
+			(byte-compile-file lib))
+		    (error (cons lib err))))
+	      (sj/find-newer-libraries load-path)))))))
 
 (defun sj/load-and-byte-compile-library (library)
   "Byte-compile a library after first locating it using load-path.
