@@ -21,13 +21,7 @@
 					  common-lisp-hyperspec-root
 					  "Data/Map_Sym.txt"))
 
-;; SBCL
-(setq sj/slime-sbcl-path "/opt/local/bin/sbcl")
-(eval-after-load 'slime
-  '(add-to-list 'slime-lisp-implementations
-		`(sbcl (,sj/slime-sbcl-path) :coding-system utf-8-unix)))
-
-;; Clojure, swank-clojure
+;; Clojure mode + swank-clojure for Slime integration
 (sj/load-path-prepend '("external/swank-clojure" "external/clojure-mode"))
 (setq clojure-mode-use-backtracking-indent t
       clojure-mode-font-lock-comment-sexp t)
@@ -36,24 +30,45 @@
 (setq swank-clojure-extra-classpaths
       '("~/src/git/clojure-contrib/clojure-contrib.jar"
 	"~/.clojure/*.jar"))
+(setq swank-clojure-extra-vm-args '("-server"))
 (require 'clojure-auto)
 (require 'clojure-paredit)
 (require 'swank-clojure-autoload)
+
+;; SBCL
+(setq sj/slime-sbcl-path "/opt/local/bin/sbcl")
+(eval-after-load 'slime
+  '(add-to-list 'slime-lisp-implementations
+		`(sbcl (,sj/slime-sbcl-path) :coding-system utf-8-unix) t))
 
 ;; CMUCL
 (setq sj/slime-cmucl-path (expand-file-name "~/src/cmucl/bin/lisp"))
 (eval-after-load 'slime
   '(add-to-list 'slime-lisp-implementations
-		`(cmucl (,sj/slime-cmucl-path))))
+		`(cmucl (,sj/slime-cmucl-path)) t))
 
-;; Slime -- Lisp environment
+;; Slime -- Superior Lisp Interaction Mode
 (sj/load-path-prepend "external/slime")
+(add-to-list 'Info-additional-directory-list
+	     (sj/emacs-path "external/slime/doc"))
 (require 'slime-autoloads)
 (eval-after-load 'slime
   '(progn
      (slime-setup '(slime-scratch slime-editing-commands slime-fancy))
      (define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
      (define-key slime-mode-map (kbd "C-j") 'newline)))
+
+;; Erlang mode
+(setq erlang-root-dir "/opt/local/lib/erlang")
+(require 'erlang-start)			; sets up autoloads
+
+;; Distel -- Ditributed Emacs Lisp (Slime for Erlang!)
+(sj/load-path-prepend "external/distel/elisp")
+(add-to-list 'Info-additional-directory-list
+	     (sj/emacs-path "external/distel/doc"))
+(autoload 'distel-setup "distel")
+(eval-after-load 'erlang
+  '(distel-setup))
 
 ;; Rinari
 (sj/load-path-prepend "external/rinari")
@@ -182,24 +197,34 @@ See the docs for c-hanging-semi&comma-criteria."
 
 ;; Load CEDET
 ;(setq semantic-load-turn-everything-on t)
-(setq semantic-imenu-bucketize-file nil
-      semantic-imenu-expand-type-members nil
-      semanticdb-default-save-directory (expand-file-name "~/.semanticdb"))
-(load-file (sj/emacs-path "external/cedet/common/cedet.el"))
+;; (setq semantic-imenu-bucketize-file nil
+;;       semantic-imenu-expand-type-members nil
+;;       semanticdb-default-save-directory (expand-file-name "~/.semanticdb"))
+;; (load-file (sj/emacs-path "external/cedet/common/cedet.el"))
 ;; * This enables some tools useful for coding, such as summary mode
 ;;   imenu support, and the semantic navigator
-(semantic-load-enable-code-helpers)
+;; (semantic-load-enable-code-helpers)
 ;; * This enables even more coding tools such as the nascent intellisense mode
 ;;   decoration mode, and stickyfunc mode (plus regular code helpers)
 ;(semantic-load-enable-gaudy-code-helpers)
 ;; * This turns on which-func support (Plus all other code helpers)
 ;(semantic-load-enable-excessive-code-helpers)
 ;; add header file mappings for c/c++
-(mapc #'(lambda (dir)
-	  (when (file-directory-p dir)
-	    (semantic-add-system-include dir 'c-mode)
-	    (semantic-add-system-include dir 'c++-mode)))
-      '("/opt/local/include" "/usr/local/include" "/usr/include"))
+;; (mapc #'(lambda (dir)
+;; 	  (when (file-directory-p dir)
+;; 	    (semantic-add-system-include dir 'c-mode)
+;; 	    (semantic-add-system-include dir 'c++-mode)))
+;;       '("/opt/local/include" "/usr/local/include" "/usr/include"))
+;;
+;; (mapc #'(lambda (dir)
+;; 	  (when (file-directory-p dir)
+;; 	    (message dir)
+;; 	    (add-to-list 'Info-additional-directory-list dir)))
+;;       (list
+;;        (sj/emacs-path "external/cedet/ede")
+;;        (sj/emacs-path "external/cedet/eieio")
+;;        (sj/emacs-path "external/cedet/semantic/doc")
+;;        (sj/emacs-path "external/cedet/speedbar")))
 
 
 ;;; Local Variables:

@@ -32,11 +32,7 @@
       (list "/opt/local/share/info"
 	    "/usr/share/info"
 	    "/usr/info"
-	    (sj/emacs-path "external/slime/doc")
-	    (sj/emacs-path "site-lisp/cedet/ede")
-	    (sj/emacs-path "site-lisp/cedet/eieio")
-	    (sj/emacs-path "site-lisp/cedet/semantic/doc")
-	    (sj/emacs-path "site-lisp/cedet/speedbar")))
+))
 
 ;; load misc. functions we need later
 (load "misc-init")
@@ -78,13 +74,8 @@
 
 ;; better autosave, in a fixed directory
 (setq auto-save-default 	t
-      auto-save-interval 	300
-      auto-save-time-interval 	900
-      auto-save-list-file-name	nil
-      auto-save-list-file-prefix (expand-file-name "~/autosave/")
-      auto-save-directory 	(expand-file-name "~/autosave/"))
-;(require 'auto-save)
-
+      auto-save-interval 	300)
+      
 (require 'font-lock)
 (make-face-bold 'modeline)
 
@@ -98,9 +89,8 @@
 
 ;; gnuserv
 (setenv "GNUSERV_SHOW_EMACS" "1")        ;; always raise Emacs window
-;(when (memq window-system '(x ns win32 w32))
-;  (require 'gnuserv)
-;  (gnuserv-start))
+(when (memq window-system '(x ns win32 w32))
+  (server-start))
 
 ;; file-cache: caches names of files for use from minibuffer
 ;; initialize the cache as the very last thing we do, once load-path is 
