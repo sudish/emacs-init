@@ -82,6 +82,8 @@
 
 ;; magit -- git interface
 (sj/load-path-prepend "external/magit")
+(add-to-list 'Info-additional-directory-list
+	     (sj/emacs-path "external/magit"))
 (autoload 'magit-status "magit" nil t)
 
 ;; yasnippet -- dynamic template expansion
