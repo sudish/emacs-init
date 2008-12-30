@@ -81,9 +81,7 @@
 (add-to-list 'vc-handled-backends 'Git)
 
 ;; magit -- git interface
-(sj/load-path-prepend "external/magit")
-(add-to-list 'Info-additional-directory-list
-	     (sj/emacs-path "external/magit"))
+(sj/load-path-prepend "external/magit" t)
 (autoload 'magit-status "magit" nil t)
 
 ;; yasnippet -- dynamic template expansion

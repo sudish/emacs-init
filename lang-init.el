@@ -48,9 +48,7 @@
 		`(cmucl (,sj/slime-cmucl-path)) t))
 
 ;; Slime -- Superior Lisp Interaction Mode
-(sj/load-path-prepend "external/slime")
-(add-to-list 'Info-additional-directory-list
-	     (sj/emacs-path "external/slime/doc"))
+(sj/load-path-prepend "external/slime" "doc")
 (require 'slime-autoloads)
 (eval-after-load 'slime
   '(progn
@@ -63,9 +61,7 @@
 (require 'erlang-start)			; sets up autoloads
 
 ;; Distel -- Ditributed Emacs Lisp (Slime for Erlang!)
-(sj/load-path-prepend "external/distel/elisp")
-(add-to-list 'Info-additional-directory-list
-	     (sj/emacs-path "external/distel/doc"))
+(sj/load-path-prepend "external/distel/elisp" "../doc")
 (autoload 'distel-setup "distel")
 (eval-after-load 'erlang
   '(distel-setup))

@@ -2,42 +2,47 @@
 ;;;
 
 ;; load-path
-(defmacro sj/load-path-prepend (directory &optional path)
-  "*Prepend DIRECTORY onto PATH.
-PATH should be a symbol; if omitted, it defaults to 'load-path.
+(defmacro sj/load-path-prepend (directory &optional info)
+  "*Prepend DIRECTORY onto load-path.
 
-DIRECTORY should be either a string or a list of strings.  In the latter case,
-all elements of the list are prepended.
+DIRECTORY should be either a string or a list of strings.  In the
+latter case, all elements of the list are prepended.
 
-If DIRECTORY is relative, sj/emacs-site-dir is prepended to DIRECTORY
-first.  DIRECTORY is not prepended if it is already in PATH.  Any expansion
-permitted by expand-file-name, including ~'s, is allowed.
+If DIRECTORY is relative, sj/emacs-site-dir is prepended to
+DIRECTORY first.  DIRECTORY is not prepended if it is already in
+load-path.  Any expansion permitted by expand-file-name,
+including ~'s, is allowed.
+
+If INFO is non-nil and a file named \"dir\" exists in DIRECTORY,
+DIRECTORY is prepended to Info-additional-directory-list.  If
+INFO is a string, it is treated as the location of a directory
+relative to DIRECTORY in which to search for \"dir\".
 
 Returns a list of the added directories."
   `(eval-and-compile
-     (sj/load-path-prepend-1 ,directory ,path)))
+     (sj/load-path-prepend-1 ,directory ,info)))
 
-(defun sj/load-path-prepend-1 (directory &optional path)
-  "See sj/load-path-prepend."
+(defun sj/load-path-prepend-1 (directory &optional info)
+  "See sj/load-path-prepend, the preferred interface to this func."
   (cond
    ((listp directory)
     (unless (null directory)
-      (nconc (sj/load-path-prepend-1 (cdr directory) path)
-	     (sj/load-path-prepend-1 (car directory) path))))
+      ;; post-order traversal to preserve list order
+      (nconc (sj/load-path-prepend-1 (cdr directory) info)
+	     (sj/load-path-prepend-1 (car directory) info))))
    ((stringp directory)
-    (setq directory
-	  (file-name-as-directory
-	   (expand-file-name directory sj/emacs-base-dir)))
-    (if (file-directory-p directory)
-	(progn
-	  (if (null path)
-	      (setq path 'load-path))
-	  (unless (member directory (eval path))
-	    (push directory (symbol-value path)))
-	  (list directory))
-      (signal 'args-out-of-range `(file-directory-p ,directory))))
-   (t
-    (signal 'args-out-of-range `(stringp ,directory)))))
+    (let ((d (expand-file-name directory sj/emacs-base-dir)))
+      (cond ((file-directory-p d)
+	     (add-to-list 'load-path d)
+	     (when info
+	       (let* ((info-dir (cond ((stringp info) (expand-file-name info d))
+				      (t d)))
+		      (info-file (concat info-dir "/dir")))
+		 (when (file-readable-p info-file)
+		   (add-to-list 'Info-additional-directory-list info-dir))))
+	     (list d))
+	    (t (signal 'args-out-of-range `(file-directory-p ,directory))))))
+   (t (signal 'args-out-of-range `(stringp ,directory)))))
 
 ;; Convenience macro for paths
 (defmacro sj/emacs-path (path)

@@ -18,8 +18,8 @@
 (require 'viper)
 
 ;; System-specific init
-(if (and window-system (eq system-type 'darwin))
-    (load "darwin-init"))
+(cond ((eq system-type 'darwin)
+       (load "darwin-init")))
 
 ;; Quo vadis?
 (setq user-mail-address "sudish@gmail.com")
@@ -29,10 +29,15 @@
 
 ;; Info search path
 (setq Info-additional-directory-list
-      (list "/opt/local/share/info"
-	    "/usr/share/info"
-	    "/usr/info"
-))
+      (delq nil
+	    (mapcar #'(lambda (dir)
+			    (cond ((file-directory-p dir) dir)
+				  (t nil)))
+		    '("/opt/local/share/info"
+		      "/sw/share/info"
+		      "/Developer/usr/share/info"
+		      "/usr/share/info"
+		      "/usr/info"))))
 
 ;; load misc. functions we need later
 (load "misc-init")
@@ -48,7 +53,9 @@
 	    (auto-fill-mode t)
 	    (setq adaptive-fill-mode t)))
 
-(setq track-eol 		t
+;; Tweak some of the defaults
+(setq help-window-select        'always
+      track-eol 		t
       scroll-step 		0
       scroll-conservatively     100
       next-screen-context-lines 2
@@ -73,9 +80,9 @@
 (setq gc-cons-threshold (* 4 1024 1024))
 
 ;; better autosave, in a fixed directory
-(setq auto-save-default 	t
-      auto-save-interval 	300)
-      
+(setq auto-save-default  t
+      auto-save-interval 300)
+
 (require 'font-lock)
 (make-face-bold 'modeline)
 
@@ -93,7 +100,7 @@
   (server-start))
 
 ;; file-cache: caches names of files for use from minibuffer
-;; initialize the cache as the very last thing we do, once load-path is 
+;; initialize the cache as the very last thing we do, once load-path is
 ;; fully initialized
 (file-cache-add-directory-list load-path)
 
