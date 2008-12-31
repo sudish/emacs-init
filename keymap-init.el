@@ -11,7 +11,7 @@
 
 ;; private keymap for my own stuff
 (define-prefix-command 'sj/private-keymap)
-(global-set-key [?\C-c ?\,] sj/private-keymap)
+;;(global-set-key [?\C-c ?\,] sj/private-keymap)
 
 ;; Hyper keymap 
 ;(global-set-key [(hyper l)]   'dmacro-wrap-line)
