@@ -165,31 +165,7 @@
   (find-file (ido-completing-read "Open file: " recentf-list nil t)))
 (global-set-key [(meta f11)] 'sj/ido-choose-from-recentf)
 
-;; iswitchb
-;; (setq iswitchb-default-method 'always-frame)
-;; (setq-default iswitchb-method 'always-frame)
-;; (iswitchb-mode 1)
-;; (when nil
-;;   (setq iswitchb-buffer-ignore '("Minibuf")
-;; 	iswitchb-regexp nil)
-;;   (defvar sj/iswitchb-at-end-regexps '("^ ") ;'("^\\*" "^\\." "^ ")
-;;     "Buffers matching these regexps are moved to the end of the buffer list.
-
-;; Buffers are moved in the order of the regexps in the list.  I.e., buffers
-;; matching later regexps will be moved further back in the list.")
-;;   (defun sj/iswitchb-move-to-end-1 (regexp)
-;;  ;; iswitchb-buffer-ignore is too drastic.  moving stuff to the end of
-;;     ;; the offered list is preferable for some stuff.
-;;     ;; `iswitchb-temp-buflist' is magical, ugh.
-;;     (let ((hidden nil))
-;;       (dolist (buf iswitchb-temp-buflist)
-;; 	(if (string-match regexp buf)
-;; 	    (push buf hidden)))
-;;       (iswitchb-to-end hidden)))
-;;   (defun sj/iswitchb-move-to-end ()
-;;     (mapc 'sj/iswitchb-move-to-end-1 sj/iswitchb-at-end-regexps))
-;;   (add-hook 'iswitchb-make-buflist-hook 'sj/iswitchb-move-to-end))
-
+;; dired
 (setq dired-compression-method 'gzip
       dired-dwim-target t
       dired-find-subdir t
@@ -214,13 +190,6 @@
   (setq truncate-lines t))
 (add-hook 'dired-after-readin-hook 'sj/dired-after-readin-hook)
 
-;; ibuff-menu: better buffer menu
-;; (global-set-key "\C-x\C-b" 'ibuff-menu)
-;; (autoload 'ibuff-menu "ibuff-menu" "Edit the buffer list." t)
-;; (setq ibuff-show-buffer-size-in-menu t)
-;; (setq ibuff-hide-buffers-regexp
-;;       "^\\( .*\\|\\*[^s].*\\|INBOX.*\\|\\.diary\\|\\.bbdb\\|\\.bibl\\|sent .*\\|\\*ftp .*\\)$")
-
 ;; ibuffer -- ya improved buffer menu, included with emacs 22+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (setq ibuffer-show-empty-filter-groups nil)
@@ -230,6 +199,7 @@
 		  (mode . lisp-mode)
 		  (name . "^\\*slime-repl")))
 	 ("Ruby" (mode . ruby-mode))
+	 ("Erlang" (mode . erlang-mode))
 	 ("Shell" (mode . sh-mode))
 	 ("Perl" (mode . cperl-mode))
 	 ("Emacs" (or
