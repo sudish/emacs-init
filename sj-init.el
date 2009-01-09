@@ -72,9 +72,16 @@
       enable-recursive-minibuffers 	t
       enable-local-eval                 'ask)
 
-(setq default-truncate-lines nil)
-(setq-default truncate-lines         nil
-	      next-line-add-newlines nil)
+(setq default-truncate-lines nil
+      next-line-add-newlines nil)
+
+(setq default-indicate-empty-lines nil
+      default-indicate-buffer-boundaries '((top . left) (bottom . left)))
+
+(setq special-display-buffer-names
+      (let ((temp-frame '((minibuffer) (unsplittable))))
+	(mapcar #'(lambda (buf) (cons buf temp-frame))
+		'("*Help*" "*grep*"))))
 
 ;; garbage collection settings
 (setq gc-cons-threshold (* 4 1024 1024))

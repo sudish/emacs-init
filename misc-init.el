@@ -76,12 +76,13 @@ a normal delete is carried out"
 compiled version. Also lists uncompiled libraries."
   (delq nil
 	(apply 'nconc
-	       (mapcar 
+	       (mapcar
 		#'(lambda (dir)
-		    (mapcar 
+		    (mapcar
 		     #'(lambda (file)
-			 (if (file-newer-than-file-p file (concat file "c")) 
-			     file))
+			 ;; note: this handles missing .elc files correctly!
+			 (when (file-newer-than-file-p file (concat file "c"))
+			   file))
 		     (directory-files dir 'full "\\.el$" 'no-sort)))
 		paths))))
 
@@ -92,17 +93,17 @@ compile."
   (interactive)
   (let ((prefix (expand-file-name (or prefix sj/emacs-base-dir))))
     (message
-     "Didn't compile: %s" 
+     "Didn't compile: %s"
      (delq nil
-	   (let ((l (length prefix)))
-	     (mapcar
-	      #'(lambda (lib)
-		  (condition-case err
-		      (when (and (string-equal prefix (substring lib 0 l))
-				 (load-library lib))
-			(byte-compile-file lib))
-		    (error (cons lib err))))
-	      (sj/find-newer-libraries load-path)))))))
+	   (mapcar
+	    #'(lambda (lib)
+		(condition-case err
+		    (when (and (string-equal prefix 
+					     (substring lib 0 (length prefix)))
+			       (load-file lib))
+		      (byte-compile-file lib))
+		  (error (cons lib err))))
+	    (sj/find-newer-libraries load-path))))))
 
 (defun sj/load-and-byte-compile-library (library)
   "Byte-compile a library after first locating it using load-path.

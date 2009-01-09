@@ -41,18 +41,13 @@
   '(add-to-list 'slime-lisp-implementations
 		`(sbcl (,sj/slime-sbcl-path) :coding-system utf-8-unix) t))
 
-;; CMUCL
-(setq sj/slime-cmucl-path (expand-file-name "~/src/cmucl/bin/lisp"))
-(eval-after-load 'slime
-  '(add-to-list 'slime-lisp-implementations
-		`(cmucl (,sj/slime-cmucl-path)) t))
-
 ;; Slime -- Superior Lisp Interaction Mode
 (sj/load-path-prepend "external/slime" "doc")
 (require 'slime-autoloads)
 (eval-after-load 'slime
   '(progn
-     (slime-setup '(slime-scratch slime-editing-commands slime-fancy))
+     (slime-setup '(slime-scratch slime-editing-commands slime-sbcl-exts
+				  slime-fancy slime-repl))
      (define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
      (define-key slime-mode-map (kbd "C-j") 'newline)))
 
