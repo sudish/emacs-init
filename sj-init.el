@@ -84,7 +84,7 @@
 		'("*Help*" "*grep*"))))
 
 ;; garbage collection settings
-(setq gc-cons-threshold (* 4 1024 1024))
+(setq gc-cons-threshold (max gc-cons-threshold (* 4 1024 1024)))
 
 ;; better autosave, in a fixed directory
 (setq auto-save-default  t

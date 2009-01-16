@@ -12,14 +12,12 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
-;; Lisp HyperSpec from
-(setq common-lisp-hyperspec-root (concat
-				  "file://"
-				  (expand-file-name
-				   "~/src/CommonLisp/HyperSpec-7.0/HyperSpec/"))
-      common-lisp-hyperspec-symbol-table (concat
-					  common-lisp-hyperspec-root
-					  "Data/Map_Sym.txt"))
+;; Lisp HyperSpec from http://www.lispworks.com/documentation/common-lisp.html
+(setq sj/hyperspec-dir (expand-file-name
+			"~/src/CommonLisp/HyperSpec-7.0/HyperSpec/")
+      common-lisp-hyperspec-root (concat "file://" sj/hyperspec-dir)
+      common-lisp-hyperspec-symbol-table (concat sj/hyperspec-dir 
+						 "Data/Map_Sym.txt"))
 
 ;; Clojure mode + swank-clojure for Slime integration
 (sj/load-path-prepend '("external/swank-clojure" "external/clojure-mode"))
