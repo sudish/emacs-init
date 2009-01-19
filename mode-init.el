@@ -37,19 +37,6 @@
 (global-set-key (kbd "C-c p d") 'project-root-goto-root)
 (global-set-key (kbd "C-c p M-x")
 		'project-root-execute-extended-command)
-(global-set-key
- (kbd "C-c p v")
- #'(lambda ()
-     (interactive)
-     (with-project-root
-	 (let ((root (cdr project-details)))
-	   (cond
-	    ((file-exists-p ".svn")
-	     (svn-status root))
-	    ((file-exists-p ".git")
-	     (git-status root))
-	    (t
-	     (vc-directory root nil)))))))
 
 ;; icomplete: incremental minibuffer completion
 (require 'icomplete)
@@ -60,16 +47,14 @@
 (partial-completion-mode t)
 
 ;; ffap: find file at point (now using ido)
-(require 'ffap)
+;; (require 'ffap)
 ;; (ffap-bindings)
 ;; (require 'ffap-url)
 ;; (setq ffap-url-fetcher 'ffap-url-fetcher)
 
-;; new-dabbrev: dabbrev across selectable buffers, dabbrev completion, etc.
-(setq dabbrev-always-check-other-buffers t
-      dabbrev-abbrev-char-regexp 	"\\sw\\|\\s_"
-      dabbrev-case-fold-search 		'case-fold-search
-      dabbrev-case-replace 	        'case-replace)
+;; pabbrev
+;; (require 'pabbrev)
+;; (global-pabbrev-mode)
 
 ;; diff
 (setq diff-switches '("-u"))
@@ -90,51 +75,44 @@
 (yas/initialize)
 (yas/load-directory (sj/emacs-path "external/yasnippet/snippets"))
 
-;; color-theme
-;; (sj/load-path-prepend "color-theme")
-;; (require 'color-theme)
-;; (color-theme-initialize)
-;; (color-theme-jonadabian-slate)
-;; (color-theme-robin-hood)
-
 ;; sgml
 (setq sgml-quick-keys t)
 
 ;; igrep -- a better interface to the greps
-(autoload 'igrep "igrep"
-  "*Run `grep` PROGRAM to match EXPRESSION in FILES..." t)
-(autoload 'igrep-find "igrep" "*Run `grep` via `find`..." t)
-(autoload 'igrep-visited-files "igrep"
-  "*Run `grep` ... on all visited files." t)
-(autoload 'dired-do-igrep "igrep"
-  "*Run `grep` on the marked (or next prefix ARG) files." t)
-(autoload 'dired-do-igrep-find "igrep"
-  "*Run `grep` via `find` on the marked (or next prefix ARG) directories." t)
-(autoload 'Buffer-menu-igrep "igrep"
-  "*Run `grep` on the files visited in buffers marked with '>'." t)
-(autoload 'igrep-insinuate "igrep"
-  "Define `grep' aliases for the corresponding `igrep' commands." t)
-(autoload 'grep "igrep"
-  "*Run `grep` PROGRAM to match EXPRESSION in FILES..." t)
-(autoload 'egrep "igrep" "*Run `egrep`..." t)
-(autoload 'fgrep "igrep" "*Run `fgrep`..." t)
-(autoload 'agrep "igrep" "*Run `agrep`..." t)
-(autoload 'grep-find "igrep" "*Run `grep` via `find`..." t)
-(autoload 'egrep-find "igrep" "*Run `egrep` via `find`..." t)
-(autoload 'fgrep-find "igrep" "*Run `fgrep` via `find`..." t)
-(autoload 'agrep-find "igrep" "*Run `agrep` via `find`..." t)
+;; (autoload 'igrep "igrep"
+;;   "*Run `grep` PROGRAM to match EXPRESSION in FILES..." t)
+;; (autoload 'igrep-find "igrep" "*Run `grep` via `find`..." t)
+;; (autoload 'igrep-visited-files "igrep"
+;;   "*Run `grep` ... on all visited files." t)
+;; (autoload 'dired-do-igrep "igrep"
+;;   "*Run `grep` on the marked (or next prefix ARG) files." t)
+;; (autoload 'dired-do-igrep-find "igrep"
+;;   "*Run `grep` via `find` on the marked (or next prefix ARG) directories." t)
+;; (autoload 'Buffer-menu-igrep "igrep"
+;;   "*Run `grep` on the files visited in buffers marked with '>'." t)
+;; (autoload 'igrep-insinuate "igrep"
+;;   "Define `grep' aliases for the corresponding `igrep' commands." t)
+;; (autoload 'grep "igrep"
+;;   "*Run `grep` PROGRAM to match EXPRESSION in FILES..." t)
+;; (autoload 'egrep "igrep" "*Run `egrep`..." t)
+;; (autoload 'fgrep "igrep" "*Run `fgrep`..." t)
+;; (autoload 'agrep "igrep" "*Run `agrep`..." t)
+;; (autoload 'grep-find "igrep" "*Run `grep` via `find`..." t)
+;; (autoload 'egrep-find "igrep" "*Run `egrep` via `find`..." t)
+;; (autoload 'fgrep-find "igrep" "*Run `fgrep` via `find`..." t)
+;; (autoload 'agrep-find "igrep" "*Run `agrep` via `find`..." t)
 
 ;; filladapt
 (require 'filladapt)
 (setq-default filladapt-mode t)
-(when nil
-  (setq-default filladapt-mode t)
-  (autoload 'turn-off-filladapt-mode "filladapt" nil t)
-  (add-hook 'emacs-lisp-mode-hook 'turn-off-filladapt-mode)
-  (add-hook 'change-log-mode-hook 'turn-off-filladapt-mode))
 
 ;; greedy-delete
-(require 'greedy-delete)
+;; (require 'greedy-delete)
+;; (mapc (lambda (hook)
+;; 	(add-hook hook 'gd-add-to-mode))
+;;       '(c-mode-hook c++-mode-hook ruby-mode-hook erlang-mode-hook
+;; 		    emacs-lisp-mode-hook lisp-mode-hook clojure-mode-hook 
+;; 		    haskell-mode-hook))
 
 ;; ispell
 (setq ispell-program-name "/opt/local/bin/ispell")
@@ -153,6 +131,7 @@
 (ido-everywhere 1)
 (setq ido-enable-flex-matching t
       ido-use-filename-at-point t
+      ido-all-frames t
       ido-max-work-file-list 30)
 
 ;; recentf -- recently visited files

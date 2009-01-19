@@ -81,7 +81,7 @@
 (setq special-display-buffer-names
       (let ((temp-frame '((minibuffer) (unsplittable))))
 	(mapcar #'(lambda (buf) (cons buf temp-frame))
-		'("*Help*" "*grep*"))))
+		'("*Help*"))))
 
 ;; garbage collection settings
 (setq gc-cons-threshold (max gc-cons-threshold (* 4 1024 1024)))
@@ -102,11 +102,11 @@
 (load "mail-init")
 
 ;; gnuserv
-(setenv "GNUSERV_SHOW_EMACS" "1")        ;; always raise Emacs window
-(when (memq window-system '(x ns win32 w32))
+(setenv "GNUSERV_SHOW_EMACS" "1")        ; always raise Emacs window
+(when (memq system-type '(darwin))
   (server-start))
 
-;; file-cache: caches names of files for use from minibuffer
+;; filecache: caches names of files for use from minibuffer.
 ;; initialize the cache as the very last thing we do, once load-path is
 ;; fully initialized
 (file-cache-add-directory-list load-path)
