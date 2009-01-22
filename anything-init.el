@@ -4,6 +4,10 @@
 (setq project-root-anything-config-files 
       (delete '(delayed) project-root-anything-config-files))
 
+;; default of current-frame-configuration causes flickering
+(setq anything-save-configuration-functions
+      '(set-window-configuration . current-window-configuration))
+
 ;; Initialize anything-sources before loading 'anything to prevent it from
 ;; pre-loading the content for sources we're not interested in
 (require 'anything)
