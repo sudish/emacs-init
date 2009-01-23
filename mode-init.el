@@ -69,10 +69,6 @@
 (sj/load-path-prepend "external/magit" t)
 (autoload 'magit-status "magit" nil t)
 
-;; egg -- ya git interface
-(sj/load-path-prepend "external/egg" t)
-(autoload 'egg-status "egg" nil t)
-
 ;; yasnippet -- dynamic template expansion
 (sj/load-path-prepend "external/yasnippet")
 (require 'yasnippet)
