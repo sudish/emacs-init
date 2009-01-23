@@ -10,15 +10,17 @@
 
 ;; Initialize anything-sources before loading 'anything to prevent it from
 ;; pre-loading the content for sources we're not interested in
-(require 'anything)
-(sj/load-path-prepend "external/anything-config")
-(require 'anything-config)
-(setq anything-sources
+(setq sj/anything-sources
       '(anything-c-source-imenu
 	project-root-anything-config-files
 	project-root-anything-config-bookmarks
 	anything-c-source-recentf
 	anything-c-source-locate))
+(setq anything-sources sj/anything-sources)
+(require 'anything)
+(sj/load-path-prepend "external/anything-config")
+(require 'anything-config)
+(setq anything-sources sj/anything-sources) ; override anything-config
 
 
 ;;; Local Variables:

@@ -174,17 +174,17 @@
 (setq ibuffer-show-empty-filter-groups nil)
 (setq ibuffer-saved-filter-groups
       '(("default"
-	 ("Lisp" (or
-		  (mode . lisp-mode)
-		  (name . "^\\*slime-repl")))
 	 ("Ruby" (mode . ruby-mode))
+	 ("Python" (mode . python-mode))
 	 ("Erlang" (mode . erlang-mode))
 	 ("Shell" (mode . sh-mode))
 	 ("Perl" (mode . cperl-mode))
+	 ("Lisp" (or
+		  (mode . lisp-mode)
+		  (name . "^\\*slime-repl")))
 	 ("Emacs" (or
 		   (mode . emacs-lisp-mode)
-		   (name . "^\\*scratch\\*$")
-		   (name . "^\\*Messages\\*$")))
+		   (name . "^\\*scratch\\*$")))
 	 ("Gnus" (or
 		  (mode . message-mode)
 		  (mode . bbdb-mode)
@@ -195,6 +195,8 @@
 		  (name . "^\\.bbdb$")
 		  (name . "^\\.newsrc-dribble")))
 	 ("Dired" (mode . dired-mode))
+	 ("Git" (or (mode . magit-mode)
+		    (name . "magit")))
 	 ("Slime misc" (or
 			(name . "^\\*inferior-lisp")
 			(name . "^\\*slime"))))))
