@@ -6,18 +6,62 @@
 (setq show-paren-style 'parenthesis)
 
 ;; paredit mode
-(require 'paredit)
-(define-key paredit-mode-map (kbd ")") 'paredit-close-brocket-and-newline)
-(define-key paredit-mode-map (kbd "M-)") 'paredit-close-brocket)
+(autoload 'paredit-mode "paredit" "paredit mode" t)
+(eval-after-load "paredit"
+  '(progn
+     (define-key paredit-mode-map (kbd "RET") 'paredit-newline)
+     (define-key paredit-mode-map (kbd "C-j") nil)))
 (mapc #'(lambda (hook)
 	  (add-hook hook #'(lambda () (paredit-mode 1))))
-      '(emacs-lisp-mode-hook lisp-mode-hook slime-repl-mode-hook))
+      '(emacs-lisp-mode-hook lisp-mode-hook clojure-mode-hook
+			     slime-repl-mode-hook))
 
 ;; cua-mode
 (setq cua-enable-cua-keys nil
       cua-highlight-region-shift-only t
       cua-toggle-set-mark nil)
 (cua-mode)
+
+;; ibuffer -- ya improved buffer menu, included with emacs 22+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(setq ibuffer-show-empty-filter-groups nil)
+(setq ibuffer-saved-filter-groups
+      '(("default"
+	 ("C/C++" (or
+		   (mode . c-mode)
+		   (mode . c++-mode)
+		   (mode . makefile-mode)
+		   (mode . makefile-bsdmake-mode)))
+	 ("Ruby"   (mode . ruby-mode))
+	 ("Python" (mode . python-mode))
+	 ("Erlang" (mode . erlang-mode))
+	 ("Shell"  (mode . sh-mode))
+	 ("Perl"   (mode . cperl-mode))
+	 ("Lisp"  (or
+		   (mode . lisp-mode)
+		   (name . "^\\*slime-repl")))
+	 ("Emacs" (or
+		   (mode . emacs-lisp-mode)
+		   (name . "^\\*scratch\\*$")))
+	 ("Gnus"  (or
+		   (mode . message-mode)
+		   (mode . bbdb-mode)
+		   (mode . mail-mode)
+		   (mode . gnus-group-mode)
+		   (mode . gnus-summary-mode)
+		   (mode . gnus-article-mode)
+		   (name . "^\\.bbdb$")
+		   (name . "^\\.newsrc-dribble")))
+	 ("Dired"  (mode . dired-mode))
+	 ("Git"   (or 
+		   (mode . magit-mode)
+		   (name . "magit")))
+	 ("Slime misc" (or
+			(name . "^\\*inferior-lisp")
+			(name . "^\\*slime"))))))
+(add-hook 'ibuffer-mode-hook
+	  #'(lambda ()
+	      (ibuffer-switch-to-saved-filter-groups "default")))
 
 ;; project-root
 (require 'project-root)
@@ -107,12 +151,12 @@
 (setq-default filladapt-mode t)
 
 ;; greedy-delete
-;; (require 'greedy-delete)
-;; (mapc (lambda (hook)
-;; 	(add-hook hook 'gd-add-to-mode))
-;;       '(c-mode-hook c++-mode-hook ruby-mode-hook erlang-mode-hook
-;; 		    emacs-lisp-mode-hook lisp-mode-hook clojure-mode-hook 
-;; 		    haskell-mode-hook))
+(require 'greedy-delete)
+(mapc (lambda (hook)
+	(add-hook hook 'gd-add-to-mode))
+      '(c-mode-hook c++-mode-hook ruby-mode-hook erlang-mode-hook
+		    emacs-lisp-mode-hook lisp-mode-hook clojure-mode-hook 
+		    haskell-mode-hook))
 
 ;; ispell
 (setq ispell-program-name "/opt/local/bin/ispell")
@@ -168,41 +212,6 @@
 (defun sj/dired-after-readin-hook ()
   (setq truncate-lines t))
 (add-hook 'dired-after-readin-hook 'sj/dired-after-readin-hook)
-
-;; ibuffer -- ya improved buffer menu, included with emacs 22+
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(setq ibuffer-show-empty-filter-groups nil)
-(setq ibuffer-saved-filter-groups
-      '(("default"
-	 ("Ruby" (mode . ruby-mode))
-	 ("Python" (mode . python-mode))
-	 ("Erlang" (mode . erlang-mode))
-	 ("Shell" (mode . sh-mode))
-	 ("Perl" (mode . cperl-mode))
-	 ("Lisp" (or
-		  (mode . lisp-mode)
-		  (name . "^\\*slime-repl")))
-	 ("Emacs" (or
-		   (mode . emacs-lisp-mode)
-		   (name . "^\\*scratch\\*$")))
-	 ("Gnus" (or
-		  (mode . message-mode)
-		  (mode . bbdb-mode)
-		  (mode . mail-mode)
-		  (mode . gnus-group-mode)
-		  (mode . gnus-summary-mode)
-		  (mode . gnus-article-mode)
-		  (name . "^\\.bbdb$")
-		  (name . "^\\.newsrc-dribble")))
-	 ("Dired" (mode . dired-mode))
-	 ("Git" (or (mode . magit-mode)
-		    (name . "magit")))
-	 ("Slime misc" (or
-			(name . "^\\*inferior-lisp")
-			(name . "^\\*slime"))))))
-(add-hook 'ibuffer-mode-hook
-	  #'(lambda ()
-	      (ibuffer-switch-to-saved-filter-groups "default")))
 
 ;; allout: better outline mode
 (setq outline-mode-leaders '((c-mode . "/\\*\\*\\*_")

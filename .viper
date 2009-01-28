@@ -14,8 +14,12 @@
 (defconst sj/viper-retained-global-bindings ["\C-d" "\C-u" "\C-w"
 					       "\C-t" "\C-e" "\C-y" "\C-v"])
 (mapc 
- #'(lambda (key)
-;    (define-key viper-emacs-global-user-map  key (lookup-key global-map key))
-     (define-key viper-vi-global-user-map     key (lookup-key global-map key))
-     (define-key viper-insert-global-user-map key (lookup-key global-map key)))
+ (lambda (key)
+   ;;(define-key viper-emacs-global-user-map  key (lookup-key global-map key))
+   (define-key viper-vi-global-user-map     key (lookup-key global-map key))
+   (define-key viper-insert-global-user-map key (lookup-key global-map key)))
  sj/viper-retained-global-bindings)
+
+;; Don't shadow gnus article mode bindings
+(setq viper-vi-state-mode-list
+      (delq 'gnus-article-mode viper-vi-state-mode-list))
