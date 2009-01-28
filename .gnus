@@ -278,6 +278,7 @@ The first score file in the first matching entry is used."
 
 ;; caching
 (setq gnus-use-cache t
+      gnus-cacheable-groups "gmane\\."
       gnus-uncacheable-groups "^nnml\\|^nnfolder\\|^nnimap")
 
 ;; nnmail
