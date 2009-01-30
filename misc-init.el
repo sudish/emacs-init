@@ -94,16 +94,17 @@ compile."
   (let ((prefix (expand-file-name (or prefix sj/emacs-base-dir))))
     (message
      "Didn't compile: %s"
-     (delq nil
-	   (mapcar
-	    #'(lambda (lib)
-		(condition-case err
-		    (when (and (string-equal prefix 
-					     (substring lib 0 (length prefix)))
-			       (load-file lib))
-		      (byte-compile-file lib))
-		  (error (cons lib err))))
-	    (sj/find-newer-libraries load-path))))))
+     (remove-if 
+      (lambda (elt) (not (consp elt)))
+      (mapcar
+       #'(lambda (lib)
+	   (condition-case err
+	       (when (and (string-equal prefix 
+					(substring lib 0 (length prefix)))
+			  (load-file lib))
+		 (byte-compile-file lib))
+	     (error (cons lib err))))
+       (sj/find-newer-libraries load-path))))))
 
 (defun sj/load-and-byte-compile-library (library)
   "Byte-compile a library after first locating it using load-path.
