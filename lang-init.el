@@ -29,11 +29,9 @@
 
 ;; Swank-clojure for Slime integration
 (sj/load-path-prepend '("external/swank-clojure"))
-(setq swank-clojure-jar-path "~/src/git/clojure/clojure.jar")
-(setq swank-clojure-extra-classpaths
-      '("~/src/git/clojure-contrib/clojure-contrib.jar"
-	"~/.clojure/*.jar"))
-(setq swank-clojure-extra-vm-args '("-server"))
+(setq swank-clojure-jar-path "~/src/git/clojure/clojure.jar"
+      swank-clojure-extra-classpaths (directory-files "~/.clojure" t "\\.jar$")
+      swank-clojure-extra-vm-args '("-server"))
 (require 'swank-clojure-autoload)
 
 ;; SBCL
