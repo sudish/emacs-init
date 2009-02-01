@@ -27,11 +27,24 @@
 (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
 (autoload 'clojure-indent-function "clojure-mode") ; for use in slime buffers
 
+;; Useful idea from
+;; http://gnuvince.wordpress.com/2009/01/24/emacs-function-for-clojure-users/
+(defun clojure-add-classpath (path)
+  "Add a classpath to Clojure and refresh slime-lisp-implementations"
+  (interactive "GPath: ")
+  (unless (memq path swank-clojure-extra-classpaths)
+    (push path swank-clojure-extra-classpaths)
+    (setq slime-lisp-implementations
+	  (cons `(clojure ,(swank-clojure-cmd) :init swank-clojure-init)
+		(remove-if #'(lambda (x) (eq (car x) 'clojure)) 
+			   slime-lisp-implementations)))))
+
 ;; Swank-clojure for Slime integration
 (sj/load-path-prepend '("external/swank-clojure"))
 (setq swank-clojure-jar-path "~/src/git/clojure/clojure.jar"
       swank-clojure-extra-classpaths (directory-files "~/.clojure" t "\\.jar$")
-      swank-clojure-extra-vm-args '("-server"))
+      swank-clojure-extra-vm-args '("-server" ;"-Xmx512m" "-Xms16m" 
+				    "-XX:+UseParallelOldGC" "-Xnoclassgc"))
 (require 'swank-clojure-autoload)
 
 ;; SBCL

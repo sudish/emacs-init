@@ -56,7 +56,7 @@
 ;; Tweak some of the defaults
 (setq help-window-select        'always
       track-eol 		t
-      scroll-step 		0
+      scroll-step 		1
       scroll-conservatively     100
       next-screen-context-lines 2
       column-number-mode	t
@@ -65,12 +65,17 @@
       kill-whole-line 		t
       mouse-yank-at-point	t
       comint-scroll-to-bottom-on-output t
-      backup-by-copying 		nil
-      backup-by-copying-when-linked 	t
-      backup-by-copying-when-mismatch 	t
-      cursor-in-non-selected-windows    nil
       enable-recursive-minibuffers 	t
       enable-local-eval                 'ask)
+
+(setq backup-by-copying 		nil
+      backup-by-copying-when-linked 	t
+      backup-by-copying-when-mismatch 	t
+      backup-directory-alist 		'(("." . "~/.emacs.d/backups"))
+      delete-old-versions 		t
+      kept-new-versions 		6
+      kept-old-versions 		2
+      version-control 			t)
 
 (setq default-truncate-lines nil
       next-line-add-newlines nil)
