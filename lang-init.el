@@ -25,6 +25,7 @@
       clojure-mode-font-lock-comment-sexp t)
 (autoload 'clojure-mode "clojure-mode" "A mode for clojure lisp" t)
 (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
+(push 'clojure-mode viper-vi-state-mode-list)
 (autoload 'clojure-indent-function "clojure-mode") ; for use in slime buffers
 
 ;; Useful idea from
@@ -41,10 +42,7 @@
 
 ;; Swank-clojure for Slime integration
 (sj/load-path-prepend '("external/swank-clojure"))
-(setq swank-clojure-jar-path "~/src/git/clojure/clojure.jar"
-      swank-clojure-extra-classpaths (directory-files "~/.clojure" t "\\.jar$")
-      swank-clojure-extra-vm-args '("-server" ;"-Xmx512m" "-Xms16m" 
-				    "-XX:+UseParallelOldGC" "-Xnoclassgc"))
+(setq swank-clojure-binary "~/bin/clojure") ; shell script
 (require 'swank-clojure-autoload)
 
 ;; SBCL
