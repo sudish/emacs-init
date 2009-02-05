@@ -114,10 +114,10 @@
 (autoload 'magit-status "magit" nil t)
 
 ;; yasnippet -- dynamic template expansion
-(sj/load-path-prepend "external/yasnippet")
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory (sj/emacs-path "external/yasnippet/snippets"))
+;; (sj/load-path-prepend "external/yasnippet")
+;; (require 'yasnippet)
+;; (yas/initialize)
+;; (yas/load-directory (sj/emacs-path "external/yasnippet/snippets"))
 
 ;; sgml
 (setq sgml-quick-keys t)

@@ -59,6 +59,7 @@
       scroll-step 		1
       scroll-conservatively     100
       next-screen-context-lines 2
+      visible-bell		t
       column-number-mode	t
       require-final-newline 	'ask
       signal-error-on-buffer-boundary nil

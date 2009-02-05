@@ -55,6 +55,7 @@
 (sj/load-path-prepend "external/slime" "doc")
 (setq slime-default-lisp 'clojure)
 (require 'slime-autoloads)
+(add-hook 'slime-connected-hook 'slime-redirect-inferior-output)
 (eval-after-load 'slime
   '(progn
      (slime-setup '(slime-scratch slime-editing-commands slime-sbcl-exts
