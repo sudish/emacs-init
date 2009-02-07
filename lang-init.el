@@ -27,6 +27,8 @@
 (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
 (push 'clojure-mode viper-vi-state-mode-list)
 (autoload 'clojure-indent-function "clojure-mode") ; for use in slime buffers
+(add-hook 'clojure-mode-hook
+	  (paren-face-add-support clojure-font-lock-keywords))
 
 ;; Useful idea from
 ;; http://gnuvince.wordpress.com/2009/01/24/emacs-function-for-clojure-users/

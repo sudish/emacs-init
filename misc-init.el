@@ -77,12 +77,12 @@ compiled version. Also lists uncompiled libraries."
   (delq nil
 	(apply 'nconc
 	       (mapcar
-		#'(lambda (dir)
+		(lambda (dir)
 		    (mapcar
-		     #'(lambda (file)
-			 ;; note: this handles missing .elc files correctly!
-			 (when (file-newer-than-file-p file (concat file "c"))
-			   file))
+		     (lambda (file)
+		       ;; note: this handles missing .elc files correctly!
+		       (when (file-newer-than-file-p file (concat file "c"))
+			 file))
 		     (directory-files dir 'full "\\.el$" 'no-sort)))
 		paths))))
 
@@ -91,20 +91,20 @@ compiled version. Also lists uncompiled libraries."
 beginning with PREFIX. Returns alist of (FILE . ERROR) for libs that didn't
 compile."
   (interactive)
-  (let ((prefix (expand-file-name (or prefix sj/emacs-base-dir))))
-    (message
-     "Didn't compile: %s"
-     (remove-if 
-      (lambda (elt) (not (consp elt)))
-      (mapcar
-       #'(lambda (lib)
-	   (condition-case err
-	       (when (and (string-equal prefix 
-					(substring lib 0 (length prefix)))
-			  (load-file lib))
-		 (byte-compile-file lib))
-	     (error (cons lib err))))
-       (sj/find-newer-libraries load-path))))))
+  (let* ((prefix (concat "^" (expand-file-name (or prefix sj/emacs-base-dir))))
+	 (errors
+	  (remove-if
+	   (lambda (elt) (not (consp elt)))
+	   (mapcar
+	    (lambda (lib)
+	      (condition-case err
+		  (when (string-match-p prefix lib)
+		    (load-file lib)
+		    (byte-compile-file lib))
+		(error (cons lib err))))
+	    (sj/find-newer-libraries load-path)))))
+    (when errors
+      (message "Didn't compile: %s" errors))))
 
 (defun sj/load-and-byte-compile-library (library)
   "Byte-compile a library after first locating it using load-path.

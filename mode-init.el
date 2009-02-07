@@ -16,6 +16,9 @@
       '(emacs-lisp-mode-hook lisp-mode-hook clojure-mode-hook
 			     slime-repl-mode-hook))
 
+;; parenface
+(require 'parenface)
+
 ;; cua-mode
 (setq cua-enable-cua-keys nil
       cua-highlight-region-shift-only t
@@ -53,7 +56,7 @@
 		   (name . "^\\.bbdb$")
 		   (name . "^\\.newsrc-dribble")))
 	 ("Dired"  (mode . dired-mode))
-	 ("Git"   (or 
+	 ("Git"   (or
 		   (mode . magit-mode)
 		   (name . "magit")))
 	 ("Slime misc" (or
@@ -155,7 +158,7 @@
 (mapc (lambda (hook)
 	(add-hook hook 'gd-add-to-mode))
       '(c-mode-hook c++-mode-hook ruby-mode-hook erlang-mode-hook
-		    emacs-lisp-mode-hook lisp-mode-hook clojure-mode-hook 
+		    emacs-lisp-mode-hook lisp-mode-hook clojure-mode-hook
 		    haskell-mode-hook))
 
 ;; ispell
