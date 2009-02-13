@@ -11,10 +11,19 @@
   '(progn
      (define-key paredit-mode-map (kbd "RET") 'paredit-newline)
      (define-key paredit-mode-map (kbd "C-j") nil)))
-(mapc #'(lambda (hook)
-	  (add-hook hook #'(lambda () (paredit-mode 1))))
-      '(emacs-lisp-mode-hook lisp-mode-hook clojure-mode-hook
-			     slime-repl-mode-hook))
+(defun sj/paredit-mode-hook ()
+  (paredit-mode 1)
+  (mapc (lambda (keys)
+	  (define-key viper-insert-local-user-map (car keys)
+	    (lookup-key paredit-mode-map (cdr keys))))
+	`(("\d"			. "\d") 
+	  (,(kbd "<backspace>") . "\d")
+	  ("\C-d"		. "\C-d")
+	  (,(kbd "<delete>")	. "\C-d"))))
+(mapc
+ (lambda (hook)
+   (add-hook hook 'sj/paredit-mode-hook))
+ '(emacs-lisp-mode-hook lisp-mode-hook clojure-mode-hook slime-repl-mode-hook))
 
 ;; parenface
 (require 'parenface)
