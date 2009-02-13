@@ -1,7 +1,7 @@
 ;;; anything-init --- initialize the anything package   [sj--08/12/15]
 
 ;; Don't make me wait for project-root files, if any
-(setq project-root-anything-config-files
+(defconst sj/anything-source-project-root-files
   '((name . "Project Files")
     (init . (lambda ()
               (unless project-details
@@ -9,23 +9,47 @@
               (setq anything-project-root project-details)))
     (candidates . (lambda ()
                     (project-root-file-find-process anything-pattern)))
-    (candidate-transformer . project-root-anything-colourfy-hits)
+    (candidate-transformer . sj/anything-file-candidate-filter)
     ;; (requires-pattern . 2)
     ;; (delayed)
     (volatile)
     (type . file)))
-;; (setq project-root-anything-config-files
-;;       (delete '(volatile)
-;; 	      (delete '(delayed) project-root-anything-config-files)))
 
-;; delay the recentf list, it tends to show up first always as it's precomputed
-(setq anything-c-source-recentf
-      '((name . "Recentf")
-	(candidates . recentf-list)
-	(match . (anything-c-match-on-file-name
-		  anything-c-match-on-directory-name))
-	(delayed)
-	(type . file)))
+;; Emacs recentf list
+(defconst sj/anything-source-recentf
+  '((name . "Recentf")
+    (candidates . recentf-list)
+    (match . (anything-c-match-on-file-name
+	      anything-c-match-on-directory-name))
+    (candidate-transformer . sj/anything-file-candidate-filter)
+    (type . file)))
+
+;; Spotlight search across home directory, if available
+(defconst sj/anything-source-osx-spotlight
+  '((name . "Spotlight (~)")
+    (candidates . (lambda ()
+                    (start-process "mdfind-process" nil
+				   "mdfind" "-onlyin" (expand-file-name "~/")
+				   anything-pattern)))
+    (type . file)
+    (requires-pattern . 3)
+    (candidate-transformer . sj/anything-file-candidate-filter)
+    ;; (delayed)
+    (volatile))
+  "Source for retrieving files via Spotlight's command line utility mdfind.")
+
+(defconst sj/anything-source-locate
+  '((name . "Locate")
+    (candidates . (lambda ()
+                    (start-process "locate-process" nil
+				   "locate" anything-pattern)))
+    (type . file)
+    (requires-pattern . 3)
+    (candidate-transformer . sj/anything-file-candidate-filter)
+    ;; (delayed)
+    (volatile))
+  "Source for retrieving files matching the current input pattern
+with locate.")
 
 ;; default of current-frame-configuration causes flickering
 (setq anything-save-configuration-functions
@@ -34,12 +58,12 @@
 ;; Initialize anything-sources before loading 'anything to prevent it from
 ;; pre-loading the content for sources we're not interested in
 (setq sj/anything-sources
-      '(;anything-c-source-imenu
-	project-root-anything-config-files
+      '(sj/anything-source-recentf
+	sj/anything-source-project-root-files
 	project-root-anything-config-bookmarks
-	anything-c-source-recentf
-	anything-c-source-locate))
-;(setq anything-sources sj/anything-sources)
+	sj/anything-source-locate
+	sj/anything-source-osx-spotlight))
+(setq anything-sources sj/anything-sources)
 (require 'anything)
 (sj/load-path-prepend "external/anything-config")
 (require 'anything-config)
@@ -72,6 +96,29 @@
 
 (add-hook 'anything-after-initialize-hook 'sj/anything-initialize-frame)
 (add-hook 'anything-cleanup-hook 'sj/anything-hide-frame)
+
+;; Hide boring files unless I explicitly ask for them
+(defvar sj/anything-hide-boring-entries t
+  "Hide entries matching the `sj/anything-boring-entries' regexp if non-nil.
+This value may be toggled using `anything-sj-toggle-boring'.")
+
+(defconst sj/anything-boring-entries
+  (rx (or
+       ;; Boring directories
+       (and "/" (or ".svn" "CVS" "_darcs" ".git" ".hg") (or "/" eol))
+       ;; Boring files
+       (and (or "~" ".elc" ".DS_Store" ".class" ".la" ".o" ) eol)))
+  "Entries matching this regexp will be hidden in anything buffers if
+`sj/anything-hide-boring-entries' is non-nil.")
+
+(defun sj/anything-file-candidate-filter (entries)
+  "Filter out entries that match `sj/anything-boring-entries'."
+  (anything-c-shorten-home-path
+   (if sj/anything-hide-boring-entries
+       (delete-if (lambda (entry)
+		      (string-match sj/anything-boring-entries entry))
+		  entries)
+     entries)))
 
 
 ;;; Local Variables:
