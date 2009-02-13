@@ -13,6 +13,7 @@
      (define-key paredit-mode-map (kbd "C-j") nil)))
 (defun sj/paredit-mode-hook ()
   (paredit-mode 1)
+  (set (make-local-variable 'viper-insert-local-user-map) (make-keymap))
   (mapc (lambda (keys)
 	  (define-key viper-insert-local-user-map (car keys)
 	    (lookup-key paredit-mode-map (cdr keys))))

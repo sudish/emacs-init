@@ -1,42 +1,27 @@
 ;;; keyboard-init --- keyboard settings    [sj 95/06/11]
 ;;;
 
-(when user-sj-p
-  (global-set-key [?\C-x ?f] 'find-file) ; set-fill-column is a pita
-  (global-set-key [insert]
-		  #'(lambda () 
-		      (interactive) 
-		      (ding) 
-		      (message "You didn't mean to hit this key!"))))
+;; some global bindings for everyday stuff
+(define-key global-map [(super f1)] 'anything)
+(define-key global-map [(super r)]  'rgrep)
+(define-key global-map [(super m)]  'magit-status)
+(define-key global-map [(super :)]  'eval-expression)
 
-;; private keymap for my own stuff
+;; private keymap for useful, but less commonly used stuff
 (define-prefix-command 'sj/private-keymap)
-;;(global-set-key [?\C-c ?\,] sj/private-keymap)
+(global-set-key [(super .)] sj/private-keymap)
 
-;; Hyper keymap 
-;(global-set-key [(hyper l)]   'dmacro-wrap-line)
-;(global-set-key [(hyper r)]   'dmacro-wrap-region)
-;(global-set-key [(hyper u)]   'advertised-undo)
+(define-key sj/private-keymap [(super .)] 'anything)
 
-(define-key sj/private-keymap [?a] 'add-time-log-entry-other-window)
-(define-key sj/private-keymap [?d] 'insert-dmacro)
-(define-key sj/private-keymap [?g] 'agrep)
 (define-key sj/private-keymap [?i] 'insert-buffer)
 (define-key sj/private-keymap [?l] 'load-library)
-(define-key sj/private-keymap [?k] 'bury-buffer)
 (define-key sj/private-keymap [?L] 'locate-library)
+(define-key sj/private-keymap [?k] 'bury-buffer)
 (define-key sj/private-keymap [?m] 'compile)
-(define-key sj/private-keymap [?w] 'write-region)
-(define-key sj/private-keymap [?\,] 'bbdb-complete-name)
-(define-key sj/private-keymap [?\.] 'PC-lisp-complete-symbol)
-(define-key sj/private-keymap [?\;] 'comment-region)
-;(define-key sj/private-keymap [(hyper s)] 'sj/swap-window-positions)
+(define-key sj/private-keymap [?s] 'sj/swap-window-positions)
 
-;; other redefinitions
-;; 
-;(global-set-key [return] 'newline-and-indent)
-(global-set-key [?\C-x ?4 ?n] 'sj/swap-window-positions)
-(global-set-key [?\C-c ?s] 'dictionary-search)
+;; the default set-fill-column binding is annoying
+(global-set-key [?\C-x ?f] 'find-file)
 
 
 ;;; Local Variables:
