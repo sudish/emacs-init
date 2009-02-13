@@ -104,7 +104,6 @@
 (make-face-bold 'modeline)
 
 ;; various packages
-(load "face-init")
 (load "lang-init")
 (load "mode-init")
 (load "anything-init")
