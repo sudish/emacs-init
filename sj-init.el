@@ -69,6 +69,10 @@
       enable-recursive-minibuffers 	t
       enable-local-eval                 'ask)
 
+(setq query-replace-interactive nil
+      query-replace-show-replacement t
+      lazy-highlight-initial-delay 0)
+
 (setq backup-by-copying 		nil
       backup-by-copying-when-linked 	t
       backup-by-copying-when-mismatch 	t
