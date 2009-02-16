@@ -67,7 +67,8 @@ with locate.")
 (require 'anything)
 (sj/load-path-prepend "external/anything-config")
 (require 'anything-config)
-(setq anything-sources sj/anything-sources) ; override anything-config
+;; anything-config unconditionally overwrittes anything-sources, reset it
+(setq anything-sources sj/anything-sources)
 
 ;; Use a dedicated frame for anything.el
 ;; From HannesJanetzek: http://www.emacswiki.org/cgi-bin/wiki/Anything#toc33
@@ -113,12 +114,21 @@ This value may be toggled using `anything-sj-toggle-boring'.")
 
 (defun sj/anything-file-candidate-filter (entries)
   "Filter out entries that match `sj/anything-boring-entries'."
-  (anything-c-shorten-home-path
-   (if sj/anything-hide-boring-entries
-       (delete-if (lambda (entry)
-		      (string-match sj/anything-boring-entries entry))
-		  entries)
-     entries)))
+  ;(message "filtering for entries %s" entries)
+  (if sj/anything-hide-boring-entries
+      (remove-if (lambda (entry)
+		   (let ((file (cond ((consp entry) (cdr entry))
+				     (t entry))))
+		     (string-match sj/anything-boring-entries file)))
+		 entries)
+    entries))
+
+(defun anything-sj-toggle-boring-files ()
+  (interactive)
+  (setq sj/anything-hide-boring-entries (not sj/anything-hide-boring-entries))
+  (anything-update))
+
+(define-key anything-map "A" 'anything-sj-toggle-boring-files)
 
 
 ;;; Local Variables:
