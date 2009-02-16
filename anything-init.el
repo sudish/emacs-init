@@ -106,22 +106,24 @@ This value may be toggled using `anything-sj-toggle-boring'.")
 (defconst sj/anything-boring-entries
   (rx (or
        ;; Boring directories
-       (and "/" (or ".svn" "CVS" "_darcs" ".git" ".hg") (or "/" eol))
+       (and "/" (or ".svn" "CVS" "_darcs" ".git" ".hg" ".semanticdb")
+	    (or "/" eol))
        ;; Boring files
-       (and (or "~" ".elc" ".DS_Store" ".class" ".la" ".o" ) eol)))
+       (and (or "~" ".elc" ".DS_Store" ".class" ".la" ".o" ".pdf") eol)))
   "Entries matching this regexp will be hidden in anything buffers if
 `sj/anything-hide-boring-entries' is non-nil.")
 
 (defun sj/anything-file-candidate-filter (entries)
   "Filter out entries that match `sj/anything-boring-entries'."
   ;(message "filtering for entries %s" entries)
-  (if sj/anything-hide-boring-entries
-      (remove-if (lambda (entry)
-		   (let ((file (cond ((consp entry) (cdr entry))
-				     (t entry))))
-		     (string-match sj/anything-boring-entries file)))
-		 entries)
-    entries))
+  (anything-c-shorten-home-path
+   (if sj/anything-hide-boring-entries
+       (remove-if (lambda (entry)
+		    (let ((file (cond ((consp entry) (cdr entry))
+				      (t entry))))
+		      (string-match sj/anything-boring-entries file)))
+		  entries)
+     entries)))
 
 (defun anything-sj-toggle-boring-files ()
   (interactive)
