@@ -54,8 +54,7 @@
 	    (setq adaptive-fill-mode t)))
 
 ;; Tweak some of the defaults
-(setq help-window-select        'always
-      track-eol 		t
+(setq track-eol 		t
       scroll-step 		1
       scroll-conservatively     100
       next-screen-context-lines 2
@@ -68,6 +67,12 @@
       comint-scroll-to-bottom-on-output t
       enable-recursive-minibuffers 	t
       enable-local-eval                 'ask)
+
+;; help system
+(setq  help-window-select        'always
+       help-at-pt-display-when-idle '(keymap local-map button kbd-help
+					     help-echo))
+(help-at-pt-set-timer)
 
 (setq query-replace-interactive nil
       query-replace-show-replacement t

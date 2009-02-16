@@ -67,6 +67,7 @@
 	 ("Emacs" (or
 		   (mode . emacs-lisp-mode)
 		   (name . "^\\*scratch\\*$")))
+	 ("IRC"    (mode . erc-mode))
 	 ("Gnus"  (or
 		   (mode . message-mode)
 		   (mode . bbdb-mode)
