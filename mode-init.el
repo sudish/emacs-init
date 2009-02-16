@@ -1,9 +1,24 @@
 ;;; mode-init --- various modes we use   [sj--95/11/06]
 ;;;
 
+(defconst sj/lisp-mode-hooks '(emacs-lisp-mode-hook
+			       lisp-mode-hook
+			       clojure-mode-hook
+			       slime-repl-mode-hook)
+  "Hooks for modes handling lisp-like languages.")
+
 ;; show-paren
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
+
+;; parenface: dim the color for parens
+(require 'parenface)
+
+;; highlight-parentheses: highlights currently enclosing sexps
+(require 'highlight-parentheses)
+(mapc (lambda (hook)
+	(add-hook hook 'highlight-parentheses-mode))
+      sj/lisp-mode-hooks)
 
 ;; paredit mode
 (autoload 'paredit-mode "paredit" "paredit mode" t)
@@ -17,17 +32,13 @@
   (mapc (lambda (keys)
 	  (define-key viper-insert-local-user-map (car keys)
 	    (lookup-key paredit-mode-map (cdr keys))))
-	`(("\d"			. "\d") 
+	`(("\d"			. "\d")
 	  (,(kbd "<backspace>") . "\d")
 	  ("\C-d"		. "\C-d")
 	  (,(kbd "<delete>")	. "\C-d"))))
-(mapc
- (lambda (hook)
-   (add-hook hook 'sj/paredit-mode-hook))
- '(emacs-lisp-mode-hook lisp-mode-hook clojure-mode-hook slime-repl-mode-hook))
-
-;; parenface
-(require 'parenface)
+(mapc (lambda (hook)
+	(add-hook hook 'sj/paredit-mode-hook))
+      sj/lisp-mode-hooks)
 
 ;; cua-mode
 (setq cua-enable-cua-keys nil
