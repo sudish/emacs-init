@@ -37,14 +37,15 @@ This variable is buffer-local.")
   "List of byte compiler warnings to enable or disable for personal code.
 This list is set as the value of byte-compile-warnings in any file where 
 sj/recompile-file is non-nil.")
-(defun sj/recompile-file ()
-  "Byte-compile file if (buffer-local) sj/recompile-file is t.
-Should be run from after-save-hook."
-  (when sj/recompile-file
+(defun sj/byte-compile-file (&optional file force)
+  "Byte-compile `file' if sj/recompile-file or `force' is non-nil.
+`file' defaults to (buffer-file-name)
+Can be run from after-save-hook."
+  (when (or force sj/recompile-file)
     (let ((byte-compile-warnings sj/suppressed-byte-compile-warnings))
-      (byte-compile-file (buffer-file-name)))))
+      (byte-compile-file (or file (buffer-file-name))))))
 (when user-sj-p
-  (add-hook 'after-save-hook 'sj/recompile-file))
+  (add-hook 'after-save-hook 'sj/byte-compile-file))
 
 (defun sj/replace-key-in-map (map old new)
   "Replace all occurences of command OLD in keymap MAP with command NEW."
@@ -105,7 +106,7 @@ compile."
 	      (condition-case err
 		  (when (string-match-p prefix lib)
 		    (load-file lib)
-		    (byte-compile-file lib))
+		    (sj/byte-compile-file lib 'force))
 		(error (cons lib err))))
 	    (sj/find-newer-libraries load-path)))))
     (when errors
