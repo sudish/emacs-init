@@ -78,20 +78,34 @@
       query-replace-show-replacement t
       lazy-highlight-initial-delay 0)
 
-(setq backup-by-copying 		nil
-      backup-by-copying-when-linked 	t
-      backup-by-copying-when-mismatch 	t
-      backup-directory-alist 		'(("." . "~/.emacs.d/backups"))
-      delete-old-versions 		t
-      kept-new-versions 		6
-      kept-old-versions 		2
-      version-control 			t)
-
 (setq default-truncate-lines nil
       next-line-add-newlines nil)
 
 (setq default-indicate-empty-lines nil
       default-indicate-buffer-boundaries '((top . left) (bottom . left)))
+
+;; backups
+(setq backup-by-copying 		nil
+      backup-by-copying-when-linked 	t
+      backup-by-copying-when-mismatch 	t
+      ;; fixed directory for backups
+      backup-directory-alist 		`(("." . ,(concat user-emacs-directory
+							  "backups/")))
+      ;; versioned backups
+      delete-old-versions 		t
+      kept-new-versions 		3
+      kept-old-versions 		1
+      version-control 			t)
+
+;; auto-saves
+(defconst sj/auto-save-directory (concat user-emacs-directory "auto-saves/"))
+(make-directory sj/auto-save-directory t)
+(setq auto-save-default  t
+      auto-save-interval 300
+      ;; fixed directory for auto-saves
+      auto-save-list-file-prefix (concat sj/auto-save-directory ".saves-")
+      auto-save-file-name-transforms `(,@auto-save-file-name-transforms
+				       (".*" ,sj/auto-save-directory t)))
 
 ;; When to create new frames
 (setq display-buffer-reuse-frames t)
@@ -104,10 +118,6 @@
 
 ;; garbage collection settings
 (setq gc-cons-threshold (max gc-cons-threshold (* 4 1024 1024)))
-
-;; better autosave, in a fixed directory
-(setq auto-save-default  t
-      auto-save-interval 300)
 
 (require 'font-lock)
 (make-face-bold 'modeline)
