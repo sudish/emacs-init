@@ -14,6 +14,9 @@
       gnus-summary-line-format "%U%R%z%(%[%4L %-20,20f%]%) %I%s\n"
       gnus-mode-non-string-length nil)
 
+(setq gnus-signature-separator '("^-- $" "^-- *$"
+				 "^--~--~---[~-]*-~-------~--~----~$"))
+
 (setq gnus-use-trees nil
       gnus-tree-minimize-window 4
       gnus-generate-tree-function 'gnus-generate-horizontal-tree)

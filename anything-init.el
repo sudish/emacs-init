@@ -1,6 +1,6 @@
 ;;; anything-init --- initialize the anything package   [sj--08/12/15]
 
-;; Don't make me wait for project-root files, if any
+;; Files from current project root, if any
 (defconst sj/anything-source-project-root-files
   '((name . "Project Files")
     (init . (lambda ()
@@ -10,6 +10,7 @@
     (candidates . (lambda ()
                     (project-root-file-find-process anything-pattern)))
     (candidate-transformer . sj/anything-file-candidate-filter)
+    ;; Don't make me wait for project-root files, if any
     ;; (requires-pattern . 2)
     ;; (delayed)
     (volatile)
