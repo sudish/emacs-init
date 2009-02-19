@@ -30,14 +30,19 @@ gildea Nov 88"
 
 ;; Add hackery to allow for auto-compiling of .el files on save
 (defvar sj/recompile-file nil
-  "A non-nil value will force a byte-recompilation on save.
+  "A non-nil value will force a byte-recompilation on save of a buffer.
 This variable is buffer-local.")
 (make-variable-buffer-local 'sj/recompile-file)
+(defconst sj/suppressed-byte-compile-warnings '(not cl-functions)
+  "List of byte compiler warnings to enable or disable for personal code.
+This list is set as the value of byte-compile-warnings in any file where 
+sj/recompile-file is non-nil.")
 (defun sj/recompile-file ()
   "Byte-compile file if (buffer-local) sj/recompile-file is t.
 Should be run from after-save-hook."
-  (if sj/recompile-file
-      (byte-compile-file (buffer-file-name))))
+  (when sj/recompile-file
+    (let ((byte-compile-warnings sj/suppressed-byte-compile-warnings))
+      (byte-compile-file (buffer-file-name)))))
 (when user-sj-p
   (add-hook 'after-save-hook 'sj/recompile-file))
 
