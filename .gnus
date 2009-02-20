@@ -14,9 +14,6 @@
       gnus-summary-line-format "%U%R%z%(%[%4L %-20,20f%]%) %I%s\n"
       gnus-mode-non-string-length nil)
 
-(setq gnus-signature-separator '("^-- $" "^-- *$"
-				 "^--~--~---[~-]*-~-------~--~----~$"))
-
 (setq gnus-use-trees nil
       gnus-tree-minimize-window 4
       gnus-generate-tree-function 'gnus-generate-horizontal-tree)
@@ -71,6 +68,7 @@
 ;; show mime buttons in article buffer
 (setq gnus-inhibit-mime-unbuttonizing t)
 
+;; last choice MIME types
 (setq mm-discouraged-alternatives '("text/html" "text/richtext"))
 
 ;; SOUP
@@ -164,78 +162,34 @@ The first score file in the first matching entry is used."
       gnus-treat-date-local t
       gnus-treat-display-smileys nil
       gnus-treat-display-face nil)
+;; Hide the annoying Google Groups signature cruft.
+(setq gnus-signature-separator '("^--~--~---[~-]*-~-------~--~----~$")
+      gnus-treat-hide-signature t)
 
 ;; fonts, colors, etc.
-(setq gnus-visual 	   t
-      gnus-carpal 	   nil)
+(setq gnus-visual t
+      gnus-carpal nil)
 
 ;; use aliases while forwarding posts
 (add-hook 'gnus-mail-forward-hook
 	  (lambda nil
 	    (setq mail-aliases t)))
 
-;; for use as %uB in gnus-summary-line-format
-(defvar bbdb/gnus-known-mark "+"
-  "String used to mark known posters (see `bbdb/gnus-mark-known-posters').
-
-If you wish to have this mark depend upon the identity of the poster, see
-the documentation for bbdb-message-marker-field.  If such a field exists,
-its value will override bbdb/gnus-known-mark.")
-
-(defun gnus-user-format-function-Z (header)
-  "Given a GNUS message header returns the BBDB name of the sender.
-Should be used by including %uB in gnus-summary-line-format.
-
-Note that bbdb/gnus-lines-and-from-length is now obsolete, and is ignored.
-Better formatting can be achieved through gnus-summary-line-format."
-  (let* ((from (mail-header-from header))
-	 (data (and (or bbdb/gnus-mark-known-posters
-			bbdb/gnus-header-show-bbdb-names)
-		    (condition-case ()
-			(mail-extract-address-components from)
-		      (error nil))))
-	 (name (car data))
-	 (net (car (cdr data)))
-	 (record (and data
-		      (bbdb-search-simple name
-		       (if (and net bbdb-canonicalize-net-hook)
-			   (bbdb-canonicalize-address net)
-			 net))))
-	 )
-
-    (if (and record name (member (downcase name) (bbdb-record-net record)))
-	;; bogon!
-	(setq record nil))
-
-    (setq name (or (and bbdb/gnus-header-prefer-real-names
-			(or (and bbdb/gnus-header-show-bbdb-names record
-				 (bbdb-record-name record))
-			    name))
-		   net))
-    (format "%s%s"
-	    (if (and record bbdb/gnus-mark-known-posters)
-		(or (bbdb-record-getprop
-		     record bbdb-message-marker-field)
-		    bbdb/gnus-known-mark)
-	      " ")
-	    (or name from))))
-
-
-;; This makes the new dabbrev package look in *Article* buffers for completions
+;; make dabbrev look in *Article* buffers for completions
 (set (make-local-variable 'dabbrev-friend-buffer-function)
      (lambda (buffer)
        (save-excursion
 	 (set-buffer buffer)
 	 (memq major-mode '(news-reply-mode gnus-article-mode)))))
 
-(add-hook 'gnus-startup-hook
- (defun sj/gnus-startup-hook ()
-   (defalias 'gnus-summary-position-point 'sj/gnus-position-cursor)
-   (defalias 'gnus-group-position-point   'sj/gnus-position-cursor)))
 (defun sj/gnus-position-cursor ()
   ;; replacement for gnus-goto-colon
   (beginning-of-line)
   (search-forward-regexp "[0-9]+" (point-at-eol) t))
+(defun sj/gnus-startup-hook ()
+  (defalias 'gnus-summary-position-point 'sj/gnus-position-cursor)
+  (defalias 'gnus-group-position-point   'sj/gnus-position-cursor))
+(add-hook 'gnus-startup-hook 'sj/gnus-startup-hook)
 
 
 ;;; Local Variables:
