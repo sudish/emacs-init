@@ -35,7 +35,7 @@ This variable is buffer-local.")
 (make-variable-buffer-local 'sj/recompile-file)
 (defconst sj/suppressed-byte-compile-warnings '(not cl-functions)
   "List of byte compiler warnings to enable or disable for personal code.
-This list is set as the value of byte-compile-warnings in any file where 
+This list is set as the value of byte-compile-warnings in any file where
 sj/recompile-file is non-nil.")
 (defun sj/byte-compile-file (&optional file force)
   "Byte-compile `file' if sj/recompile-file or `force' is non-nil.
@@ -97,20 +97,23 @@ compiled version. Also lists uncompiled libraries."
 beginning with PREFIX. Returns alist of (FILE . ERROR) for libs that didn't
 compile."
   (interactive)
-  (let* ((prefix (concat "^" (expand-file-name (or prefix sj/emacs-base-dir))))
-	 (errors
-	  (remove-if
-	   (lambda (elt) (not (consp elt)))
-	   (mapcar
-	    (lambda (lib)
-	      (condition-case err
-		  (when (string-match-p prefix lib)
-		    (load-file lib)
-		    (sj/byte-compile-file lib 'force))
-		(error (cons lib err))))
-	    (sj/find-newer-libraries load-path)))))
-    (when errors
-      (message "Didn't compile: %s" errors))))
+  (let ((prefix (concat "^" (expand-file-name (or prefix sj/emacs-base-dir))))
+	(compiled nil)
+	(errors nil))
+    (labels ((trim (prefix lib)
+		   (replace-regexp-in-string prefix "..." lib nil t)))
+      (mapc
+       (lambda (lib)
+	 (condition-case err
+	     (when (string-match-p prefix lib)
+	       (load-file lib)
+	       (sj/byte-compile-file lib 'force)
+	       (push (trim prefix lib) compiled))
+	   (error (push (cons (trim prefix lib) err) errors))))
+       (sj/find-newer-libraries load-path)))
+    (message (concat
+	      (if errors   (format "Failed: %s\n" errors) "")
+	      (if compiled (format "Compiled: %s" compiled) "")))))
 
 (defun sj/load-and-byte-compile-library (library)
   "Byte-compile a library after first locating it using load-path.
