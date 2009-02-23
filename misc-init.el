@@ -28,25 +28,6 @@ gildea Nov 88"
   (setq debug-on-error (not debug-on-error))
   (message "debug-on-error set to %s" debug-on-error))
 
-;; Add hackery to allow for auto-compiling of .el files on save
-(defvar sj/recompile-file nil
-  "A non-nil value will force a byte-recompilation on save of a buffer.
-This variable is buffer-local.")
-(make-variable-buffer-local 'sj/recompile-file)
-(defconst sj/suppressed-byte-compile-warnings '(not cl-functions)
-  "List of byte compiler warnings to enable or disable for personal code.
-This list is set as the value of byte-compile-warnings in any file where
-sj/recompile-file is non-nil.")
-(defun sj/byte-compile-file (&optional file force)
-  "Byte-compile `file' if sj/recompile-file or `force' is non-nil.
-`file' defaults to (buffer-file-name)
-Can be run from after-save-hook."
-  (when (or force sj/recompile-file)
-    (let ((byte-compile-warnings sj/suppressed-byte-compile-warnings))
-      (byte-compile-file (or file (buffer-file-name))))))
-(when user-sj-p
-  (add-hook 'after-save-hook 'sj/byte-compile-file))
-
 (defun sj/replace-key-in-map (map old new)
   "Replace all occurences of command OLD in keymap MAP with command NEW."
   (mapc
@@ -75,6 +56,27 @@ a normal delete is carried out"
        (sj/elisp-electric-delete))
   (insert ?\))
   (newline-and-indent))
+
+;; Add hackery to allow for auto-compiling of .el files on save
+(defvar sj/recompile-file nil
+  "A non-nil value will force a byte-recompilation on save of a buffer.
+This variable is buffer-local.")
+(make-variable-buffer-local 'sj/recompile-file)
+
+(defconst sj/suppressed-byte-compile-warnings '(not cl-functions)
+  "List of byte compiler warnings to enable or disable for personal code.
+This list is set as the value of byte-compile-warnings in any file where
+sj/recompile-file is non-nil.")
+
+(defun sj/byte-compile-file (&optional file force)
+  "Byte-compile `file' if sj/recompile-file or `force' is non-nil.
+`file' defaults to (buffer-file-name)
+Can be run from after-save-hook."
+  (when (or force sj/recompile-file)
+    (let ((byte-compile-warnings sj/suppressed-byte-compile-warnings))
+      (byte-compile-file (or file (buffer-file-name))))))
+(when user-sj-p
+  (add-hook 'after-save-hook 'sj/byte-compile-file))
 
 ;; misc funcs for locating and byte-compiling newer libraries
 (defun sj/find-newer-libraries (paths)
@@ -111,9 +113,11 @@ compile."
 	       (push (trim prefix lib) compiled))
 	   (error (push (cons (trim prefix lib) err) errors))))
        (sj/find-newer-libraries load-path)))
-    (message (concat
-	      (if errors   (format "Failed: %s\n" errors) "")
-	      (if compiled (format "Compiled: %s" compiled) "")))))
+    (message (cond ((or errors compiled)
+		    (concat
+		     (if errors   (format "Failed: %s\n" errors) "")
+		     (if compiled (format "Compiled: %s" compiled) "")))
+		   (t "All libraries are up to date!")))))
 
 (defun sj/load-and-byte-compile-library (library)
   "Byte-compile a library after first locating it using load-path.
