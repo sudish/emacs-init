@@ -75,15 +75,23 @@
 (eval-after-load 'erlang
   '(distel-setup))
 
-;; Rinari
-(sj/load-path-prepend "external/rinari")
+;; Rinari (load before ruby-mode, since Rinari has its own copy)
+(sj/load-path-prepend "external/rinari" "doc")
 (require 'rinari)
 
-;; ruby
+;; Ruby
 (require 'ruby-mode)
 (require 'ruby-electric)
 (require 'inf-ruby)
 (push '("\\.rb$" . ruby-mode) auto-mode-alist)
+
+;; YAML
+(sj/load-path-prepend "external/yaml-mode")
+(autoload 'yaml-mode "yaml-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-hook 'yaml-mode-hook
+	  (defun sj/yaml-mode-hook ()
+	    (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
 
 ;; cc-mode stuff
 (eval-when-compile
