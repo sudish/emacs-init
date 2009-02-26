@@ -16,7 +16,7 @@
 (setq sj/hyperspec-dir (expand-file-name
 			"~/src/CommonLisp/HyperSpec-7.0/HyperSpec/")
       common-lisp-hyperspec-root (concat "file://" sj/hyperspec-dir)
-      common-lisp-hyperspec-symbol-table (concat sj/hyperspec-dir 
+      common-lisp-hyperspec-symbol-table (concat sj/hyperspec-dir
 						 "Data/Map_Sym.txt"))
 
 ;; Clojure mode
@@ -27,8 +27,9 @@
 (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
 (push 'clojure-mode viper-vi-state-mode-list)
 (autoload 'clojure-indent-function "clojure-mode") ; for use in slime buffers
-(add-hook 'clojure-mode-hook
-	  (paren-face-add-support clojure-font-lock-keywords))
+(eval-after-load 'clojure-mode
+  (add-hook 'clojure-mode-hook
+	    (paren-face-add-support clojure-font-lock-keywords)))
 
 ;; Useful idea from
 ;; http://gnuvince.wordpress.com/2009/01/24/emacs-function-for-clojure-users/
@@ -39,7 +40,7 @@
     (push path swank-clojure-extra-classpaths)
     (setq slime-lisp-implementations
 	  (cons `(clojure ,(swank-clojure-cmd) :init swank-clojure-init)
-		(remove-if #'(lambda (x) (eq (car x) 'clojure)) 
+		(remove-if #'(lambda (x) (eq (car x) 'clojure))
 			   slime-lisp-implementations)))))
 
 ;; Swank-clojure for Slime integration
@@ -78,6 +79,18 @@
 ;; Rinari (load before ruby-mode, since Rinari has its own copy)
 (sj/load-path-prepend "external/rinari" "doc")
 (require 'rinari)
+(defun sj/clone-rinari-keymap ()
+  "Copy Rinari's difficult to reach keymaps to someplace better."
+  (define-prefix-command 'sj/rinari-main-keymap)
+  (define-prefix-command 'sj/rinari-jump-keymap)
+  (set-keymap-parent 'sj/rinari-main-keymap
+		     (lookup-key rinari-minor-mode-map (kbd "C-c ;")))
+  (set-keymap-parent 'sj/rinari-jump-keymap
+		     (lookup-key rinari-minor-mode-map (kbd "C-c ; f")))
+  (define-key rinari-minor-mode-map [(super g)] sj/rinari-main-keymap)
+  (define-key rinari-minor-mode-map [(super j)] sj/rinari-jump-keymap))
+(eval-after-load 'rinari
+  '(sj/clone-rinari-keymap))
 
 ;; Ruby
 (require 'ruby-mode)

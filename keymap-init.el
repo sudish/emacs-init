@@ -12,7 +12,7 @@
 
 ;; private keymap for useful, but less commonly used stuff
 (define-prefix-command 'sj/private-keymap)
-(global-set-key [(super .)] sj/private-keymap)
+(global-set-key [(super .)] 'sj/private-keymap)
 
 (define-key sj/private-keymap [(super .)] 'anything)
 
