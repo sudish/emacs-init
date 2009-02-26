@@ -63,18 +63,12 @@ a normal delete is carried out"
 This variable is buffer-local.")
 (make-variable-buffer-local 'sj/recompile-file)
 
-(defconst sj/suppressed-byte-compile-warnings '(not cl-functions)
-  "List of byte compiler warnings to enable or disable for personal code.
-This list is set as the value of byte-compile-warnings in any file where
-sj/recompile-file is non-nil.")
-
 (defun sj/byte-compile-file (&optional file force)
   "Byte-compile `file' if sj/recompile-file or `force' is non-nil.
-`file' defaults to (buffer-file-name)
+`file' defaults to (buffer-file-name).
 Can be run from after-save-hook."
   (when (or force sj/recompile-file)
-    (let ((byte-compile-warnings sj/suppressed-byte-compile-warnings))
-      (byte-compile-file (or file (buffer-file-name))))))
+    (byte-compile-file (or file (buffer-file-name)))))
 (when user-sj-p
   (add-hook 'after-save-hook 'sj/byte-compile-file))
 

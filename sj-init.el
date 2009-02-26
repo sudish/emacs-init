@@ -68,6 +68,9 @@
       enable-recursive-minibuffers 	t
       enable-local-eval                 'ask)
 
+;; Don't want warnings about using funcs from cl.el
+(setq byte-compile-warnings '(not cl-functions))
+
 ;; help system
 (setq  help-window-select        'always
        help-at-pt-display-when-idle '(keymap local-map button kbd-help
