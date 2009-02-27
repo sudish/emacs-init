@@ -29,6 +29,8 @@
 (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
 (push 'clojure-mode viper-vi-state-mode-list)
 (autoload 'clojure-indent-function "clojure-mode") ; for use in slime buffers
+(eval-when-compile
+  (require 'parenface))
 (eval-after-load 'clojure-mode
   (add-hook 'clojure-mode-hook
 	    (paren-face-add-support clojure-font-lock-keywords)))

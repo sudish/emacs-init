@@ -128,8 +128,8 @@
 (make-face-bold 'modeline)
 
 ;; various packages
-(load "sj-langs")
 (load "sj-modes")
+(load "sj-langs")
 (load "sj-anything")
 (load "sj-keymaps")
 (load "sj-mail")

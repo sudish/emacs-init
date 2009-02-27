@@ -8,7 +8,7 @@
 	(t 'emacs)))
 
 ;; Base directory for all my emacs files.
-(setq sj/emacs-base-dir	(expand-file-name "~/gnuemacs"))
+(setq sj/emacs-base-dir	(expand-file-name "~/.emacs.d/lib"))
 ;; (setq sj/emacs-base-dir
 ;;       (expand-file-name
 ;;        (cond
