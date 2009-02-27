@@ -1,4 +1,7 @@
-;;; anything-init --- initialize the anything package   [sj--08/12/15]
+;;; sj-anything-init --- Initialize the anything.el package
+;;
+;; Copyright: Sudish Joseph <sudish@gmail.com>
+;; Created: 2008-12-15
 
 ;; Files from current project root, if any
 (defconst sj/anything-source-project-root-files

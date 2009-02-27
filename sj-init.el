@@ -1,5 +1,7 @@
-;;; sj-init --- main init file   [sj--95/06/11]
-;;;
+;;; sj-init --- Main initialization file, called from ~/.emacs
+;;
+;; Copyright: Sudish Joseph <sudish@gmail.com>
+;; Created: 1995-06-11
 
 (require 'cl)
 
@@ -19,7 +21,7 @@
 
 ;; System-specific init
 (cond ((eq system-type 'darwin)
-       (load "darwin-init")))
+       (load "sj-system-darwin")))
 
 ;; Quo vadis?
 (setq user-mail-address "sudish@gmail.com")
@@ -40,7 +42,7 @@
 		      "/usr/info"))))
 
 ;; load misc. functions we need later
-(load "misc-init")
+(load "sj-funcs")
 
 ;; Take off some of the training wheels.
 (when user-sj-p
@@ -126,11 +128,11 @@
 (make-face-bold 'modeline)
 
 ;; various packages
-(load "lang-init")
-(load "mode-init")
-(load "anything-init")
-(load "keymap-init")
-(load "mail-init")
+(load "sj-langs")
+(load "sj-modes")
+(load "sj-anything")
+(load "sj-keymaps")
+(load "sj-mail")
 
 ;; gnuserv
 (setenv "GNUSERV_SHOW_EMACS" "1")        ; always raise Emacs window

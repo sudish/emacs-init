@@ -1,5 +1,7 @@
-;;; mode-init --- various modes we use   [sj--95/11/06]
-;;;
+;;; sj-modes --- Initialize various modes and packages
+;;
+;; Copyright: Sudish Joseph <sudish@gmail.com>
+;; Created: 1995-06-11
 
 (defconst sj/lisp-mode-hooks '(emacs-lisp-mode-hook
 			       lisp-mode-hook

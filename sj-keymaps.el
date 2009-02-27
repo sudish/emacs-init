@@ -1,5 +1,7 @@
-;;; keyboard-init --- keyboard settings    [sj 95/06/11]
-;;;
+;;; sj-keymaps --- Personal keymaps
+;;
+;; Copyright: Sudish Joseph <sudish@gmail.com>
+;; Created: 1995-06-11
 
 ;; some global bindings for everyday stuff
 (define-key global-map [(super f1)] 'anything)

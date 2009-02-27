@@ -1,5 +1,7 @@
-;;; lang-init --- various language-specific modes   [sj--95/11/06]
-;;;
+;;; sj-langs --- Programming language modes
+;;
+;; Copyright: Sudish Joseph <sudish@gmail.com>
+;; Created: 1995-06-11
 
 ;; sql
 (setq sql-product 'postgres)

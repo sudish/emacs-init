@@ -1,5 +1,7 @@
-;;; mail-init --- mail-related stuff    [sj 95/06/11]
-;;;
+;;; sj-mail --- Mail-related settings
+;;
+;; Copyright: Sudish Joseph <sudish@gmail.com>
+;; Created: 1995-06-11
 
 ;; packages used to customise mail
 (require 'mail-hist)

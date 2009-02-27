@@ -1,5 +1,7 @@
-;;; darwin-init --- Mac OS X init   [sj--03/08/03]
-;;;
+;;; sj-system-darwin --- OS X specific settings
+;;
+;; Copyright: Sudish Joseph
+;; Created: 2003-08-03
 
 ;; Change the default font for all frames
 (push '(font . "-*-Monaco-*-120-*") default-frame-alist)

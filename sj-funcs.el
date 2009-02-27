@@ -1,5 +1,7 @@
-;;; misc-init --- miscellaneous utils   [sj--95/11/06]
-;;;
+;;; sj-funcs --- Various useful functions
+;;
+;; Copyright: Sudish Joseph <sudish@gmail.com>
+;; Created: 1995-11-06
 
 ;; Originally by Stephen Gildea, Nov. 88
 ;; From the LCD -- ~/as-is/swap-wins.el

@@ -1,5 +1,7 @@
-;;; path-init.el --- Initialize load-path and exec-path
-;;;
+;;; sj-paths --- Initialize emacs paths (load-path, exec-path, ...)
+;;
+;; Copyright: Sudish Joseph <sudish@gmail.com>
+;; Created: 1995-06-11
 
 ;; load-path
 (defmacro sj/load-path-prepend (directory &optional info)
