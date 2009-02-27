@@ -17,7 +17,7 @@
 ;; 	(t (error "Unknown Emacs type '%s' in ~/.emacs" sj/emacs-type)))))
 
 ;; Load the path-handling code
-(load (concat sj/emacs-base-dir "/init/path-init"))
+(load (concat sj/emacs-base-dir "/init/sj-paths"))
 
 ;; Make sure the init and site-lisp dirs are on load-path
 (sj/load-path-prepend '("init" "site-lisp"))
