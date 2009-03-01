@@ -70,6 +70,12 @@
      (define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
      (define-key slime-mode-map (kbd "C-j") 'newline)))
 
+;; Haskell mode
+(sj/load-path-prepend "site-lisp/haskell-mode")
+(load "haskell-site-file")
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+
 ;; Erlang mode
 (setq erlang-root-dir "/opt/local/lib/erlang")
 (require 'erlang-start)			; sets up autoloads
