@@ -71,10 +71,11 @@
      (define-key slime-mode-map (kbd "C-j") 'newline)))
 
 ;; Haskell mode
-(sj/load-path-prepend "site-lisp/haskell-mode")
-(load "haskell-site-file")
+;(sj/load-path-prepend "site-lisp/haskell-mode")
+(load (concat sj/emacs-base-dir "/site-lisp/haskell-mode/" "haskell-site-file"))
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-decl-scan)
 
 ;; Erlang mode
 (setq erlang-root-dir "/opt/local/lib/erlang")
