@@ -49,7 +49,8 @@
 
 ;; Swank-clojure for Slime integration
 (sj/load-path-prepend '("external/swank-clojure"))
-(setq swank-clojure-binary "~/bin/clojure") ; shell script
+(setq swank-clojure-compile-p t
+      swank-clojure-binary "~/bin/clojure") ; shell script
 (require 'swank-clojure-autoload)
 
 ;; SBCL
