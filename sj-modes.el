@@ -24,7 +24,7 @@
 
 ;; paredit mode
 (autoload 'paredit-mode "paredit" "paredit mode" t)
-(eval-after-load "paredit"
+(eval-after-load 'paredit
   '(progn
      (define-key paredit-mode-map (kbd "RET") 'paredit-newline)
      (define-key paredit-mode-map (kbd "C-j") nil)))

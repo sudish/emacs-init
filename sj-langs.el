@@ -3,11 +3,9 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 1995-06-11
 
-;; sql
-(setq sql-product 'postgres)
-
-;; makefile-mode
-(push '("[mM]akefile$" . makefile-mode) auto-mode-alist)
+;; SQL mode
+(eval-after-load 'sql
+  '(setq sql-product 'postgres))
 
 ;; eldoc: automatic docs in minibuffer
 (autoload 'turn-on-eldoc-mode "eldoc" nil t)
@@ -29,23 +27,10 @@
 (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
 (push 'clojure-mode viper-vi-state-mode-list)
 (autoload 'clojure-indent-function "clojure-mode") ; for use in slime buffers
-(eval-when-compile
-  (require 'parenface))
+(eval-when-compile (require 'parenface))
 (eval-after-load 'clojure-mode
-  (add-hook 'clojure-mode-hook
-	    (paren-face-add-support clojure-font-lock-keywords)))
-
-;; Useful idea from
-;; http://gnuvince.wordpress.com/2009/01/24/emacs-function-for-clojure-users/
-(defun clojure-add-classpath (path)
-  "Add a classpath to Clojure and refresh slime-lisp-implementations"
-  (interactive "GPath: ")
-  (unless (memq path swank-clojure-extra-classpaths)
-    (push path swank-clojure-extra-classpaths)
-    (setq slime-lisp-implementations
-	  (cons `(clojure ,(swank-clojure-cmd) :init swank-clojure-init)
-		(remove-if #'(lambda (x) (eq (car x) 'clojure))
-			   slime-lisp-implementations)))))
+  '(add-hook 'clojure-mode-hook
+	     (paren-face-add-support clojure-font-lock-keywords)))
 
 ;; Swank-clojure for Slime integration
 (sj/load-path-prepend '("external/swank-clojure"))
@@ -128,13 +113,14 @@
 (sj/load-path-prepend "external/yaml-mode")
 (autoload 'yaml-mode "yaml-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-hook 'yaml-mode-hook
-	  (defun sj/yaml-mode-hook ()
-	    (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+(eval-after-load 'yaml-mode
+  '(add-hook 'yaml-mode-hook
+	     (defun sj/yaml-mode-hook ()
+	       (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
 
 ;; cc-mode stuff
-(eval-when-compile
-  (require 'cc-mode))
+(eval-when-compile (require 'cc-mode))
+(eval-when-compile (require 'dabbrev))
 (defconst sj/c-style
   '((c-echo-syntactic-information-p 	. t)
     (c-tab-always-indent		. t)
@@ -197,8 +183,7 @@ See the docs for c-hanging-semi&comma-criteria."
 (add-hook 'c-mode-common-hook 'sj/c-mode-common-hook)
 
 ;; cperl mode
-(eval-when-compile
-  (require 'cperl-mode))
+(eval-when-compile (require 'cperl-mode))
 (setq cperl-hairy                 nil
       cperl-electric-parens       "{"
       cperl-font-lock             t
