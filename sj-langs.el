@@ -107,10 +107,22 @@
 ;; Ruby
 (setq ruby-deep-indent-paren nil
       ruby-deep-arglist nil)
-(require 'ruby-mode)
-(require 'ruby-electric)
-(require 'inf-ruby)
-(push '("\\.rb$" . ruby-mode) auto-mode-alist)
+(autoload 'ruby-mode "ruby-mode" "Major mode for ruby files" t)
+(add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
+(add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
+
+;; An irb shell
+(autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
+(autoload 'inf-ruby-keys "inf-ruby" "" t)
+(eval-after-load 'ruby-mode
+  '(add-hook 'ruby-mode-hook 'inf-ruby-keys))
+
+;; Electric minor mode for Ruby
+(autoload 'ruby-electric-mode "ruby-electric" "Toggle Ruby Electric mode" t)
+(eval-after-load 'ruby-mode
+  '(add-hook 'ruby-mode-hook
+	     (defun sj/turn-on-ruby-electric-mode ()
+	       (ruby-electric-mode t))))
 
 ;; YAML
 (sj/load-path-prepend "external/yaml-mode")
