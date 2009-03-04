@@ -104,6 +104,8 @@
   '(sj/clone-rinari-keymap))
 
 ;; Ruby
+(setq ruby-deep-indent-paren nil
+      ruby-deep-arglist nil)
 (require 'ruby-mode)
 (require 'ruby-electric)
 (require 'inf-ruby)

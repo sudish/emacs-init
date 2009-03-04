@@ -98,8 +98,8 @@
 							  "backups/")))
       ;; versioned backups
       delete-old-versions 		t
-      kept-new-versions 		3
-      kept-old-versions 		1
+      kept-new-versions 		2
+      kept-old-versions 		0
       version-control 			t)
 
 ;; auto-saves
