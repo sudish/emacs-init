@@ -89,6 +89,13 @@
 (eval-after-load 'rinari
   '(sj/clone-rinari-keymap))
 
+;; Rhtml mode
+(sj/load-path-prepend "external/rhtml")
+(require 'rhtml-mode)
+(add-hook 'rhtml-mode-hook
+     	  (defun sj/rhtml-mode-hook ()
+	    (rinari-launch)))
+
 ;; Ruby
 (setq ruby-deep-indent-paren nil
       ruby-deep-arglist nil)
@@ -108,6 +115,12 @@
   '(add-hook 'ruby-mode-hook
 	     (defun sj/turn-on-ruby-electric-mode ()
 	       (ruby-electric-mode t))))
+
+;; An interface to Ruby's RDoc documentation
+(sj/load-path-prepend "external/ri")
+(autoload 'ri "ri" "Look up Ruby documentation." t)
+(eval-after-load 'ri
+  '(setq ri-repl-executable (concat sj/emacs-base-dir "/external/ri/ri_repl")))
 
 ;; YAML
 (sj/load-path-prepend "external/yaml-mode")
