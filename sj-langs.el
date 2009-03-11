@@ -25,7 +25,7 @@
       clojure-mode-font-lock-comment-sexp t)
 (autoload 'clojure-mode "clojure-mode" "A mode for clojure lisp" t)
 (add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
-(push 'clojure-mode viper-vi-state-mode-list)
+(add-to-list 'viper-vi-state-mode-list 'clojure-mode)
 (autoload 'clojure-indent-function "clojure-mode") ; for use in slime buffers
 (eval-when-compile (require 'parenface))
 (eval-after-load 'clojure-mode
@@ -104,6 +104,7 @@
 (autoload 'ruby-mode "ruby-mode" "Major mode for ruby files" t)
 (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
+(add-to-list 'viper-vi-state-mode-list 'ruby-mode)
 
 ;; An irb shell
 (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
