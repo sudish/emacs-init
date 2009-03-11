@@ -4,8 +4,8 @@
 ;; Created: 1995-06-11
 
 ;; SQL mode
-(eval-after-load 'sql
-  '(setq sql-product 'postgres))
+(eval-when-compile (require 'sql))
+(setq sql-product 'postgres)
 
 ;; eldoc: automatic docs in minibuffer
 (autoload 'turn-on-eldoc-mode "eldoc" nil t)
@@ -91,7 +91,9 @@
 
 ;; Rhtml mode
 (sj/load-path-prepend "external/rhtml")
-(require 'rhtml-mode)
+(autoload 'rhtml-mode "rhtml-mode" nil t)
+(add-to-list 'auto-mode-alist `(,(rx (and (or ".rhtml" ".html.erb") eol))
+				. rhtml-mode))
 (add-hook 'rhtml-mode-hook
      	  (defun sj/rhtml-mode-hook ()
 	    (rinari-launch)))
@@ -121,6 +123,9 @@
 (autoload 'ri "ri" "Look up Ruby documentation." t)
 (eval-after-load 'ri
   '(setq ri-repl-executable (concat sj/emacs-base-dir "/external/ri/ri_repl")))
+
+;; CSS mode
+(setq css-indent-offset 2)
 
 ;; YAML
 (sj/load-path-prepend "external/yaml-mode")

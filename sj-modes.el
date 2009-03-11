@@ -112,7 +112,7 @@
 
 ;; icomplete: incremental minibuffer completion
 (require 'icomplete)
-(icomplete-mode)
+(icomplete-mode 1)
 
 ;; complete: partial completion etc.  must be before ffap
 (require 'complete)
