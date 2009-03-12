@@ -58,7 +58,9 @@
 		   (mode . c++-mode)
 		   (mode . makefile-mode)
 		   (mode . makefile-bsdmake-mode)))
-	 ("Ruby"   (mode . ruby-mode))
+	 ("Ruby"   (or 
+		    (mode . ruby-mode)
+		    (mode . rhtml-mode)))
 	 ("Haskell" (mode . haskell-mode))
 	 ("Python" (mode . python-mode))
 	 ("Erlang" (mode . erlang-mode))
