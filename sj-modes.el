@@ -61,7 +61,9 @@
 	 ("Ruby"   (or 
 		    (mode . ruby-mode)
 		    (mode . rhtml-mode)))
-	 ("Haskell" (mode . haskell-mode))
+	 ("Haskell" (or 
+		     (mode . haskell-mode)
+		     (mode . inferior-haskell-mode)))
 	 ("Python" (mode . python-mode))
 	 ("Erlang" (mode . erlang-mode))
 	 ("Shell"  (mode . sh-mode))
