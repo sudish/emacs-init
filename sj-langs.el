@@ -62,6 +62,10 @@
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-decl-scan)
+(add-to-list 'viper-emacs-state-mode-list 'inferior-haskell-mode)
+(setq haskell-program-name "ghci"
+      inferior-haskell-wait-and-jump t)
+(setq-default haskell-doc-show-global-types t)
 
 ;; Erlang mode
 (setq erlang-root-dir "/opt/local/lib/erlang")
