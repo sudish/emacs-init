@@ -53,32 +53,26 @@ Returns a list of the added directories."
       (setq path (concat "/" path)))
   (expand-file-name (concat sj/emacs-base-dir path)))
 
-;; exec-path
-(defun sj/get-shell-exec-path ()
-  "Load list of directories to add to PATH from login shell.
-
-Returns list of directories or nil otherwise.
-A directory is added to the list iff it exists on this machine."
+;; Get environment variables from the login shell
+(defun sj/get-shell-env-var (var &optional precmd)
+  "Get the value of an environment variable from the login shell.
+If optional string `precmd' is provided, it is executed in the subshell first."
   (save-excursion
     (with-temp-buffer
-      (call-process-shell-command "echo $PATH" nil t)
-      (goto-char (point-min))
-      (let (dirs dir)
-	(while (not (eq (point) (point-max)))
-	  (setq dir (buffer-substring (point)
-				       (progn
-					 (skip-chars-forward "^:")
-					 (point))))
-	  (if (and dir (file-directory-p dir))
-	      (setq dirs (append (list (expand-file-name dir)) dirs)))
-	  (skip-chars-forward ":"))
-	(nreverse dirs)))))
+      (let ((cmd (concat (or precmd "true") " >/dev/null 2>&1; "
+			 (format "echo $%s" var))))
+	(call-process-shell-command cmd nil t)
+	(replace-regexp-in-string "\r?\n\\'" "" (buffer-string))))))
 
-;; Initialize exec-path and $PATH to a better value.
-;; Some Emacs commands use your login shell whilst others use /bin/sh,
-;; setting PATH here is the easiest way to communicate with these sub-shells.
+;; Initialize Emacs exec-path and sub-shell $PATH to the value set in
+;; my login shell.
+;;
+;; Some Emacs commands use the login shell whilst others use /bin/sh.
+;; Setting PATH in the Emacs environment is the easiest way to set it
+;; correctly for these sub-shells.
 (setq exec-path
-      (delete-dups (nconc (sj/get-shell-exec-path) exec-path)))
+      (delete-dups 
+       (nconc (split-string (sj/get-shell-env-var "PATH") ":" t) exec-path)))
 (setenv "PATH" (mapconcat #'identity exec-path ":"))
 
 
