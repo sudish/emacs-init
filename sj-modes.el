@@ -122,6 +122,9 @@
 (require 'complete)
 (partial-completion-mode t)
 
+;; winner: rotate through window config history
+(winner-mode 1)
+
 ;; ffap: find file at point (now using ido)
 ;; (require 'ffap)
 ;; (ffap-bindings)
