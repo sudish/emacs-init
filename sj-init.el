@@ -23,6 +23,17 @@
 (cond ((eq system-type 'darwin)
        (load "sj-system-darwin")))
 
+;; Load misc. functions we need later
+(load "sj-funcs")
+
+;; Enable usage of ssh-agent from sub-shells
+(sj/copy-login-env-vars '("SSH_AUTH_SOCK" "SSH_AGENT_PID")
+			"source $HOME/.keychain/sudish-sh")
+(let ((ssh-agent-socket (getenv "SSH_AUTH_SOCK")))
+  (unless (and (file-writable-p ssh-agent-socket)
+	       (not (file-regular-p ssh-agent-socket)))
+    (error "Can't locate $SSH_AUTH_SOCK (%s)" ssh-agent-socket)))
+
 ;; Quo vadis?
 (setq user-mail-address "sudish@gmail.com")
 (defvar user-name-string
@@ -40,9 +51,6 @@
 		      "/Developer/usr/share/info"
 		      "/usr/share/info"
 		      "/usr/info"))))
-
-;; load misc. functions we need later
-(load "sj-funcs")
 
 ;; Take off some of the training wheels.
 (when user-sj-p

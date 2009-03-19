@@ -3,6 +3,21 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 1995-11-06
 
+(defun sj/copy-login-env-vars (vars &optional precmd)
+  "Copy the values of the environment variables named in `vars' to Emacs
+environment.
+
+`vars' can be a list of strings or a string. `precmd' if non-nil should be 
+a string specifying a shell command to execute before captuing the values."
+  (when vars
+    (cond ((stringp vars)
+	   (setenv vars)		; null it out first
+	   (setenv vars (sj/get-shell-env-var vars precmd)))
+	  ((listp vars)
+	   (sj/copy-login-env-vars (car vars) precmd)
+	   (sj/copy-login-env-vars (cdr vars) precmd))
+	  (t (error "Argument must be a string or list of strings")))))
+
 ;; Originally by Stephen Gildea, Nov. 88
 ;; From the LCD -- ~/as-is/swap-wins.el
 (defun sj/swap-window-positions ()
