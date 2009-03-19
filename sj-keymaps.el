@@ -3,7 +3,7 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 1995-06-11
 
-;; some global bindings for everyday stuff
+;; global bindings for everyday stuff
 (define-key global-map [(super f1)]    'anything)
 (define-key global-map [(super m)]     'magit-status)
 (define-key global-map [(super r)]     'rgrep)
