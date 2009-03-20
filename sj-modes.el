@@ -53,6 +53,9 @@
 (setq ibuffer-show-empty-filter-groups nil)
 (setq ibuffer-saved-filter-groups
       '(("default"
+	 ("Clojure" (or
+		     (mode . clojure-mode)
+		     (name . "^\\*slime-repl clojure")))
 	 ("C/C++" (or
 		   (mode . c-mode)
 		   (mode . c++-mode)
