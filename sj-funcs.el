@@ -151,7 +151,7 @@ Loads the library file first."
   (defun sj/frame-top   (frame) (f-param 'top frame))
   (defun sj/frame-height (frame) (frame-pixel-height frame)))
 
-;; The frame comparator. Change tiling order here.
+;; The frame comparator. It defines the tiling order.
 (defun* sj/frame< (f1 f2) 		; defun* because of return-from below
   "Returns t if frame `f1' is considered \"less than\" frame `f2'.
 Suitable for use as a predicate for the `sort' function."
@@ -168,19 +168,21 @@ Suitable for use as a predicate for the `sort' function."
   ;; Return f1 < f2 if they're equal in all respects
   t)
 
-;; The tiler.  It lays out frames with an even gap between them and
-;; does not (yet) deal gracefully with more frames than can fit on
-;; the display.
+;; The tiler.  It lays out frames with an even gap between them.
+;; Doesn't deal gracefully with more frames than can fit on the
+;; display.
 (defun sj/tile-frames ()
   "Tile visible frames horizontally."
   (interactive)
   (let* ((frames (sort (filtered-frame-list
 			(lambda (f) (frame-visible-p f))) #'sj/frame<))
-	 (total-pixel-width (reduce (lambda (f1 f2)
-				      (+ (frame-pixel-width f1)
-					 (frame-pixel-width f2)))
-				    frames))
 	 (num-frames (length frames))
+	 (total-pixel-width (cond ((> num-frames 1)
+				   (reduce (lambda (f1 f2)
+					     (+ (frame-pixel-width f1)
+						(frame-pixel-width f2)))
+					   frames))
+				  (t (frame-pixel-width (car frames)))))
 	 (gap (/ (- (x-display-pixel-width) total-pixel-width)
 		 (+ num-frames 1)))
 	 (next-x gap))
