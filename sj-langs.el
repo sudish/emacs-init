@@ -46,11 +46,14 @@
 
 ;; Slime -- Superior Lisp Interaction Mode
 (sj/load-path-prepend "external/slime" "doc")
-(setq slime-default-lisp 'clojure)
 (require 'slime-autoloads)
-(add-hook 'slime-connected-hook 'slime-redirect-inferior-output)
 (eval-after-load 'slime
   '(progn
+     (setq slime-default-lisp 'clojure
+	   slime-inhibit-pipelining nil
+	   slime-autodoc-use-multiline-p t)
+     (add-hook 'slime-connected-hook 'slime-redirect-inferior-output)
+     ;; select the contrib/extra packages we want
      (slime-setup '(slime-scratch slime-editing-commands slime-sbcl-exts
 				  slime-fancy slime-repl))
      (define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
