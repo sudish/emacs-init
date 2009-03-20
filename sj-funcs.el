@@ -7,7 +7,7 @@
   "Copy the values of the environment variables named in `vars' to Emacs
 environment.
 
-`vars' can be a list of strings or a string. `precmd' if non-nil should be 
+`vars' can be a list of strings or a string. `precmd' if non-nil should be
 a string specifying a shell command to execute before captuing the values."
   (when vars
     (cond ((stringp vars)
@@ -141,6 +141,53 @@ Loads the library file first."
     (and file
 	 (load-library file)
 	 (byte-compile-file file))))
+
+;;; Tiling Emacs frames
+
+;; Convenience functions
+(macrolet ((f-param (param frame)
+		    `(cdr (assoc ,param (frame-parameters ,frame)))))
+  (defun sj/frame-left  (frame) (f-param 'left frame))
+  (defun sj/frame-top   (frame) (f-param 'top frame))
+  (defun sj/frame-height (frame) (frame-pixel-height frame)))
+
+;; The frame comparator. Change tiling order here.
+(defun* sj/frame< (f1 f2) 		; defun* because of return-from below
+  "Returns t if frame `f1' is considered \"less than\" frame `f2'.
+Suitable for use as a predicate for the `sort' function."
+  (loop for (getter . cmp) in '((sj/frame-left   . <)
+				(sj/frame-top    . <)
+				(sj/frame-height . >))
+	do
+	(let ((f1-val (funcall getter f1))
+	      (f2-val (funcall getter f2)))
+	  (when (/= f1-val f2-val)
+	    ;; Short-circuit and exit the func as soon as we have an
+	    ;; ordering between the two frames.
+	    (return-from sj/frame< (funcall cmp f1-val f2-val)))))
+  ;; Return f1 < f2 if they're equal in all respects
+  t)
+
+;; The tiler.  It lays out frames with an even gap between them and
+;; does not (yet) deal gracefully with more frames than can fit on
+;; the display.
+(defun sj/tile-frames ()
+  "Tile visible frames horizontally."
+  (interactive)
+  (let* ((frames (sort (filtered-frame-list
+			(lambda (f) (frame-visible-p f))) #'sj/frame<))
+	 (total-pixel-width (reduce (lambda (f1 f2)
+				      (+ (frame-pixel-width f1)
+					 (frame-pixel-width f2)))
+				    frames))
+	 (num-frames (length frames))
+	 (gap (/ (- (x-display-pixel-width) total-pixel-width)
+		 (+ num-frames 1)))
+	 (next-x gap))
+    (dolist (frame frames)
+      (set-frame-position frame next-x 0)
+      (setq next-x (+ next-x (frame-pixel-width frame) gap))
+      (make-frame-visible frame))))
 
 
 ;;; Local Variables:
