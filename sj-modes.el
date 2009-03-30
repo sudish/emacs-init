@@ -9,6 +9,11 @@
 			       slime-repl-mode-hook)
   "Hooks for modes handling lisp-like languages.")
 
+;; Angry fruit salad
+(setq frame-background-mode 'light
+      font-lock-maximum-decoration t)
+(require 'font-lock)
+
 ;; show-paren
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)

@@ -3,17 +3,18 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 1995-06-11
 
+;; Common Lisp emulation
 (require 'cl)
 
 (defconst user-sj-p (string-match "^\\(sj\\|sudish\\|joseph\\)$"
 				(user-login-name))
   "Non-nil iff the user is me.")
 
-;; custom
+;; Custom
 (setq custom-file "~/.custom")
-(load "~/.custom")
+(load custom-file)
 
-;; viper
+;; Viper mode
 (require 'viper-util)
 (require 'loadhist)
 (setq viper-mode t)
@@ -35,10 +36,9 @@
     (error "Can't locate $SSH_AUTH_SOCK (%s)" ssh-agent-socket)))
 
 ;; Quo vadis?
-(setq user-mail-address "sudish@gmail.com")
-(defvar user-name-string
-  (concat (capitalize (user-full-name)) " <" user-mail-address ">")
-  "User's fullname & email address \"fullname <email address>\"")
+(setq user-full-name    "Sudish Joseph"
+      user-mail-address "sudish@gmail.com"
+      user-name-string  (concat user-full-name " <" user-mail-address ">"))
 
 ;; Info search path
 (setq Info-additional-directory-list
@@ -63,20 +63,32 @@
 	    (auto-fill-mode t)
 	    (setq adaptive-fill-mode t)))
 
+;; Show the region
+(transient-mark-mode t)
+
+;; No tool bar, please
+(tool-bar-mode -1)
+
 ;; Tweak some of the defaults
 (setq track-eol 		t
       scroll-step 		1
       scroll-conservatively     100
       next-screen-context-lines 2
+      confirm-kill-emacs        #'y-or-n-p
+      inhibit-startup-screen    t
+      initial-buffer-choice     t
       visible-bell		t
       column-number-mode	t
       require-final-newline 	'ask
       signal-error-on-buffer-boundary nil
       kill-whole-line 		t
       mouse-yank-at-point	t
+      blink-cursor-delay        1.0
+      backward-delete-char-untabify-method 'hungry
       comint-scroll-to-bottom-on-output t
       enable-recursive-minibuffers 	t
-      enable-local-eval                 'ask)
+      enable-local-eval                 'ask
+      safe-local-variable-values        '((sj/recompile-file . t)))
 
 ;; Don't want warnings about using funcs from cl.el
 (setq byte-compile-warnings '(not cl-functions))
@@ -132,7 +144,6 @@
 ;; garbage collection settings
 (setq gc-cons-threshold (max gc-cons-threshold (* 4 1024 1024)))
 
-(require 'font-lock)
 (make-face-bold 'modeline)
 
 ;; various packages

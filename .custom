@@ -3,19 +3,10 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(backward-delete-char-untabify-method (quote hungry))
- '(blink-cursor-delay 1.0)
- '(confirm-kill-emacs (quote y-or-n-p))
- '(font-lock-maximum-decoration t)
- '(frame-background-mode (quote light))
- '(imap-ssl-program (quote ("/usr/bin/openssl s_client -quiet -ssl3 -connect %s:%p")))
- '(inhibit-startup-screen t)
- '(initial-buffer-choice t)
- '(iswitchb-mode t nil (iswitchb))
- '(safe-local-variable-values (quote ((sj/recompile-file . t))))
- '(ssl-program-name "/usr/bin/openssl")
- '(tool-bar-mode nil nil (tool-bar))
- '(transient-mark-mode t)
- '(user-full-name "Sudish Joseph"))
-
- 
+ )
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
