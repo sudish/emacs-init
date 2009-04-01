@@ -114,6 +114,9 @@
 	 :on-hit (lambda (p) (message (car p))))
 	("Perl Project"
          :root-contains-files ("t" "lib")
+         :on-hit (lambda (p) (message (car p))))
+	("Git Project"
+         :root-contains-files (".git")
          :on-hit (lambda (p) (message (car p))))))
 (global-set-key (kbd "C-c p f") 'project-root-find-file)
 (global-set-key (kbd "C-c p g") 'project-root-grep)
