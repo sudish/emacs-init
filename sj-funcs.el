@@ -18,6 +18,12 @@ a string specifying a shell command to execute before captuing the values."
 	   (sj/copy-login-env-vars (cdr vars) precmd))
 	  (t (error "Argument must be a string or list of strings")))))
 
+;; This should really be in project-root itself
+(defun sj/project-root-rgrep ()
+  "Run the rgrep command from the current project root."
+  (interactive)
+  (with-project-root (call-interactively 'rgrep)))
+
 ;; Originally by Stephen Gildea, Nov. 88
 ;; From the LCD -- ~/as-is/swap-wins.el
 (defun sj/swap-window-positions ()
