@@ -3,6 +3,9 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 1995-06-11
 
+;; Track every loaded feature and the symbols they bring in
+(require 'loadhist)
+
 ;; Common Lisp emulation
 (require 'cl)
 
@@ -15,8 +18,6 @@
 (load custom-file)
 
 ;; Viper mode
-(require 'viper-util)
-(require 'loadhist)
 (setq viper-mode t)
 (require 'viper)
 
