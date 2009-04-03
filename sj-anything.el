@@ -13,8 +13,8 @@
     (candidates . (lambda ()
                     (project-root-file-find-process anything-pattern)))
     (candidate-transformer . sj/anything-file-candidate-filter)
+    (requires-pattern . 2)
     ;; Don't make me wait for project-root files, if any
-    ;; (requires-pattern . 2)
     ;; (delayed)
     (volatile)
     (type . file)))
@@ -23,8 +23,8 @@
 (defconst sj/anything-source-recentf
   '((name . "Recentf")
     (candidates . recentf-list)
-    (match . (anything-c-match-on-file-name
-	      anything-c-match-on-directory-name))
+    (match anything-c-match-on-file-name
+	   anything-c-match-on-directory-name)
     (candidate-transformer . sj/anything-file-candidate-filter)
     (type . file)))
 
@@ -49,33 +49,46 @@
 				   "locate" anything-pattern)))
     (type . file)
     (requires-pattern . 3)
-    (candidate-transformer . sj/anything-file-candidate-filter)
+    (candidate-transformer sj/anything-file-candidate-filter)
     ;; (delayed)
     (volatile))
   "Source for retrieving files matching the current input pattern
 with locate.")
 
-;; default of current-frame-configuration causes flickering
+;; The default current-frame-configuration causes flickering
 (setq anything-save-configuration-functions
       '(set-window-configuration . current-window-configuration))
 
-;; Initialize anything-sources before loading 'anything to prevent it from
-;; pre-loading the content for sources we're not interested in
-(setq sj/anything-sources
-      '(sj/anything-source-recentf
+;; Initialize the default anything-sources before loading anything to
+;; prevent pre-loading the content for sources we're not interested in
+(setq anything-sources
+      '(anything-c-source-imenu
+	anything-c-source-ctags
+	anything-c-source-buffers+
+	anything-c-source-recentf
 	sj/anything-source-project-root-files
-	project-root-anything-config-bookmarks
-	sj/anything-source-locate
+	anything-c-source-file-cache
+	anything-c-source-locate
 	sj/anything-source-osx-spotlight))
-(setq anything-sources sj/anything-sources)
+
+;; Load anything
 (require 'anything)
 (sj/load-path-prepend "external/anything-config")
 (require 'anything-config)
-;; anything-config unconditionally overwrittes anything-sources, reset it
-(setq anything-sources sj/anything-sources)
 
-;; Use a dedicated frame for anything.el
-;; From HannesJanetzek: http://www.emacswiki.org/cgi-bin/wiki/Anything#toc33
+;; Other anything source clusters 
+(defconst sj/anything-emacs-sources
+  '(anything-c-source-extended-command-history
+    anything-c-source-emacs-commands
+    anything-c-source-emacs-variables
+    anything-c-source-emacs-functions
+    anything-c-source-info-pages))
+(defun sj/anything-emacs ()
+  (interactive)
+  (anything sj/anything-emacs-sources))
+
+;; Use a dedicated frame for anything.el.  Idea from HannesJanetzek:
+;; http://www.emacswiki.org/cgi-bin/wiki/Anything#toc33
 (setq anything-samewindow t)
 (defvar sj/anything-uses-frames nil
   "Non-nil makes anything use dedicated frames for its interface.")
