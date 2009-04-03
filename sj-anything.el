@@ -19,15 +19,6 @@
     (volatile)
     (type . file)))
 
-;; Emacs recentf list
-(defconst sj/anything-source-recentf
-  '((name . "Recentf")
-    (candidates . recentf-list)
-    (match anything-c-match-on-file-name
-	   anything-c-match-on-directory-name)
-    (candidate-transformer . sj/anything-file-candidate-filter)
-    (type . file)))
-
 ;; Spotlight search across home directory, if available
 (defconst sj/anything-source-osx-spotlight
   '((name . "Spotlight (~)")
@@ -42,25 +33,14 @@
     (volatile))
   "Source for retrieving files via Spotlight's command line utility mdfind.")
 
-(defconst sj/anything-source-locate
-  '((name . "Locate")
-    (candidates . (lambda ()
-                    (start-process "locate-process" nil
-				   "locate" anything-pattern)))
-    (type . file)
-    (requires-pattern . 3)
-    (candidate-transformer sj/anything-file-candidate-filter)
-    ;; (delayed)
-    (volatile))
-  "Source for retrieving files matching the current input pattern
-with locate.")
-
 ;; The default current-frame-configuration causes flickering
 (setq anything-save-configuration-functions
       '(set-window-configuration . current-window-configuration))
 
 ;; Initialize the default anything-sources before loading anything to
-;; prevent pre-loading the content for sources we're not interested in
+;; prevent pre-loading the content for sources we're not interested in.
+;;
+;; Most of these are defined in anything-config.el, loaded below.
 (setq anything-sources
       '(anything-c-source-imenu
 	anything-c-source-ctags
