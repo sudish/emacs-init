@@ -227,12 +227,7 @@
 ;; recentf -- recently visited files
 (require 'recentf)
 (recentf-mode 1)
-(setq recentf-max-saved-items 100)
-(defun sj/ido-choose-from-recentf ()
-  "Use ido to select a recently opened file from the `recentf-list'"
-  (interactive)
-  (find-file (ido-completing-read "Open file: " recentf-list nil t)))
-(global-set-key [(meta f11)] 'sj/ido-choose-from-recentf)
+(setq recentf-max-saved-items 500)
 
 ;; dired
 (setq dired-compression-method 'gzip
