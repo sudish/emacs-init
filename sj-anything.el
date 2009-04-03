@@ -3,6 +3,36 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 2008-12-15
 
+;; Initialize the default anything-sources before loading anything to
+;; prevent pre-loading the content for sources we're not interested in.
+;;
+;; Most of these are defined in anything-config.el, loaded below.
+(setq anything-sources
+      '(anything-c-source-imenu
+	anything-c-source-ctags
+	anything-c-source-buffers+
+	anything-c-source-recentf
+	sj/anything-source-project-root-files
+	anything-c-source-file-cache
+	anything-c-source-locate
+	sj/anything-source-osx-spotlight))
+
+;; Load anything
+(require 'anything)
+(sj/load-path-prepend "external/anything-config")
+(require 'anything-config)
+
+;; Other anything source clusters 
+(defconst sj/anything-emacs-sources
+  '(anything-c-source-extended-command-history
+    anything-c-source-emacs-commands
+    anything-c-source-emacs-variables
+    anything-c-source-emacs-functions
+    anything-c-source-info-pages))
+(defun sj/anything-emacs ()
+  (interactive)
+  (anything sj/anything-emacs-sources))
+
 ;; Files from current project root, if any
 (defconst sj/anything-source-project-root-files
   '((name . "Project Files")
@@ -36,36 +66,6 @@
 ;; The default current-frame-configuration causes flickering
 (setq anything-save-configuration-functions
       '(set-window-configuration . current-window-configuration))
-
-;; Initialize the default anything-sources before loading anything to
-;; prevent pre-loading the content for sources we're not interested in.
-;;
-;; Most of these are defined in anything-config.el, loaded below.
-(setq anything-sources
-      '(anything-c-source-imenu
-	anything-c-source-ctags
-	anything-c-source-buffers+
-	anything-c-source-recentf
-	sj/anything-source-project-root-files
-	anything-c-source-file-cache
-	anything-c-source-locate
-	sj/anything-source-osx-spotlight))
-
-;; Load anything
-(require 'anything)
-(sj/load-path-prepend "external/anything-config")
-(require 'anything-config)
-
-;; Other anything source clusters 
-(defconst sj/anything-emacs-sources
-  '(anything-c-source-extended-command-history
-    anything-c-source-emacs-commands
-    anything-c-source-emacs-variables
-    anything-c-source-emacs-functions
-    anything-c-source-info-pages))
-(defun sj/anything-emacs ()
-  (interactive)
-  (anything sj/anything-emacs-sources))
 
 ;; Use a dedicated frame for anything.el.  Idea from HannesJanetzek:
 ;; http://www.emacswiki.org/cgi-bin/wiki/Anything#toc33
