@@ -129,12 +129,15 @@
 (require 'icomplete)
 (icomplete-mode 1)
 
+;; winner: rotate through window config history
+(winner-mode 1)
+
+;; Auto-update contents of non-dirty buffers from disk
+(auto-revert-mode 1)
+
 ;; complete: partial completion etc.  must be before ffap
 (require 'complete)
 (partial-completion-mode t)
-
-;; winner: rotate through window config history
-(winner-mode 1)
 
 ;; ffap: find file at point (now using ido)
 ;; (require 'ffap)
@@ -272,6 +275,17 @@
   (gnus (or level 2)))
 (global-set-key "\C-cn" 'sj/gnus)
 (global-set-key "\C-cN" 'sj/gnus-just-mail)
+
+;; erc - irc client
+(setq erc-server "irc.freenode.net"
+      erc-nick "sudish"
+      erc-autojoin-channels-alist '(("freenode.net" "#clojure" "#haskell"
+				     "#git" "#emacs"))
+      erc-kill-buffer-on-part t
+      erc-kill-queries-on-quit t
+      erc-kill-server-buffer-on-quit t
+      erc-hide-list '("JOIN" "PART" "QUIT" "NICK")
+      erc-track-exclude-types '("JOIN" "PART" "NICK" "333" "353"))
 
 ;; w3 settings, from Per Abrahamsen
 (setq w3-user-fonts-take-precedence t

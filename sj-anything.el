@@ -7,15 +7,14 @@
 ;; prevent pre-loading the content for sources we're not interested in.
 ;;
 ;; Most of these are defined in anything-config.el, loaded below.
-(setq anything-sources
-      '(anything-c-source-imenu
-	anything-c-source-ctags
-	anything-c-source-buffers+
-	anything-c-source-recentf
-	sj/anything-source-project-root-files
-	anything-c-source-file-cache
-	anything-c-source-locate
-	sj/anything-source-osx-spotlight))
+(defconst sj/anything-file-sources
+  '(anything-c-source-buffers+
+    anything-c-source-recentf
+    sj/anything-source-project-root-files
+    anything-c-source-file-cache
+    anything-c-source-locate
+    sj/anything-source-osx-spotlight))
+(setq anything-sources sj/anything-file-sources)
 
 ;; Load anything
 (require 'anything)
@@ -32,6 +31,13 @@
 (defun sj/anything-emacs ()
   (interactive)
   (anything sj/anything-emacs-sources))
+
+(defconst sj/anything-code-nav-sources
+  '(anything-c-source-imenu
+    anything-c-source-ctags))
+(defun sj/anything-code-nav ()
+  (interactive)
+  (anything sj/anything-code-nav-sources))
 
 ;; Files from current project root, if any
 (defconst sj/anything-source-project-root-files
