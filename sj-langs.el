@@ -60,7 +60,6 @@
      (define-key slime-mode-map (kbd "C-j") 'newline)))
 
 ;; Haskell mode
-;(sj/load-path-prepend "site-lisp/haskell-mode")
 (load (concat sj/emacs-base-dir "/external/haskell-mode/" "haskell-site-file"))
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
@@ -70,7 +69,7 @@
       inferior-haskell-wait-and-jump t)
 (setq-default haskell-doc-show-global-types t
 	      haskell-indent-look-past-empty-line t
-	      haskell-font-lock-symbols t)
+	      haskell-font-lock-symbols nil)
 
 ;; Erlang mode
 (setq erlang-root-dir "/opt/local/lib/erlang")
