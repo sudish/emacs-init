@@ -3,6 +3,8 @@
 ;; Copyright: Sudish Joseph
 ;; Created: 2003-08-03
 
+(prefer-coding-system 'utf-8)
+
 ;; Default and inital frame parameters
 (defconst sj/default-font
   "-apple-Monaco-medium-r-normal--12-*-*-*-*-*-iso10646-1"
