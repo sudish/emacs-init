@@ -34,9 +34,15 @@
 
 ;; Swank-clojure for Slime integration
 (sj/load-path-prepend '("external/swank-clojure"))
-(setq swank-clojure-compile-p t
-      swank-clojure-binary "~/bin/clojure") ; shell script
+(setq swank-clojure-compile-p t)
+(let ((path (file-name-directory (file-truename
+				  (locate-library "swank-clojure")))))
+  ;; Use a wrapper shell script to start clojure.
+  ;; The swank-clojure swank/ directory must be on the classpath for SLIME
+  ;; to run.
+  (setq swank-clojure-binary (list "~/bin/clojure" "-E" path)))
 (require 'swank-clojure-autoload)
+
 
 ;; SBCL
 (defvar sj/slime-sbcl-path "/opt/local/bin/sbcl")
@@ -55,7 +61,7 @@
      (add-hook 'slime-connected-hook 'slime-redirect-inferior-output)
      ;; select the contrib/extra packages we want
      (slime-setup '(slime-scratch slime-editing-commands slime-sbcl-exts
-				  slime-fancy slime-repl))
+				  slime-fancy slime-repl slime-fontifying-fu))
      (define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
      (define-key slime-mode-map (kbd "C-j") 'newline)))
 
