@@ -162,6 +162,9 @@
 (sj/load-path-prepend "external/magit" t)
 (autoload 'magit-status "magit" nil t)
 
+;; savehist -- save minibuffer history across sessions
+(savehist-mode 1)
+
 ;; yasnippet -- dynamic template expansion
 ;; (sj/load-path-prepend "external/yasnippet")
 ;; (require 'yasnippet)
