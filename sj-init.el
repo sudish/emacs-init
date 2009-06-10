@@ -86,7 +86,6 @@
       mouse-yank-at-point	t
       blink-cursor-delay        1.0
       backward-delete-char-untabify-method 'hungry
-      comint-scroll-to-bottom-on-output t
       enable-recursive-minibuffers 	t
       enable-local-eval                 'ask
       safe-local-variable-values        '((sj/recompile-file . t)))
@@ -94,6 +93,10 @@
 ;; Don't want warnings about using funcs from cl.el
 (setq byte-compile-warnings '(not cl-functions))
 
+;; comint mode
+(setq-default comint-scroll-to-bottom-on-input t
+	      comint-scroll-to-bottom-on-output t
+	      comint-input-ignoredups t)
 ;; help system
 (setq  help-window-select        'always
        help-at-pt-display-when-idle '(keymap local-map button kbd-help

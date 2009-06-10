@@ -75,7 +75,7 @@
       inferior-haskell-wait-and-jump t)
 (setq-default haskell-doc-show-global-types t
 	      haskell-indent-look-past-empty-line t
-	      haskell-font-lock-symbols nil)
+	      haskell-font-lock-symbols t)
 
 ;; Erlang mode
 (setq erlang-root-dir "/opt/local/lib/erlang")
