@@ -73,9 +73,10 @@
 (add-to-list 'viper-emacs-state-mode-list 'inferior-haskell-mode)
 (setq haskell-program-name "ghci"
       inferior-haskell-wait-and-jump t)
-(setq-default haskell-doc-show-global-types t
-	      haskell-indent-look-past-empty-line t
-	      haskell-font-lock-symbols t)
+(setq haskell-indent-offset 2
+      haskell-indent-look-past-empty-line t
+      haskell-font-lock-symbols t)
+(setq-default haskell-doc-show-global-types t)
 
 ;; Erlang mode
 (setq erlang-root-dir "/opt/local/lib/erlang")
