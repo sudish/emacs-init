@@ -71,7 +71,8 @@
 		    (mode . rhtml-mode)))
 	 ("Haskell" (or 
 		     (mode . haskell-mode)
-		     (mode . inferior-haskell-mode)))
+		     (mode . inferior-haskell-mode)
+		     (name . "\\.cabal$")))
 	 ("Python" (mode . python-mode))
 	 ("Erlang" (mode . erlang-mode))
 	 ("Shell"  (mode . sh-mode))
