@@ -5,15 +5,21 @@
 
 (prefer-coding-system 'utf-8)
 
-;; Default and inital frame parameters
+;; Monospaced fonts from excellent review at:
+;; http://hivelogic.com/articles/view/top-10-programming-fonts
 (defconst sj/default-font
-  "-apple-Monaco-medium-r-normal--12-*-*-*-*-*-iso10646-1"
-  "Default font under OS X. Stick to Unicode if possible (iso10646-1).")
-;; (set-face-attribute 'default nil
-;; 		    :family "Monaco" :height 120)
+  "-apple-Consolas-medium-r-normal--14-*-*-*-*-*-iso10646-1"
+  ;; "-apple-Inconsolata-medium-r-normal--14-*-*-*-*-*-iso10646-1"
+  ;; "-apple-DejaVu Sans Mono-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+  ;; "-apple-Droid Sans Mono-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+  ;; "-apple-Monaco-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+    "Default font under OS X. Stick to Unicode if possible (iso10646-1).")
+
+;; Default and inital frame parameters
 (defconst sj/default-frame-parameters `((width . 80) (height . 50)
 					(font . ,sj/default-font))
   "Default frame parameters for all frames, including the initial one.")
+
 (let ((left-pos (/ (- (x-display-pixel-width) (frame-pixel-width)) 2)))
   (setq initial-frame-alist (append `((top . 0) (left . ,left-pos))
 				    sj/default-frame-parameters
