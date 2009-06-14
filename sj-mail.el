@@ -13,10 +13,11 @@
 ;; smtpmail
 (setq send-mail-function 'smtpmail-send-it)
 (setq message-send-mail-function 'message-smtpmail-send-it)
-(setq smtpmail-default-smtp-server "mail.speakeasy.net")
-;;(setq smtpmail-local-domain "YOUR DOMAIN NAME")
-;;(setq smtpmail-sendto-domain "YOUR DOMAIN NAME")
-;;(setq smtpmail-debug-info t) ; only to debug problems
+(setq smtpmail-smtp-server "smtp.gmail.com"
+      smtpmail-smtp-service 587
+      smtpmail-starttls-credentials '(("smtp.gmail.com" 587 "" ""))
+      starttls-use-gnutls t
+      smtpmail-debug-info nil)
 
 (setq display-time-mail-file 'dont-check)
 (setq message-cite-function 'sc-cite-original
