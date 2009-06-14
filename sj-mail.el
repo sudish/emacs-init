@@ -20,7 +20,7 @@
       smtpmail-debug-info nil)
 
 (setq display-time-mail-file 'dont-check)
-(setq message-cite-function 'sc-cite-original
+(setq message-cite-function 'message-cite-original-without-signature
       message-post-method '(nnspool "")
       message-generate-headers-first nil
       message-signature-file "~/.gnus-signature"
@@ -31,7 +31,7 @@
 (autoload 'footnote-mode "footnote" nil t)
 (add-hook 'message-setup-hook
   (defun sj/message-setup-hook ()
-    (push '(sender . disabled) message-syntax-checks)
+    ;;(push '(sender . disabled) message-syntax-checks)
     (footnote-mode)
     (turn-on-font-lock)))
 
@@ -56,7 +56,7 @@
 		 (insert ?')))))
       (isearch-dehighlight))))
 ;(add-hook 'message-send-hook 'sj/check-grammar)
-;(add-hook 'message-send-hook 'ispell-message)
+(add-hook 'message-send-hook 'ispell-message)
 
 ;; additions to the mail mode keymap
 (add-hook 'message-mode-hook 'sj/mail-mode-define-keys)
@@ -72,10 +72,9 @@
   (local-set-key "\C-c\C-f\C-r" 'sj/mail-return-receipt-to))
 
 ;; Make it easy to override both the envelope and header from addresses.
-(defvar sj/mail-from-list '("Sudish Joseph <sudish@mindspring.com>"
-			    "Sudish Joseph <sudish@yahoo.com>"
-			    "Sudish Joseph <sudish@corp.earthlink.net>"
-			    "Sudish Joseph <sudish@eng.mindspring.net>")
+(defvar sj/mail-from-list '("Sudish Joseph <sudish@gmail.com>"
+			    "Sudish Joseph <sudish@absonant.org>"
+			    "Sudish Joseph <sudish@mindspring.com>")
   "List of alternative From: headers.")
 
 (defvar sj/mail-from-history sj/mail-from-list ; prime the history
@@ -148,7 +147,7 @@ replacement with REPLACEMENT.")
 	    (isearch-dehighlight)))
 	;; we're done with this header line; don't infloop over it
 	(end-of-line)))))
-(add-hook 'message-send-hook 'sj/gnus-rewrite-outgoing-addresses)
+;;(add-hook 'message-send-hook 'sj/gnus-rewrite-outgoing-addresses)
 
 (defun sj/mail-return-receipt-to ()
   "*Create Return-Receipt-To header."

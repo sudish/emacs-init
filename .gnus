@@ -91,7 +91,7 @@
 ;      nnspool-inews-switches nil)
 ;(setq gnus-post-method '(nnspool ""))
 (setq gnus-post-method 'current)
-;(setq gnus-mailing-list-groups "^nntp\\+tabloid:internal\\.lists\\.*")
+(setq gnus-mailing-list-groups "gmane\\.*")
 
 ;; scoring
 (setq gnus-kill-files-directory (expand-file-name "~/News/Killfiles/")
