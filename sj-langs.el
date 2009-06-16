@@ -73,7 +73,7 @@
 (add-to-list 'viper-emacs-state-mode-list 'inferior-haskell-mode)
 (setq haskell-program-name "ghci"
       inferior-haskell-wait-and-jump t)
-(setq haskell-indent-offset 2
+(setq haskell-indent-offset 4
       haskell-indent-look-past-empty-line t
       haskell-font-lock-symbols nil)
 (setq-default haskell-doc-show-global-types t)
