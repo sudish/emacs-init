@@ -43,6 +43,27 @@
   (setq swank-clojure-binary (list "~/bin/clojure" "-E" path)))
 (require 'swank-clojure-autoload)
 
+;; Font-lock slime backtrace buffers for clojure
+(defface sj/clojure-trace-face
+   '((((class color) (background dark))
+      (:foreground "grey50"))
+     (((class color) (background light))
+      (:foreground "grey55")))
+   "Face used to dim parentheses."
+   :group 'none)
+(setq sj/clojure-trace-face 'sj/clojure-trace-face)
+;; This will make relevant lines stand out more in stack traces
+(defun sj/sldb-font-lock ()
+  (font-lock-add-keywords nil
+                          '(("[0-9]+: \\(clojure\.\\(core\\|lang\\).*\\)"
+                             1 sj/clojure-trace-face)
+                            ("[0-9]+: \\(java.*\\)"
+                             1 sj/clojure-trace-face)
+                            ("[0-9]+: \\(swank.*\\)"
+                             1 sj/clojure-trace-face)
+                            ("\\[\\([A-Z]+\\)\\]"
+                             1 font-lock-function-name-face))))
+(add-hook 'sldb-mode-hook 'sj/sldb-font-lock)
 
 ;; SBCL
 (defvar sj/slime-sbcl-path "/opt/local/bin/sbcl")
@@ -57,7 +78,8 @@
   '(progn
      (setq slime-default-lisp 'clojure
 	   slime-inhibit-pipelining nil
-	   slime-autodoc-use-multiline-p t)
+	   slime-autodoc-use-multiline-p t
+	   slime-net-coding-system 'utf-8-unix)
      (add-hook 'slime-connected-hook 'slime-redirect-inferior-output)
      ;; select the contrib/extra packages we want
      (slime-setup '(slime-scratch slime-editing-commands slime-sbcl-exts

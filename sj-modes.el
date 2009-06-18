@@ -283,8 +283,7 @@
 ;; erc - irc client
 (setq erc-server "irc.freenode.net"
       erc-nick "sudish"
-      erc-autojoin-channels-alist '(("freenode.net" "#clojure" "#haskell"
-				     "#git" "#emacs"))
+      erc-autojoin-channels-alist '(("freenode.net" "#clojure"))
       erc-kill-buffer-on-part t
       erc-kill-queries-on-quit t
       erc-kill-server-buffer-on-quit t
