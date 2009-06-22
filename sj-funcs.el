@@ -3,6 +3,37 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 1995-11-06
 
+(defun sj/rotate-list (l &optional n direction)
+  "Rotate list `l' by `n' places in direction `direction'.
+Rotates to the left unless `direction' is 'right.  `n' defaults to 1."
+  (when l
+    (case direction
+      ('right (append (last l n) (butlast l n)))
+      (t (let ((n (or n 1))
+	       (tail nil))
+	   (while (> n 0)
+	     (setq tail (cons (car l) tail)
+		   l (cdr l)
+		   n (- n 1)))
+	   (nconc l tail))))))
+
+(defun sj/take-while (pred l)
+  "Returns prefix of list `l' where predicate `p' holds."
+  (let (res)
+    (while (and l (funcall pred (car l)))
+      (setq res (cons (car l) res)
+	    l (cdr l)))
+    (nreverse res)))
+
+(defun sj/span-list (pred l)
+  "Returns a cons of (head . tail) where head is the prefix of `l' where `pred'
+holds and tail is the remainder of the list `l'."
+  (let (head)
+    (while (and l (funcall pred (car l)))
+      (setq head (cons (car l) head)
+	    l (cdr l)))
+    (cons (nreverse head) l)))
+
 (defun sj/copy-login-env-vars (vars &optional precmd)
   "Copy the values of the environment variables named in `vars' to Emacs
 environment.
