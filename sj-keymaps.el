@@ -4,7 +4,7 @@
 ;; Created: 1995-06-11
 
 ;; global bindings for everyday stuff
-(define-key global-map [(super f1)]    'sj/tile-frames)
+(define-key global-map [(super f1)]    'sj/tile-or-rotate-frames)
 (define-key global-map [(super A)]     'align-regexp)
 (define-key global-map [(super m)]     'magit-status)
 (define-key global-map [(super r)]     'rgrep)

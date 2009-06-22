@@ -181,51 +181,65 @@ Loads the library file first."
 
 ;;; Tiling Emacs frames
 
-;; Convenience functions
-(macrolet ((f-param (param frame)
-		    `(cdr (assoc ,param (frame-parameters ,frame)))))
-  (defun sj/frame-left  (frame) (f-param 'left frame))
-  (defun sj/frame-top   (frame) (f-param 'top frame))
-  (defun sj/frame-height (frame) (frame-pixel-height frame)))
+(defvar sj/frame-rotate-direction 'left
+  "The direction in which sj/tile-or-rotate-frames rotates.
+Rotates to the left unless this is set to 'right.")
 
-;; The frame comparator. It defines the tiling order.
-(defun* sj/frame< (f1 f2) 		; defun* because of return-from below
-  "Returns t if frame `f1' is considered \"less than\" frame `f2'.
-Suitable for use as a predicate for the `sort' function."
-  (loop for (getter . cmp) in '((sj/frame-left   . <)
-				(sj/frame-top    . <)
-				(sj/frame-height . >))
-	do
-	(let ((f1-val (funcall getter f1))
-	      (f2-val (funcall getter f2)))
-	  (when (/= f1-val f2-val)
-	    ;; Short-circuit and exit the func as soon as we have an
-	    ;; ordering between the two frames.
-	    (return-from sj/frame< (funcall cmp f1-val f2-val)))))
-  ;; Return f1 < f2 if they're equal in all respects
-  t)
+(setq sj/cached-frame-list nil) ; caches frame list between invocations
+
+(defun sj/rotated-frame-list (direction use-cache-p)
+  (let* ((frames (cond ((and use-cache-p sj/cached-frame-list)
+			sj/cached-frame-list)
+		       (t (delete-dups
+			   (append (visible-frame-list) (frame-list)))))))
+    (sj/rotate-list frames 1 direction)))
 
 ;; The tiler.  It lays out frames with an even gap between them.
-;; Doesn't deal gracefully with more frames than can fit on the
-;; display.
-(defun sj/tile-frames ()
-  "Tile visible frames horizontally."
+;; Repeated invocations lead to rotation.  Most of the complexity here
+;; is from dealing with more frames than can fit on one screen: we lay
+;; those out recursively in layers below each other.
+(defun sj/tile-or-rotate-frames (&optional frames layer)
+  "Tile visible frames horizontally. Repeat to rotate the tiled frames.
+The direction of rotation is controlled by `sj/frame-rotate-direction'.
+Changes focus to left- or rightmost frame when rotating, again controlled
+by `sj/frame-rotate-direction'."
   (interactive)
-  (let* ((frames (sort (filtered-frame-list
-			(lambda (f) (frame-visible-p f))) #'sj/frame<))
-	 (num-frames (length frames))
-	 (total-pixel-width (cond ((> num-frames 1)
-				   (reduce (lambda (f1 f2)
-					     (+ f1 (frame-pixel-width f2)))
-					   frames :initial-value 0))
-				  (t (frame-pixel-width (car frames)))))
-	 (gap (/ (- (x-display-pixel-width) total-pixel-width)
-		 (+ num-frames 1)))
-	 (next-x gap))
-    (dolist (frame frames)
+  (let*
+      ((repeat-p (eq last-command 'sj/tile-or-rotate-frames))
+       (frames (or frames
+		   (sj/rotated-frame-list sj/frame-rotate-direction repeat-p)))
+       (total 0)
+       ;; select as many frames as will fit on the screen for this layer
+       (span (sj/span-list (lambda (f)
+			     (< (incf total (frame-pixel-width f))
+				(x-display-pixel-width)))
+			   frames))
+       (selected-frames  (car span))
+       (remaining-frames (cdr span))
+       (total-pixel-width (reduce (lambda (accum f)
+				    (+ accum (frame-pixel-width f)))
+				  selected-frames :initial-value 0))
+       (layer (or layer 0))
+       (gap (/ (- (x-display-pixel-width) total-pixel-width)
+	       (+ (length selected-frames) 1)))
+       ;; alternate the leftmost position between layers
+       (next-x (if (zerop (% layer 2)) gap 0)))
+    ;; layout lower layers before this one
+    (when remaining-frames
+      (sj/tile-or-rotate-frames remaining-frames (+ layer 1)))
+    (unless (zerop (% layer 2))
+      ;; this makes for a more intuitive, "closed loop" rotation
+      (setq selected-frames (reverse selected-frames)))
+    (dolist (frame selected-frames)
       (set-frame-position frame next-x 0)
       (setq next-x (+ next-x (frame-pixel-width frame) gap))
-      (make-frame-visible frame))))
+      (when (= layer 0)
+	(raise-frame frame)))
+    (when (= layer 0)
+      (setq sj/cached-frame-list frames)
+      (select-frame-set-input-focus (case sj/frame-rotate-direction
+				      ('right (car (last selected-frames)))
+				      (t      (car selected-frames)))))))
 
 
 ;;; Local Variables:
