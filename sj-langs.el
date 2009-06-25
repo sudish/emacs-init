@@ -37,9 +37,8 @@
 (setq swank-clojure-compile-p t)
 (let ((path (file-name-directory (file-truename
 				  (locate-library "swank-clojure")))))
-  ;; Use a wrapper shell script to start clojure.
-  ;; The swank-clojure swank/ directory must be on the classpath for SLIME
-  ;; to run.
+  ;; Use a wrapper shell script to start clojure.  The swank-clojure
+  ;; swank/ directory must be on the classpath for SLIME to run.
   (setq swank-clojure-binary (list "~/bin/clojure" "-E" path)))
 (require 'swank-clojure-autoload)
 
@@ -89,9 +88,6 @@
 
 ;; Haskell mode
 (load (concat sj/emacs-base-dir "/external/haskell-mode/" "haskell-site-file"))
-(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-decl-scan)
 (add-to-list 'viper-emacs-state-mode-list 'inferior-haskell-mode)
 (setq haskell-program-name "ghci"
       inferior-haskell-wait-and-jump t)
@@ -99,6 +95,16 @@
       haskell-indent-look-past-empty-line nil
       haskell-font-lock-symbols nil)
 (setq-default haskell-doc-show-global-types t)
+(add-hook 'haskell-mode-hook
+	  (defun sj/haskell-mode-hook ()
+	    (turn-on-haskell-doc-mode)
+	    (turn-on-haskell-indent)
+	    (turn-on-haskell-decl-scan)
+	    (setq comment-start   "--"
+		  comment-padding " ")))
+(add-to-list 'filladapt-token-table '("-- " haskell-comment))
+(add-to-list 'filladapt-token-match-table '(haskell-comment haskell-comment))
+(add-to-list 'filladapt-token-conversion-table '(haskell-comment . exact))  
 
 ;; Erlang mode
 (setq erlang-root-dir "/opt/local/lib/erlang")
