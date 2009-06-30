@@ -188,10 +188,9 @@ Rotates to the left unless this is set to 'right.")
 (setq sj/cached-frame-list nil) ; caches frame list between invocations
 
 (defun sj/rotated-frame-list (direction use-cache-p)
-  (let* ((frames (cond ((and use-cache-p sj/cached-frame-list)
-			sj/cached-frame-list)
-		       (t (delete-dups
-			   (append (visible-frame-list) (frame-list)))))))
+  (let ((frames (if (and use-cache-p sj/cached-frame-list)
+		    sj/cached-frame-list
+		  (delete-dups (append (visible-frame-list) (frame-list))))))
     (sj/rotate-list frames 1 direction)))
 
 ;; The tiler.  It lays out frames with an even gap between them.
