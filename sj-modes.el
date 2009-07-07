@@ -72,6 +72,7 @@
 	 ("Haskell" (or 
 		     (mode . haskell-mode)
 		     (mode . inferior-haskell-mode)
+		     (name . "^\\*scion")
 		     (name . "\\.cabal$")))
 	 ("Python" (mode . python-mode))
 	 ("Erlang" (mode . erlang-mode))

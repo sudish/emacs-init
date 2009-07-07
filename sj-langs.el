@@ -86,22 +86,29 @@
      (define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
      (define-key slime-mode-map (kbd "C-j") 'newline)))
 
+;; Scion: SLIME for Haskell
+(sj/load-path-prepend "external/scion")
+(autoload 'scion-mode "scion" nil t)
+;;(setq scion-program "~/.cabal/bin/scion_server")
+
 ;; Haskell mode
 (load (concat sj/emacs-base-dir "/external/haskell-mode/" "haskell-site-file"))
-(add-to-list 'viper-emacs-state-mode-list 'inferior-haskell-mode)
 (setq haskell-program-name "ghci"
-      inferior-haskell-wait-and-jump t)
-(setq haskell-indent-offset 4
+      inferior-haskell-wait-and-jump t
+      haskell-indent-offset 4
       haskell-indent-look-past-empty-line nil
       haskell-font-lock-symbols nil)
 (setq-default haskell-doc-show-global-types t)
-(add-hook 'haskell-mode-hook
-	  (defun sj/haskell-mode-hook ()
-	    (turn-on-haskell-doc-mode)
-	    (turn-on-haskell-indent)
-	    (turn-on-haskell-decl-scan)
-	    (setq comment-start   "--"
-		  comment-padding " ")))
+(defun sj/haskell-mode-hook ()
+  (setq comment-start   "--"
+	comment-padding " ")
+  (turn-on-haskell-doc-mode)
+  (turn-on-haskell-indent)
+  (turn-on-haskell-decl-scan)
+  (scion-mode 1)
+  (scion-flycheck-on-save 1))
+(add-hook 'haskell-mode-hook #'sj/haskell-mode-hook)
+(add-to-list 'viper-emacs-state-mode-list 'inferior-haskell-mode)
 (add-to-list 'filladapt-token-table '("-- " haskell-comment))
 (add-to-list 'filladapt-token-match-table '(haskell-comment haskell-comment))
 (add-to-list 'filladapt-token-conversion-table '(haskell-comment . exact))  
