@@ -4,6 +4,7 @@
 ;; Created: 2003-08-03
 
 (prefer-coding-system 'utf-8)
+(set-language-environment "UTF-8")
 
 ;; Monospaced fonts from excellent review at:
 ;; http://hivelogic.com/articles/view/top-10-programming-fonts
