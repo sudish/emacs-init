@@ -156,6 +156,7 @@
 (load "sj-anything")
 (load "sj-keymaps")
 (load "sj-mail")
+(load "sj-bbdb")
 
 ;; gnuserv
 (setenv "GNUSERV_SHOW_EMACS" "1")        ; always raise Emacs window
