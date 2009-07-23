@@ -17,6 +17,11 @@
 ;; show-paren
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
+(set-face-attribute 'show-paren-match nil
+		    :underline nil
+		    :bold t
+		    :background "grey85" ;(face-attribute 'default :background)
+		    :foreground "dark blue")
 
 ;; parenface: dim the color for parens
 (require 'parenface)

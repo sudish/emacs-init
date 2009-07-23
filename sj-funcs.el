@@ -223,7 +223,7 @@ by `sj/frame-rotate-direction'."
 	       (+ (length selected-frames) 1)))
        ;; alternate the leftmost position between layers
        (next-x (if (zerop (% layer 2)) gap 0)))
-    ;; layout lower layers before this one
+    ;; lay out lower layers before this one
     (when remaining-frames
       (sj/tile-or-rotate-frames remaining-frames (+ layer 1)))
     (unless (zerop (% layer 2))
