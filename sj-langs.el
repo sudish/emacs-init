@@ -80,6 +80,7 @@
 (defun sj/haskell-mode-hook ()
   (setq comment-start   "--"
 	comment-padding " ")
+  (set (make-local-variable 'require-final-newline) t)
   (turn-on-haskell-doc-mode)
   (turn-on-haskell-indent)
   (turn-on-haskell-decl-scan)
@@ -89,7 +90,7 @@
 (add-to-list 'viper-emacs-state-mode-list 'inferior-haskell-mode)
 (add-to-list 'filladapt-token-table '("-- " haskell-comment))
 (add-to-list 'filladapt-token-match-table '(haskell-comment haskell-comment))
-(add-to-list 'filladapt-token-conversion-table '(haskell-comment . exact))  
+(add-to-list 'filladapt-token-conversion-table '(haskell-comment . exact))
 
 ;; Erlang mode
 (setq erlang-root-dir "/opt/local/lib/erlang")
@@ -260,10 +261,11 @@ See the docs for c-hanging-semi&comma-criteria."
       auto-mode-alist)
 
 ;; dmacro: dynamic macros
-(sj/load-path-prepend "site-lisp/dmacro")
+(sj/load-path-prepend "site-lisp/dmacro" t)
 (require 'dmacro)
 (dmacro-load (sj/emacs-path "dmacro/defaults.dm"))
 (dmacro-load (sj/emacs-path "dmacro/elisp.dm"))
+(dmacro-load (sj/emacs-path "dmacro/haskell.dm"))
 (dmacro-load (sj/emacs-path "dmacro/makefile.dm"))
 (dmacro-load (sj/emacs-path "dmacro/perl.dm"))
 (dmacro-load (sj/emacs-path "dmacro/c.dm"))
