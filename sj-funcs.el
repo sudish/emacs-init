@@ -82,7 +82,28 @@ gildea Nov 88"
   (setq debug-on-error (not debug-on-error))
   (message "debug-on-error set to %s" debug-on-error))
 
-(defun sj/replace-key-in-map (map old new)
+(defun sj/copy-keys-between-keymaps (from-map to-map keys)
+  "Copy the definitions of key sequences in `keys' from `from-map' to `to-map'.
+`keys' should be a list of the keys whose bindings are to be copied.  Each
+entry may also be of the form (to-key . from-key) if the bindings differ in
+the 2 keymaps.
+
+Example:
+  (\"a\" [backspace]
+   (\"k\"   . \"v\")
+   ([?\C-o] . [?v])
+   (\"x\"   . \"\C-y\"))
+
+Here, `to-map' will have `from-map's bindings for \"v\" on \"k\" and \"\C-o\"
+and the binding for \"\C-y\" on \"x\". The bindings for \"a\" and [backspace]
+will be copied as well."
+  (mapc (lambda (entry)
+	  (let ((to-key   (if (listp entry) (car entry) entry))
+		(from-key (if (listp entry) (cdr entry) entry)))
+	    (define-key to-map to-key (lookup-key from-map from-key))))
+	keys))
+
+(defun sj/replace-cmd-in-map (map old new)
   "Replace all occurences of command OLD in keymap MAP with command NEW."
   (mapc
    #'(lambda (keyseq)
