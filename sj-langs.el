@@ -71,19 +71,30 @@
 
 ;; Haskell mode
 (load (concat sj/emacs-base-dir "/external/haskell-mode/" "haskell-site-file"))
+(autoload 'haskell-indentation-mode "haskell-indentation")
 (setq haskell-program-name "ghci"
       inferior-haskell-wait-and-jump t
       haskell-indent-offset 4
       haskell-indent-look-past-empty-line nil
       haskell-font-lock-symbols nil)
 (setq-default haskell-doc-show-global-types t)
+(setq haskell-mode-hook nil)		; We don't want some of the defaults
 (defun sj/haskell-mode-hook ()
   (setq comment-start   "--"
 	comment-padding " ")
   (set (make-local-variable 'require-final-newline) t)
-  (turn-on-haskell-doc-mode)
-  (turn-on-haskell-indent)
   (turn-on-haskell-decl-scan)
+  (turn-on-haskell-doc-mode)
+  ;; haskell-indent.el is too complex by far
+  ;(turn-on-haskell-indent)
+  ;; haskell-indentation.el seems nice & simple
+  (haskell-indentation-mode)
+  ;; Take haskell-indentation keys back from Viper's intrusive grip
+  (sj/copy-keys-between-keymaps haskell-indentation-mode-map
+				viper-insert-local-user-map
+				`([?\C-d] [backspace] [?\r]
+				  ([delete] . [backspace])
+				  ([?\d]    . [backspace])))
   (scion-mode 1)
   (scion-flycheck-on-save 1))
 (add-hook 'haskell-mode-hook #'sj/haskell-mode-hook)
