@@ -89,6 +89,7 @@
   ;(turn-on-haskell-indent)
   ;; haskell-indentation.el seems nice & simple
   (haskell-indentation-mode)
+  (auto-fill-mode)
   ;; Take haskell-indentation keys back from Viper's intrusive grip
   (sj/copy-keys-between-keymaps haskell-indentation-mode-map
 				viper-insert-local-user-map
