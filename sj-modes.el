@@ -40,10 +40,10 @@
      (define-key paredit-mode-map (kbd "C-j") nil)))
 (defun sj/paredit-mode-hook ()
   (paredit-mode 1)
-  (sj/copy-keys-between-keymaps paredit-mode-map viper-insert-local-user-map
-				'([?\d] [?\C-d]
-				  ([backspace] . [?\d])
-				  ([delete]    . [?\d]))))
+  (setq viper-insert-local-user-map
+	(sj/copy-keys-from-keymap paredit-mode-map '([?\d] [?\C-d]
+						     ([?\d] . [backspace])
+						     ([?\d] . [delete])))))
 (mapc (lambda (hook)
 	(add-hook hook 'sj/paredit-mode-hook))
       sj/lisp-mode-hooks)

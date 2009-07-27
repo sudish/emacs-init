@@ -91,11 +91,11 @@
   (haskell-indentation-mode)
   (auto-fill-mode)
   ;; Take haskell-indentation keys back from Viper's intrusive grip
-  (sj/copy-keys-between-keymaps haskell-indentation-mode-map
-				viper-insert-local-user-map
-				`([?\C-d] [backspace] [?\r]
-				  ([delete] . [backspace])
-				  ([?\d]    . [backspace])))
+  (setq viper-insert-local-user-map
+	(sj/copy-keys-from-keymap haskell-indentation-mode-map
+				  '([?\C-d] [backspace] [?\r]
+				    ([backspace] . [delete])
+				    ([backspace] . [?\d]))))
   (scion-mode 1)
   (scion-flycheck-on-save 1))
 (add-hook 'haskell-mode-hook #'sj/haskell-mode-hook)
