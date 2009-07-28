@@ -238,6 +238,17 @@
 (recentf-mode 1)
 (setq recentf-max-saved-items 500)
 
+;; comint mode
+(setq-default comint-scroll-to-bottom-on-input t
+	      comint-scroll-to-bottom-on-output t
+	      comint-input-ignoredups t)
+
+;; ansi-color: handle ANSI color sequences in comint mode
+(add-hook 'comint-mode-hook
+	  (defun sj/comint-mode-hook ()
+	    (require 'ansi-color)
+	    (ansi-color-for-comint-mode-on)))
+
 ;; dired
 (setq dired-compression-method 'gzip
       dired-dwim-target t

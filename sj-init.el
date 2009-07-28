@@ -93,10 +93,6 @@
 ;; Don't want warnings about using funcs from cl.el
 (setq byte-compile-warnings '(not cl-functions))
 
-;; comint mode
-(setq-default comint-scroll-to-bottom-on-input t
-	      comint-scroll-to-bottom-on-output t
-	      comint-input-ignoredups t)
 ;; help system
 (setq  help-window-select        'always
        help-at-pt-display-when-idle '(keymap local-map button kbd-help
