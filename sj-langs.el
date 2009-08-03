@@ -143,6 +143,8 @@
 (setq ruby-deep-indent-paren nil
       ruby-deep-arglist nil)
 (autoload 'ruby-mode "ruby-mode" "Major mode for ruby files" t)
+(eval-after-load 'ruby-mode
+  '(add-hook 'ruby-mode-hook (lambda () (highlight-parentheses-mode t))))
 (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
 (add-to-list 'viper-vi-state-mode-list 'ruby-mode)
@@ -264,6 +266,7 @@ See the docs for c-hanging-semi&comma-criteria."
   (viper-mode)
   (setq viper-insert-local-user-map cperl-mode-map)
   (turn-on-font-lock)
+  (highlight-parentheses-mode t)
   (setq fill-column 76)
   (local-set-key "\C-m" 'cperl-linefeed)
   (local-set-key "\C-j" 'newline-and-indent))
