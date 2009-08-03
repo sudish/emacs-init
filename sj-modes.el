@@ -3,11 +3,18 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 1995-06-11
 
-(defconst sj/lisp-mode-hooks '(emacs-lisp-mode-hook
-			       lisp-mode-hook
-			       clojure-mode-hook
-			       slime-repl-mode-hook)
-  "Hooks for modes handling lisp-like languages.")
+(defconst sj/use-paren-mode-hooks '(emacs-lisp-mode-hook
+				    lisp-mode-hook
+				    lisp-interaction-mode-hook
+				    clojure-mode-hook
+				    slime-repl-mode-hook
+				    c-mode-hook
+				    c++-mode-hook
+				    java-mode-hook
+				    haskell-mode-hook
+				    python-mode-hook)
+  "Hooks for modes where we enable special paren handling
+(paredit and highlight-paren)")
 
 ;; Angry fruit salad
 (setq frame-background-mode 'light
@@ -29,8 +36,8 @@
 ;; highlight-parentheses: highlights currently enclosing sexps
 (require 'highlight-parentheses)
 (mapc (lambda (hook)
-	(add-hook hook 'highlight-parentheses-mode))
-      sj/lisp-mode-hooks)
+	(add-hook hook (lambda () (highlight-parentheses-mode t))))
+      sj/use-paren-mode-hooks)
 
 ;; paredit mode
 (autoload 'paredit-mode "paredit" "paredit mode" t)
@@ -46,7 +53,7 @@
 						     ([?\d] . [delete])))))
 (mapc (lambda (hook)
 	(add-hook hook 'sj/paredit-mode-hook))
-      sj/lisp-mode-hooks)
+      sj/use-paren-mode-hooks)
 
 ;; cua-mode
 (setq cua-enable-cua-keys nil
