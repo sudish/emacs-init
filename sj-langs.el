@@ -270,10 +270,12 @@ See the docs for c-hanging-semi&comma-criteria."
   (setq fill-column 76)
   (local-set-key "\C-m" 'cperl-linefeed)
   (local-set-key "\C-j" 'newline-and-indent))
-(mapc #'(lambda (x)			; prefer cperl-mode over perl-mode
-	  (and (eq (cdr x) 'perl-mode)
-	       (setcdr x 'cperl-mode)))
-      auto-mode-alist)
+(mapc (lambda (mode-alist)
+	(mapc (lambda (elt)	    ; prefer cperl-mode over perl-mode
+		(when (eq (cdr elt) 'perl-mode)
+		  (setcdr elt 'cperl-mode)))
+	      (symbol-value mode-alist)))
+      '(auto-mode-alist interpreter-mode-alist))
 
 ;; dmacro: dynamic macros
 (sj/load-path-prepend "site-lisp/dmacro" t)
