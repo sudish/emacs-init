@@ -52,7 +52,7 @@
 						     ([?\d] . [backspace])
 						     ([?\d] . [delete])))))
 (mapc (lambda (hook)
-	(add-hook hook 'sj/paredit-mode-hook))
+	(add-hook hook 'sj/paredit-mode-hook t))
       sj/use-paren-mode-hooks)
 
 ;; cua-mode
