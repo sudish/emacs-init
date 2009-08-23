@@ -103,6 +103,18 @@
 (add-to-list 'filladapt-token-table '("-- " haskell-comment))
 (add-to-list 'filladapt-token-match-table '(haskell-comment haskell-comment))
 (add-to-list 'filladapt-token-conversion-table '(haskell-comment . exact))
+;; Select the inferior-haskell window when it's displayed.
+(defun sj/select-inf-haskell-buffer ()
+  "Display and select the buffer used by the inferior Haskell process, if any."
+  (interactive)
+  (when (processp (inferior-haskell-process))
+    (let ((buf (process-buffer (inferior-haskell-process))))
+      (select-window (display-buffer buf)))))
+(eval-when-compile (require 'inf-haskell)) ;; for defadvice preactivation
+(defadvice inferior-haskell-load-file (after sj/select-inferior-haskell
+					     preactivate compile)
+  "Display and select the inferior haskell buffer."
+  (sj/select-inf-haskell-buffer))
 
 ;; Erlang mode
 (setq erlang-root-dir "/opt/local/lib/erlang")
