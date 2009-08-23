@@ -39,7 +39,7 @@
 				  (locate-library "swank-clojure")))))
   ;; Use a wrapper shell script to start clojure.  The swank-clojure
   ;; swank/ directory must be on the classpath for SLIME to run.
-  (setq swank-clojure-binary (list "~/bin/clojure" "-E" path)))
+  (setq swank-clojure-binary (list "~/bin/clojure" "-C" path)))
 (require 'swank-clojure-autoload)
 
 ;; SBCL
