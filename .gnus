@@ -30,7 +30,7 @@
       gnus-show-threads t
       gnus-summary-make-false-root 'empty
       gnus-summary-thread-gathering-function #'gnus-gather-threads-by-subject
-      gnus-summary-same-subject " -#-"
+      gnus-summary-same-subject "«»" ; UCS #x00[ab]b or #x25b6 
       gnus-summary-gather-subject-limit 'fuzzy
       gnus-thread-hide-subtree nil
       gnus-thread-ignore-subject t
@@ -176,11 +176,11 @@ The first score file in the first matching entry is used."
 	    (setq mail-aliases t)))
 
 ;; make dabbrev look in *Article* buffers for completions
-(set (make-local-variable 'dabbrev-friend-buffer-function)
-     (lambda (buffer)
-       (save-excursion
-	 (set-buffer buffer)
-	 (memq major-mode '(news-reply-mode gnus-article-mode)))))
+;; (set (make-local-variable 'dabbrev-friend-buffer-function)
+;;      (lambda (buffer)
+;;        (save-excursion
+;; 	 (set-buffer buffer)
+;; 	 (memq major-mode '(news-reply-mode gnus-article-mode)))))
 
 (defun sj/gnus-position-cursor ()
   ;; replacement for gnus-goto-colon
