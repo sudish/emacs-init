@@ -78,7 +78,7 @@
       haskell-indent-look-past-empty-line nil
       haskell-font-lock-symbols nil)
 (setq-default haskell-doc-show-global-types t)
-(setq haskell-mode-hook nil)		; We don't want some of the defaults
+(remove-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 (defun sj/haskell-mode-hook ()
   (setq comment-start   "--"
 	comment-padding " ")

@@ -79,6 +79,7 @@
 		    (mode . rhtml-mode)))
 	 ("Haskell" (or 
 		     (mode . haskell-mode)
+		     (mode . literate-haskell-mode)
 		     (mode . inferior-haskell-mode)
 		     (name . "^\\*scion")
 		     (name . "\\.cabal$")))
