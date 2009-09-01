@@ -65,8 +65,8 @@
 
 (add-hook 'gnus-suspend-gnus-hook 'gnus-group-save-newsrc)
 
-;; show mime buttons in article buffer
-(setq gnus-inhibit-mime-unbuttonizing t)
+;; show/hide mime buttons in article buffer by default
+(setq gnus-inhibit-mime-unbuttonizing nil)
 
 ;; last choice MIME types
 (setq mm-discouraged-alternatives '("text/html" "text/richtext"))
@@ -157,9 +157,9 @@ The first score file in the first matching entry is used."
 (setq gnus-boring-article-headers '(empty followup-to reply-to newgroups
 					  to-address to-list cc-list))
 (setq gnus-treat-hide-boring-headers 'head
-      gnus-treat-unsplit-urls t
+      gnus-treat-unsplit-urls nil	; can munge adjacent URLs, ugh
       gnus-treat-wash-html nil
-      gnus-treat-date-local t
+      gnus-treat-date-local nil
       gnus-treat-display-smileys nil
       gnus-treat-display-face nil)
 ;; Hide the annoying Google Groups signature cruft.
