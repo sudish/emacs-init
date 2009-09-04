@@ -89,6 +89,11 @@
   ;(turn-on-haskell-indent)
   ;; haskell-indentation.el seems nice & simple
   (haskell-indentation-mode)
+  ;; from http://github.com/tibbe/haskell-style-guide
+  (setq tab-width 4
+	haskell-indentation-layout-offset 4
+	haskell-indentation-left-offset 4
+	haskell-indentation-ifte-offset 4)
   (auto-fill-mode)
   ;; Take haskell-indentation keys back from Viper's intrusive grip
   (setq viper-insert-local-user-map
