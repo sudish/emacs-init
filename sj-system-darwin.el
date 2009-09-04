@@ -9,7 +9,8 @@
 ;; Monospaced fonts from excellent review at:
 ;; http://hivelogic.com/articles/view/top-10-programming-fonts
 (defconst sj/default-font
-  "-apple-Inconsolata-medium-r-normal--14-*-*-*-*-*-iso10646-1"
+  "-apple-Menlo-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+  ;; "-apple-Inconsolata-medium-r-normal--14-*-*-*-*-*-iso10646-1"
   ;; "-apple-Consolas-medium-r-normal--13-*-*-*-*-*-iso10646-1"
   ;; "-apple-Droid Sans Mono-medium-r-normal--12-*-*-*-*-*-iso10646-1"
   ;; "-apple-DejaVu Sans Mono-medium-r-normal--13-*-*-*-*-*-iso10646-1"
