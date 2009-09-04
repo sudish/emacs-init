@@ -8,10 +8,6 @@
 				    lisp-interaction-mode-hook
 				    clojure-mode-hook
 				    slime-repl-mode-hook
-				    c-mode-hook
-				    c++-mode-hook
-				    java-mode-hook
-				    haskell-mode-hook
 				    python-mode-hook)
   "Hooks for modes where we enable special paren handling
 (paredit and highlight-paren)")
@@ -69,9 +65,10 @@
 	 ("Clojure" (or
 		     (mode . clojure-mode)
 		     (name . "^\\*slime-repl clojure")))
-	 ("C/C++" (or
+	 ("C/C++/ObjC" (or
 		   (mode . c-mode)
 		   (mode . c++-mode)
+		   (mode . objc-mode)
 		   (mode . makefile-mode)
 		   (mode . makefile-bsdmake-mode)))
 	 ("Ruby"   (or 
