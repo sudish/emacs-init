@@ -58,7 +58,7 @@
   (fset 'yes-or-no-p 'y-or-n-p)
   (put 'eval-expression 'disabled nil))
 
-(setq default-major-mode 'indented-text-mode)
+(setq-default major-mode 'indented-text-mode)
 (add-hook 'text-mode-hook
 	  (defun sj/text-mode-hook ()
 	    (auto-fill-mode t)
@@ -86,6 +86,7 @@
       mouse-yank-at-point	t
       blink-cursor-delay        1.0
       backward-delete-char-untabify-method 'hungry
+      pp-escape-newlines        nil
       enable-recursive-minibuffers 	t
       enable-local-eval                 'ask
       safe-local-variable-values        '((sj/recompile-file . t)))
@@ -103,11 +104,11 @@
       query-replace-show-replacement t
       lazy-highlight-initial-delay 0)
 
-(setq default-truncate-lines nil
-      next-line-add-newlines nil)
+(setq-default truncate-lines nil)
+(setq next-line-add-newlines nil)
 
-(setq default-indicate-empty-lines nil
-      default-indicate-buffer-boundaries '((top . left) (bottom . left)))
+(setq-default indicate-empty-lines nil
+	      indicate-buffer-boundaries '((top . left) (bottom . left)))
 
 ;; backups
 (setq backup-by-copying 		nil
