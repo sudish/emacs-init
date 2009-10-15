@@ -160,6 +160,18 @@
 (when (memq system-type '(darwin))
   (server-start))
 
+;; smex: IDO for interactive commands (an IDO-enabled M-x)
+(sj/load-path-prepend "external/smex")
+(require 'smex)
+(setq smex-save-file (concat user-emacs-directory ".smex")
+      smex-history-length 15)
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+(global-set-key (kbd "C-c M-x") 'smex-update-and-run)
+;; This is your old M-x.
+(global-set-key (kbd "C-c M-x") 'execute-extended-command)
+
 ;; filecache: caches names of files for use from minibuffer.
 ;; initialize the cache as the very last thing we do, once load-path is
 ;; fully initialized
