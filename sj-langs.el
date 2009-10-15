@@ -59,8 +59,9 @@
 	   slime-net-coding-system 'utf-8-unix)
      (add-hook 'slime-connected-hook 'slime-redirect-inferior-output)
      ;; select the contrib/extra packages we want
-     (slime-setup '(slime-scratch slime-editing-commands slime-sbcl-exts
-				  slime-fancy slime-repl slime-fontifying-fu))
+     (slime-setup '(slime-scratch slime-repl slime-fancy slime-fuzzy
+				  slime-fontifying-fu slime-editing-commands
+				  slime-sbcl-exts))
      (define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
      (define-key slime-mode-map (kbd "C-j") 'newline)))
 
@@ -72,6 +73,10 @@
 ;; Haskell mode
 (load (concat sj/emacs-base-dir "/external/haskell-mode/" "haskell-site-file"))
 (autoload 'haskell-indentation-mode "haskell-indentation")
+(eval-when-compile
+  (require 'scion)
+  (require 'haskell-mode)
+  (require 'haskell-indentation))
 (setq haskell-program-name "ghci"
       inferior-haskell-wait-and-jump t
       haskell-indent-offset 4
