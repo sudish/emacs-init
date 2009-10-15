@@ -35,11 +35,16 @@
 ;; Swank-clojure for Slime integration
 (sj/load-path-prepend '("external/swank-clojure"))
 (setq swank-clojure-compile-p t)
-(let ((path (file-name-directory (file-truename
-				  (locate-library "swank-clojure")))))
-  ;; Use a wrapper shell script to start clojure.  The swank-clojure
-  ;; swank/ directory must be on the classpath for SLIME to run.
-  (setq swank-clojure-binary (list "~/bin/clojure" "-C" path)))
+;; Use a wrapper shell script to start clojure.  The Clojure classpath
+;; must contain the swank-clojure/src/[swank/] directory for SLIME to
+;; run, so we compute that here from the Emacs load-path instead of
+;; hard-coding it into the script.
+(condition-case nil
+    (let* ((swank-dir "swank-clojure")
+	   (swank-path (file-name-directory (locate-library swank-dir))))
+      (setq swank-clojure-binary
+	    (list "~/bin/clojure" "-C" (concat swank-path "src/"))))
+  (error (error "Couldn't locate the swank-clojure library")))
 (require 'swank-clojure-autoload)
 
 ;; SBCL
