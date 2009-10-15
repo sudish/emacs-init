@@ -9,13 +9,14 @@
 ;; Monospaced fonts from excellent review at:
 ;; http://hivelogic.com/articles/view/top-10-programming-fonts
 (defconst sj/default-font
-  "-apple-Menlo-medium-r-normal--12-*-*-*-*-*-iso10646-1"
-  ;; "-apple-Inconsolata-medium-r-normal--14-*-*-*-*-*-iso10646-1"
-  ;; "-apple-Consolas-medium-r-normal--13-*-*-*-*-*-iso10646-1"
-  ;; "-apple-Droid Sans Mono-medium-r-normal--12-*-*-*-*-*-iso10646-1"
-  ;; "-apple-DejaVu Sans Mono-medium-r-normal--13-*-*-*-*-*-iso10646-1"
-  ;; "-apple-Andale Mono-medium-r-normal--13-*-*-*-*-*-iso10646-1"
-  ;; "-apple-Monaco-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+  "-*-Inconsolata-medium-r-normal--14-*-*-*-*-*-iso10646-1"
+  ;; "-*-Menlo-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+  ;; "-*-Monaco-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+  ;; "-*-Consolas-medium-r-normal--14-*-*-*-*-*-iso10646-1"
+  ;; "-*-Droid Sans Mono-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+  ;; "-*-DejaVu Sans Mono-medium-r-normal--13-*-*-*-*-*-iso10646-1"
+  ;; "-*-Liberation Mono-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+  ;; "-*-Andale Mono-medium-r-normal--13-*-*-*-*-*-iso10646-1"
     "Default font under OS X. Stick to Unicode if possible (iso10646-1).")
 
 ;; Default and inital frame parameters
