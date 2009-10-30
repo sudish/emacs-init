@@ -31,9 +31,9 @@
 
 ;; highlight-parentheses: highlights currently enclosing sexps
 (require 'highlight-parentheses)
-(mapc (lambda (hook)
-	(add-hook hook (lambda () (highlight-parentheses-mode t))))
-      sj/use-paren-mode-hooks)
+(dolist (hook sj/use-paren-mode-hooks)
+  (add-hook hook (defun sj/turn-on-highlight-parentheses ()
+		   (highlight-parentheses-mode t))))
 
 ;; paredit mode
 (autoload 'paredit-mode "paredit" "paredit mode" t)
@@ -47,9 +47,9 @@
 	(sj/copy-keys-from-keymap paredit-mode-map '([?\d] [?\C-d]
 						     ([?\d] . [backspace])
 						     ([?\d] . [delete])))))
-(mapc (lambda (hook)
-	(add-hook hook 'sj/paredit-mode-hook t))
-      sj/use-paren-mode-hooks)
+(dolist (hook sj/use-paren-mode-hooks)
+  (add-hook hook 'sj/paredit-mode-hook t))
+
 
 ;; cua-mode
 (setq cua-enable-cua-keys nil
@@ -108,8 +108,8 @@
 			(name . "^\\*inferior-lisp")
 			(name . "^\\*slime"))))))
 (add-hook 'ibuffer-mode-hook
-	  #'(lambda ()
-	      (ibuffer-switch-to-saved-filter-groups "default")))
+	  (defun sj/ibuffer-mode-hook ()
+	    (ibuffer-switch-to-saved-filter-groups "default")))
 
 ;; project-root
 (require 'project-root)
@@ -212,11 +212,10 @@
 
 ;; greedy-delete
 (require 'greedy-delete)
-(mapc (lambda (hook)
-	(add-hook hook 'gd-add-to-mode))
-      '(c-mode-hook c++-mode-hook ruby-mode-hook erlang-mode-hook
-		    emacs-lisp-mode-hook lisp-mode-hook clojure-mode-hook
-		    haskell-mode-hook))
+(dolist (hook '(c-mode-hook haskell-mode-hook c++-mode-hook erlang-mode-hook
+			    emacs-lisp-mode-hook lisp-mode-hook  ruby-mode-hook
+			    clojure-mode-hook))
+  (add-hook hook 'gd-add-to-mode))
 
 ;; ispell
 (setq ispell-program-name "/opt/local/bin/ispell")

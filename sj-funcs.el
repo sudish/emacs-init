@@ -98,19 +98,16 @@ The new keymap will have `from-map's bindings for \"v\" on \"k\" and \"\C-o\",
 and the binding for \"\C-y\" on \"x\". The bindings for \"a\" and [backspace]
 will be copied as well."
   (let ((new-map (make-sparse-keymap)))
-    (mapc (lambda (entry)
-	    (let ((from-key (if (listp entry) (car entry) entry))
-		  (to-key   (if (listp entry) (cdr entry) entry)))
-	      (define-key new-map to-key (lookup-key from-map from-key))))
-	  keys)
-    new-map))
+    (dolist (entry keys)
+      (let ((from-key (if (listp entry) (car entry) entry))
+	    (to-key   (if (listp entry) (cdr entry) entry)))
+	(define-key new-map to-key (lookup-key from-map from-key))))
+     new-map))
 
 (defun sj/replace-cmd-in-map (map old new)
   "Replace all occurences of command OLD in keymap MAP with command NEW."
-  (mapc
-   #'(lambda (keyseq)
-       (define-key map keyseq new)))
-  (where-is-internal old map))
+  (dolist (keyseq (where-is-internal old map))
+    (define-key map keyseq new)))
 
 (defun sj/elisp-electric-delete (&optional arg)
     "Deletes all preceding whitespace.
@@ -175,15 +172,13 @@ compile."
 	(errors nil))
     (labels ((trim (prefix lib)
 		   (replace-regexp-in-string prefix "..." lib nil t)))
-      (mapc
-       (lambda (lib)
-	 (condition-case err
-	     (when (string-match-p prefix lib)
-	       (load-file lib)
-	       (sj/byte-compile-file lib 'force)
-	       (push (trim prefix lib) compiled))
-	   (error (push (cons (trim prefix lib) err) errors))))
-       (sj/find-newer-libraries load-path)))
+      (dolist (lib (sj/find-newer-libraries load-path))
+	(condition-case err
+	    (when (string-match-p prefix lib)
+	      (load-file lib)
+	      (sj/byte-compile-file lib 'force)
+	      (push (trim prefix lib) compiled))
+	  (error (push (cons (trim prefix lib) err) errors)))))
     (message (cond ((or errors compiled)
 		    (concat
 		     (if errors   (format "Failed: %s\n" errors) "")

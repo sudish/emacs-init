@@ -113,7 +113,7 @@
 				    ([backspace] . [?\d]))))
   (scion-mode 1)
   (scion-flycheck-on-save 1))
-(add-hook 'haskell-mode-hook #'sj/haskell-mode-hook)
+(add-hook 'haskell-mode-hook 'sj/haskell-mode-hook)
 (add-to-list 'viper-emacs-state-mode-list 'inferior-haskell-mode)
 (add-to-list 'filladapt-token-table '("-- " haskell-comment))
 (add-to-list 'filladapt-token-match-table '(haskell-comment haskell-comment))
@@ -297,12 +297,11 @@ See the docs for c-hanging-semi&comma-criteria."
   (setq fill-column 76)
   (local-set-key "\C-m" 'cperl-linefeed)
   (local-set-key "\C-j" 'newline-and-indent))
-(mapc (lambda (mode-alist)
-	(mapc (lambda (elt)	    ; prefer cperl-mode over perl-mode
-		(when (eq (cdr elt) 'perl-mode)
-		  (setcdr elt 'cperl-mode)))
-	      (symbol-value mode-alist)))
-      '(auto-mode-alist interpreter-mode-alist))
+;; prefer cperl-mode over perl-mode
+(dolist (mode-alist '(auto-mode-alist interpreter-mode-alist))
+  (dolist (entry (symbol-value mode-alist))
+    (when (eq (cdr entry) 'perl-mode)
+      (setcdr entry 'cperl-mode))))
 
 ;; dmacro: dynamic macros
 (sj/load-path-prepend "site-lisp/dmacro" t)
@@ -340,21 +339,18 @@ See the docs for c-hanging-semi&comma-criteria."
 ;; * This turns on which-func support (Plus all other code helpers)
 ;(semantic-load-enable-excessive-code-helpers)
 ;; add header file mappings for c/c++
-;; (mapc #'(lambda (dir)
-;; 	  (when (file-directory-p dir)
-;; 	    (semantic-add-system-include dir 'c-mode)
-;; 	    (semantic-add-system-include dir 'c++-mode)))
-;;       '("/opt/local/include" "/usr/local/include" "/usr/include"))
+;; (dolist (dir '("/opt/local/include" "/usr/local/include" "/usr/include"))
+;;   (when (file-directory-p dir)
+;;     (semantic-add-system-include dir 'c-mode)
+;;     (semantic-add-system-include dir 'c++-mode)))
 ;;
-;; (mapc #'(lambda (dir)
-;; 	  (when (file-directory-p dir)
-;; 	    (message dir)
-;; 	    (add-to-list 'Info-additional-directory-list dir)))
-;;       (list
-;;        (sj/emacs-path "external/cedet/ede")
-;;        (sj/emacs-path "external/cedet/eieio")
-;;        (sj/emacs-path "external/cedet/semantic/doc")
-;;        (sj/emacs-path "external/cedet/speedbar")))
+;; (dolist (dir (mapcar 'sj/emacs-path '("external/cedet/ede"
+;; 				       "external/cedet/eieio"
+;; 				       "external/cedet/semantic/doc"
+;; 				       "external/cedet/speedbar")))
+;;   (when (file-directory-p dir)
+;;     (add-to-list 'Info-additional-directory-list dir)))
+
 
 
 ;;; Local Variables:

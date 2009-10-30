@@ -44,9 +44,9 @@
 ;; Info search path
 (setq Info-additional-directory-list
       (delq nil
-	    (mapcar #'(lambda (dir)
-			    (cond ((file-directory-p dir) dir)
-				  (t nil)))
+	    (mapcar (lambda (dir)
+		      (cond ((file-directory-p dir) dir)
+			    (t nil)))
 		    '("/opt/local/share/info"
 		      "/sw/share/info"
 		      "/Developer/usr/share/info"
@@ -75,7 +75,7 @@
       scroll-step 		1
       scroll-conservatively     100
       next-screen-context-lines 2
-      confirm-kill-emacs        #'y-or-n-p
+      confirm-kill-emacs        'y-or-n-p
       inhibit-startup-screen    t
       initial-buffer-choice     t
       visible-bell		t
@@ -139,7 +139,7 @@
   (setq special-display-buffer-names
 	(let ((temp-frame-params '((minibuffer) (unsplittable . t)
 				   (left-fringe . 0) (right-fringe . 0))))
-	  (mapcar #'(lambda (buf) (cons buf temp-frame-params))
+	  (mapcar (lambda (buf) (cons buf temp-frame-params))
 		  '("*Help*")))))
 
 ;; garbage collection settings

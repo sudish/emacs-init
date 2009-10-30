@@ -73,7 +73,7 @@ If optional string `precmd' is provided, it is executed in the subshell first."
 (setq exec-path
       (delete-dups 
        (nconc (split-string (sj/get-shell-env-var "PATH") ":" t) exec-path)))
-(setenv "PATH" (mapconcat #'identity exec-path ":"))
+(setenv "PATH" (mapconcat 'identity exec-path ":"))
 
 
 ;;; Local Variables:
