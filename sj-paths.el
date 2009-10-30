@@ -46,8 +46,8 @@ Returns a list of the added directories."
 	    (t (signal 'args-out-of-range `(file-directory-p ,directory))))))
    (t (signal 'args-out-of-range `(stringp ,directory)))))
 
-;; Convenience macro for paths
-(defmacro sj/emacs-path (path)
+;; Convenience func for paths
+(defun sj/emacs-path (path)
   "Returns path relative to sj/emacs-base-dir."
   (if (not (eq "/" (substring path 0 1)))
       (setq path (concat "/" path)))
