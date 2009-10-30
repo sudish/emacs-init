@@ -238,9 +238,10 @@
       ido-max-work-file-list 30)
 
 ;; recentf -- recently visited files
+(setq recentf-save-file (concat user-emacs-directory ".recentf")
+      recentf-max-saved-items 500)
 (require 'recentf)
 (recentf-mode 1)
-(setq recentf-max-saved-items 500)
 
 ;; comint mode
 (setq-default comint-scroll-to-bottom-on-input t

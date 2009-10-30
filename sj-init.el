@@ -121,7 +121,7 @@
       delete-old-versions 		t
       kept-new-versions 		2
       kept-old-versions 		0
-      version-control 			t)
+      version-control 			nil)
 
 ;; auto-saves
 (defconst sj/auto-save-directory (concat user-emacs-directory "auto-saves/"))
@@ -168,7 +168,7 @@
 (smex-initialize)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "M-X") 'smex-major-mode-commands)
-(global-set-key (kbd "C-c M-x") 'smex-update-and-run)
+;(global-set-key (kbd "C-c M-x") 'smex-update-and-run)
 ;; This is your old M-x.
 (global-set-key (kbd "C-c M-x") 'execute-extended-command)
 
