@@ -20,7 +20,7 @@
 						 "Data/Map_Sym.txt"))
 
 ;; Clojure mode
-(sj/load-path-prepend '("external/clojure-mode"))
+(sj/load-path-prepend "external/clojure-mode")
 (setq clojure-mode-use-backtracking-indent t
       clojure-mode-font-lock-comment-sexp t)
 (autoload 'clojure-mode "clojure-mode" "A mode for clojure lisp" t)
@@ -33,18 +33,17 @@
 	     (paren-face-add-support clojure-font-lock-keywords)))
 
 ;; Swank-clojure for Slime integration
-(sj/load-path-prepend '("external/swank-clojure"))
+(setq sj/swank-clojure-dir "external/swank-clojure/src")
+(sj/load-path-prepend (sj/emacs-path (concat sj/swank-clojure-dir "/emacs")))
 (setq swank-clojure-compile-p t)
 ;; Use a wrapper shell script to start clojure.  The Clojure classpath
 ;; must contain the swank-clojure/src/[swank/] directory for SLIME to
 ;; run, so we compute that here from the Emacs load-path instead of
 ;; hard-coding it into the script.
-(condition-case nil
-    (let* ((swank-dir "swank-clojure")
-	   (swank-path (file-name-directory (locate-library swank-dir))))
-      (setq swank-clojure-binary
-	    (list "~/bin/clojure" "-C" (concat swank-path "src/"))))
-  (error (error "Couldn't locate the swank-clojure library")))
+(setq swank-clojure-binary
+      (let ((swank-path (concat (sj/emacs-path sj/swank-clojure-dir)
+				"/main/clojure")))
+	`("~/bin/clojure" "-C" ,swank-path)))
 (require 'swank-clojure-autoload)
 
 ;; SBCL
@@ -60,11 +59,13 @@
   '(progn
      (setq slime-default-lisp 'clojure
 	   slime-inhibit-pipelining nil
+	   slime-use-autodoc-mode nil 	; swank-clojure bug
 	   slime-autodoc-use-multiline-p t
 	   slime-net-coding-system 'utf-8-unix)
      (add-hook 'slime-connected-hook 'slime-redirect-inferior-output)
      ;; select the contrib/extra packages we want
-     (slime-setup '(slime-scratch slime-repl slime-fancy slime-fuzzy
+     (slime-setup '(slime-scratch slime-repl slime-fancy
+				  slime-c-p-c ;slime-fuzzy
 				  slime-fontifying-fu slime-editing-commands
 				  slime-sbcl-exts))
      (define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
