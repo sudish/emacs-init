@@ -9,11 +9,11 @@
 ;; Monospaced fonts from excellent review at:
 ;; http://hivelogic.com/articles/view/top-10-programming-fonts
 (defconst sj/default-font
-  "-*-Inconsolata-medium-r-normal--14-*-*-*-*-*-iso10646-1"
+  ;; "-*-Inconsolata-medium-r-normal--14-*-*-*-*-*-iso10646-1"
   ;; "-*-Menlo-medium-r-normal--12-*-*-*-*-*-iso10646-1"
   ;; "-*-Monaco-medium-r-normal--12-*-*-*-*-*-iso10646-1"
   ;; "-*-Consolas-medium-r-normal--14-*-*-*-*-*-iso10646-1"
-  ;; "-*-Droid Sans Mono-medium-r-normal--12-*-*-*-*-*-iso10646-1"
+  "-*-Droid Sans Mono-medium-r-normal--12-*-*-*-*-*-iso10646-1"
   ;; "-*-DejaVu Sans Mono-medium-r-normal--13-*-*-*-*-*-iso10646-1"
   ;; "-*-Liberation Mono-medium-r-normal--12-*-*-*-*-*-iso10646-1"
   ;; "-*-Andale Mono-medium-r-normal--13-*-*-*-*-*-iso10646-1"

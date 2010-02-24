@@ -15,8 +15,10 @@
 (define-key global-map [(super \1)]    'delete-other-windows)
 (define-key global-map [(super up)]    'windmove-up)
 (define-key global-map [(super down)]  'windmove-down)
-(define-key global-map [(super left)]  'winner-undo)
-(define-key global-map [(super right)] 'winner-redo)
+(define-key global-map [(super left)]  'windmove-left)
+(define-key global-map [(super right)] 'windmove-right)
+;; (define-key global-map [(super left)]  'winner-undo)
+;; (define-key global-map [(super right)] 'winner-redo)
 
 ;; private keymap for useful, but less commonly used stuff
 (define-prefix-command 'sj/private-keymap)

@@ -74,6 +74,7 @@
 	 ("Ruby"   (or 
 		    (mode . ruby-mode)
 		    (mode . rhtml-mode)))
+	 ("SQL" (mode . sql-mode))
 	 ("Haskell" (or 
 		     (mode . haskell-mode)
 		     (mode . literate-haskell-mode)
@@ -233,7 +234,7 @@
 (ido-mode t)
 (ido-everywhere 1)
 (setq ido-enable-flex-matching t
-      ido-use-filename-at-point t
+      ido-use-filename-at-point nil
       ido-all-frames t
       ido-max-work-file-list 30)
 
