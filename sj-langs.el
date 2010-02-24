@@ -159,6 +159,11 @@
 (eval-after-load 'rinari
   '(sj/clone-rinari-keymap))
 
+;; Emacs-Rails minor mode
+;; git://github.com/remvee/emacs-rails.git
+(sj/load-path-prepend "external/emacs-rails")
+(require 'rails)
+
 ;; Rhtml mode
 (sj/load-path-prepend "external/rhtml")
 (autoload 'rhtml-mode "rhtml-mode" nil t)
