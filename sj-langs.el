@@ -77,7 +77,8 @@
 ;;(setq scion-program "~/.cabal/bin/scion_server")
 
 ;; Haskell mode
-(load (concat sj/emacs-base-dir "/external/haskell-mode/" "haskell-site-file"))
+(load (concat sj/emacs-base-dir
+	      "/external/haskellmode-emacs/haskell-site-file"))
 (autoload 'haskell-indentation-mode "haskell-indentation")
 (eval-when-compile
   (require 'scion)
@@ -91,8 +92,8 @@
 (setq-default haskell-doc-show-global-types t)
 (remove-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 (defun sj/haskell-mode-hook ()
-  (setq comment-start   "--"
-	comment-padding " ")
+  ;; (setq comment-start   "--"
+  ;; 	comment-padding " ")
   (set (make-local-variable 'require-final-newline) t)
   (turn-on-haskell-decl-scan)
   (turn-on-haskell-doc-mode)
@@ -101,10 +102,10 @@
   ;; haskell-indentation.el seems nice & simple
   (haskell-indentation-mode)
   ;; from http://github.com/tibbe/haskell-style-guide
-  (setq tab-width 4
-	haskell-indentation-layout-offset 4
-	haskell-indentation-left-offset 4
-	haskell-indentation-ifte-offset 4)
+  ;; (setq tab-width 4
+  ;; 	haskell-indentation-layout-offset 4
+  ;; 	haskell-indentation-left-offset 4
+  ;; 	haskell-indentation-ifte-offset 4)
   (auto-fill-mode)
   ;; Take haskell-indentation keys back from Viper's intrusive grip
   (setq viper-insert-local-user-map
