@@ -33,6 +33,7 @@
 	     (paren-face-add-support clojure-font-lock-keywords)))
 
 ;; Swank-clojure for Slime integration
+;(sj/load-path-prepend "external/swank-clojure")
 (setq sj/swank-clojure-dir "external/swank-clojure/src")
 (sj/load-path-prepend (sj/emacs-path (concat sj/swank-clojure-dir "/emacs")))
 (setq swank-clojure-compile-p t)
@@ -44,7 +45,7 @@
       (let ((swank-path (concat (sj/emacs-path sj/swank-clojure-dir)
 				"/main/clojure")))
 	`("~/bin/clojure" "-C" ,swank-path)))
-(require 'swank-clojure-autoload)
+(require 'swank-clojure)
 
 ;; SBCL
 (defvar sj/slime-sbcl-path "/opt/local/bin/sbcl")
