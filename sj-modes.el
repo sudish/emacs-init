@@ -135,15 +135,25 @@
 (global-set-key (kbd "C-c p M-x")
 		'project-root-execute-extended-command)
 
-;; icomplete: incremental minibuffer completion
-(require 'icomplete)
-(icomplete-mode 1)
-
 ;; winner: rotate through window config history
 (winner-mode 1)
 
 ;; Auto-update contents of non-dirty buffers from disk
 (auto-revert-mode 1)
+
+;; icomplete: incremental minibuffer completion
+(require 'icomplete)
+(icomplete-mode 1)
+
+;; company: complete anything
+;; (sj/load-path-prepend "site-lisp/company-mode")
+;; (autoload 'company-mode "company" nil t)
+
+;; auto-complete: autocompletion with pop ups
+(sj/load-path-prepend "external/auto-complete")
+(require 'auto-complete)
+(require 'auto-complete-config)
+(global-auto-complete-mode t)
 
 ;; complete: partial completion etc.  must be before ffap
 (require 'complete)
