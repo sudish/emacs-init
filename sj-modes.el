@@ -71,11 +71,12 @@
 		   (mode . objc-mode)
 		   (mode . makefile-mode)
 		   (mode . makefile-bsdmake-mode)))
-	 ("Ruby"   (or 
+	 ("Ruby"   (or
 		    (mode . ruby-mode)
+		    (mode . yaml-mode)
 		    (mode . rhtml-mode)))
 	 ("SQL" (mode . sql-mode))
-	 ("Haskell" (or 
+	 ("Haskell" (or
 		     (mode . haskell-mode)
 		     (mode . literate-haskell-mode)
 		     (mode . inferior-haskell-mode)
