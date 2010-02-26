@@ -145,6 +145,9 @@
 (require 'icomplete)
 (icomplete-mode 1)
 
+;; iedit: in-place concurrent edit
+(autoload 'iedit-mode "iedit" nil t)
+
 ;; company: complete anything
 ;; (sj/load-path-prepend "site-lisp/company-mode")
 ;; (autoload 'company-mode "company" nil t)
@@ -153,6 +156,7 @@
 (sj/load-path-prepend "external/auto-complete")
 (require 'auto-complete)
 (require 'auto-complete-config)
+(setq ac-use-comphist t)
 (global-auto-complete-mode t)
 
 ;; complete: partial completion etc.  must be before ffap

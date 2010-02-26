@@ -19,6 +19,7 @@
 (define-key global-map [(super right)] 'windmove-right)
 ;; (define-key global-map [(super left)]  'winner-undo)
 ;; (define-key global-map [(super right)] 'winner-redo)
+(define-key global-map (kbd "C-;") 'iedit-mode)
 
 ;; private keymap for useful, but less commonly used stuff
 (define-prefix-command 'sj/private-keymap)
