@@ -17,8 +17,8 @@
 (setq anything-sources sj/anything-file-sources)
 
 ;; Load anything
-(require 'anything)
 (sj/load-path-prepend "external/anything-config")
+(require 'anything)
 (require 'anything-config)
 
 ;; Other anything source clusters 
