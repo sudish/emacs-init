@@ -32,21 +32,6 @@
   '(add-hook 'clojure-mode-hook
 	     (paren-face-add-support clojure-font-lock-keywords)))
 
-;; Swank-clojure for Slime integration
-;(sj/load-path-prepend "external/swank-clojure")
-(setq sj/swank-clojure-dir "external/swank-clojure/src")
-(sj/load-path-prepend (sj/emacs-path (concat sj/swank-clojure-dir "/emacs")))
-(setq swank-clojure-compile-p t)
-;; Use a wrapper shell script to start clojure.  The Clojure classpath
-;; must contain the swank-clojure/src/[swank/] directory for SLIME to
-;; run, so we compute that here from the Emacs load-path instead of
-;; hard-coding it into the script.
-(setq swank-clojure-binary
-      (let ((swank-path (concat (sj/emacs-path sj/swank-clojure-dir)
-				"/main/clojure")))
-	`("~/bin/clojure" "-C" ,swank-path)))
-(require 'swank-clojure)
-
 ;; SBCL
 (defvar sj/slime-sbcl-path "/opt/local/bin/sbcl")
 (eval-after-load 'slime
@@ -71,6 +56,21 @@
 				  slime-sbcl-exts))
      (define-key slime-mode-map (kbd "<return>") 'newline-and-indent)
      (define-key slime-mode-map (kbd "C-j") 'newline)))
+
+;; Swank-clojure for Slime integration
+(sj/load-path-prepend "external/swank-clojure")
+(setq sj/swank-clojure-dir "external/swank-clojure/src")
+;(sj/load-path-prepend (sj/emacs-path (concat sj/swank-clojure-dir "/emacs")))
+(setq swank-clojure-compile-p t)
+;; Use a wrapper shell script to start clojure.  The Clojure classpath
+;; must contain the swank-clojure/src/[swank/] directory for SLIME to
+;; run, so we compute that here from the Emacs load-path instead of
+;; hard-coding it into the script.
+(setq swank-clojure-binary
+      (let ((swank-path (concat (sj/emacs-path sj/swank-clojure-dir)
+				"/swank")))
+	`("~/bin/clojure" "-C" ,swank-path)))
+(require 'swank-clojure)
 
 ;; Scion: SLIME for Haskell
 (sj/load-path-prepend "external/scion")
@@ -162,8 +162,8 @@
 
 ;; Emacs-Rails minor mode
 ;; git://github.com/remvee/emacs-rails.git
-(sj/load-path-prepend "external/emacs-rails")
-(require 'rails)
+;; (sj/load-path-prepend "external/emacs-rails")
+;; (require 'rails)
 
 ;; Rhtml mode
 (sj/load-path-prepend "external/rhtml")
@@ -214,6 +214,12 @@
   '(add-hook 'yaml-mode-hook
 	     (defun sj/yaml-mode-hook ()
 	       (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
+
+;; RSense -- Ruby auto-complete support
+(sj/load-path-prepend "external/rsense")
+(setq rsense-home (expand-file-name "~/src/git/rsense")
+      rsense-rurema-home (expand-file-name "~/src/Langs/Ruby/ruby-refm"))
+;(require 'rsense)
 
 ;; cc-mode stuff
 (eval-when-compile (require 'cc-mode))
