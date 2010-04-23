@@ -251,7 +251,7 @@
 (setq ido-enable-flex-matching t
       ido-use-filename-at-point nil
       ido-all-frames t
-      ido-use-virtual-buffers t
+      ido-use-virtual-buffers nil ; Too obtrusive, stick with anything
       ido-max-work-file-list 30)
 
 ;; recentf -- recently visited files

@@ -74,6 +74,7 @@
 (setq track-eol 		t
       scroll-step 		1
       scroll-conservatively     100
+      scroll-preserve-screen-position t
       next-screen-context-lines 2
       confirm-kill-emacs        'y-or-n-p
       inhibit-startup-screen    t
@@ -159,6 +160,13 @@
 (setenv "GNUSERV_SHOW_EMACS" "1")        ; always raise Emacs window
 (when (memq system-type '(darwin))
   (server-start))
+
+;; emacs_chrome edit-server: service requests from the Chrome extension
+(sj/load-path-prepend "external/emacs_chrome/servers")
+(require 'edit-server)
+(setq edit-server-verbose t
+      edit-server-new-frame-alist nil)
+(edit-server-start)
 
 ;; smex: IDO for interactive commands (an IDO-enabled M-x)
 (sj/load-path-prepend "external/smex")
