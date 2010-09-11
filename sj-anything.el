@@ -21,6 +21,14 @@
 (require 'anything)
 (require 'anything-config)
 
+;; Use anything-complete to load files, change buffers, etc.
+(sj/load-path-prepend "external/anything-config/extensions")
+(require 'anything-show-completion)
+;; (require 'anything-complete)
+;; (ido-mode -1)
+;; (anything-read-string-mode t)
+;; (defalias 'read-file-name (symbol-function 'anything-old-read-file-name))
+
 ;; Other anything source clusters 
 (defconst sj/anything-emacs-sources
   '(anything-c-source-extended-command-history

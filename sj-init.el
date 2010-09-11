@@ -23,7 +23,9 @@
 
 ;; System-specific init
 (cond ((eq system-type 'darwin)
-       (load "sj-system-darwin")))
+       (load "sj-system-darwin"))
+      ((eq system-type 'gnu/linux)
+       (load "sj-system-linux")))
 
 ;; Load misc. functions we need later
 (load "sj-funcs")
@@ -72,9 +74,10 @@
 
 ;; Tweak some of the defaults
 (setq track-eol 		t
-      scroll-step 		1
-      scroll-conservatively     100
-      scroll-preserve-screen-position t
+      scroll-step 		0
+      scroll-conservatively     most-positive-fixnum
+      scroll-preserve-screen-position 'always
+      line-move-visual          nil
       next-screen-context-lines 2
       confirm-kill-emacs        'y-or-n-p
       inhibit-startup-screen    t
@@ -169,16 +172,15 @@
 (edit-server-start)
 
 ;; smex: IDO for interactive commands (an IDO-enabled M-x)
-(sj/load-path-prepend "external/smex")
-(require 'smex)
-(setq smex-save-file (concat user-emacs-directory ".smex")
-      smex-history-length 15)
-(smex-initialize)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;(global-set-key (kbd "C-c M-x") 'smex-update-and-run)
+;; (sj/load-path-prepend "external/smex")
+;; (require 'smex)
+;; (setq smex-save-file (concat user-emacs-directory ".smex")
+;;       smex-history-length 15)
+;; (smex-initialize)
+;; (global-set-key (kbd "M-x") 'smex)
+;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 ;; This is your old M-x.
-(global-set-key (kbd "C-c M-x") 'execute-extended-command)
+;; (global-set-key (kbd "C-c M-x") 'execute-extended-command)
 
 ;; filecache: caches names of files for use from minibuffer.
 ;; initialize the cache as the very last thing we do, once load-path is

@@ -173,6 +173,10 @@
 ;; (require 'pabbrev)
 ;; (global-pabbrev-mode)
 
+;; minimap: buffer overviews
+(sj/load-path-prepend "external/minimap")
+(autoload 'minimap-create "minimap" nil t)
+
 ;; diff
 (setq diff-switches '("-u"))
 
@@ -234,7 +238,7 @@
   (add-hook hook 'gd-add-to-mode))
 
 ;; ispell
-(setq ispell-program-name "/opt/local/bin/ispell")
+(setq ispell-program-name "/usr/bin/ispell")
 
 ;; changelog mode
 (setq add-log-full-name (if user-sj-p "Sudish Joseph" (user-full-name))

@@ -33,10 +33,10 @@
 	     (paren-face-add-support clojure-font-lock-keywords)))
 
 ;; SBCL
-(defvar sj/slime-sbcl-path "/opt/local/bin/sbcl")
-(eval-after-load 'slime
-  '(add-to-list 'slime-lisp-implementations
-		`(sbcl (,sj/slime-sbcl-path) :coding-system utf-8-unix) t))
+;; (defvar sj/slime-sbcl-path "/opt/local/bin/sbcl")
+;; (eval-after-load 'slime
+;;   '(add-to-list 'slime-lisp-implementations
+;; 		`(sbcl (,sj/slime-sbcl-path) :coding-system utf-8-unix) t))
 
 ;; Slime -- Superior Lisp Interaction Mode
 (sj/load-path-prepend "external/slime" "doc")
@@ -45,6 +45,7 @@
   '(progn
      (setq slime-default-lisp 'clojure
 	   slime-inhibit-pipelining nil
+	   ;slime-protocol-version 'ignore ; don't warn on mismatch
 	   slime-use-autodoc-mode nil 	; swank-clojure bug
 	   slime-autodoc-use-multiline-p t
 	   slime-net-coding-system 'utf-8-unix)
@@ -59,23 +60,37 @@
 
 ;; Swank-clojure for Slime integration
 (sj/load-path-prepend "external/swank-clojure")
-(setq sj/swank-clojure-dir "external/swank-clojure/src")
-;(sj/load-path-prepend (sj/emacs-path (concat sj/swank-clojure-dir "/emacs")))
 (setq swank-clojure-compile-p t)
+;; taken from http://groups.google.com/group/swank-clojure/msg/73fe5c599d854ea5
+(add-hook 'slime-repl-mode-hook 
+	  (defun sj/slime-clojure-repl-setup () 
+	    (when (string-equal "clojure" (slime-connection-name)) 
+	      (clojure-mode-font-lock-setup) 
+	      (when (slime-inferior-process) 
+		(slime-redirect-inferior-output)) 
+	      (swank-clojure-slime-repl-modify-syntax)))) 
 ;; Use a wrapper shell script to start clojure.  The Clojure classpath
-;; must contain the swank-clojure/src/[swank/] directory for SLIME to
-;; run, so we compute that here from the Emacs load-path instead of
-;; hard-coding it into the script.
-(setq swank-clojure-binary
-      (let ((swank-path (concat (sj/emacs-path sj/swank-clojure-dir)
-				"/swank")))
-	`("~/bin/clojure" "-C" ,swank-path)))
+;; must contain the swank-clojure jar file for SLIME to run, so we
+;; compute that here from the Emacs load-path instead of hard-coding
+;; it into the script.
+(setq sj/swank-jar-path "external/swank-clojure/swank-clojure.jar"
+      swank-clojure-binary
+      `("~/bin/clojure" "-C" ,(sj/emacs-path sj/swank-jar-path)))
+;; Hook into SLIME manually. swank-clojure now wants you to use maven
+;; or lein and other overly complicated methods.
+(eval-after-load 'slime
+  `(add-to-list 'slime-lisp-implementations
+		'(clojure (,@swank-clojure-binary) :init swank-clojure-init)))
 (require 'swank-clojure)
 
 ;; Scion: SLIME for Haskell
 (sj/load-path-prepend "external/scion")
 (autoload 'scion-mode "scion" nil t)
 ;;(setq scion-program "~/.cabal/bin/scion_server")
+
+;; ghc-mode: convenience func for haskell
+(sj/load-path-prepend "external/ghc-mod")
+(autoload 'ghc-init "ghc" nil t)
 
 ;; Haskell mode
 (load (concat sj/emacs-base-dir
@@ -115,7 +130,9 @@
 				    ([backspace] . [delete])
 				    ([backspace] . [?\d]))))
   (scion-mode 1)
-  (scion-flycheck-on-save 1))
+  (scion-flycheck-on-save 1)
+  (ghc-init)
+  (flymake-mode))
 (add-hook 'haskell-mode-hook 'sj/haskell-mode-hook)
 (add-to-list 'viper-emacs-state-mode-list 'inferior-haskell-mode)
 (add-to-list 'filladapt-token-table '("-- " haskell-comment))
