@@ -15,7 +15,7 @@
 
 ;; Custom
 (setq custom-file "~/.custom")
-(load custom-file)
+;(load custom-file)
 
 ;; Viper mode
 (setq viper-mode t)
