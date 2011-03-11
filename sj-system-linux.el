@@ -9,7 +9,7 @@
 ;; Monospaced fonts from excellent review at:
 ;; http://hivelogic.com/articles/view/top-10-programming-fonts
 (defconst sj/default-font
-  "-*-Inconsolata-medium-r-normal--16-*-*-*-*-*-iso10646-1"
+  "-*-Inconsolata-medium-r-normal--14-*-*-*-*-*-iso10646-1"
   ;; "-*-Menlo-medium-r-normal--12-*-*-*-*-*-iso10646-1"
   ;; "-*-Monaco-medium-r-normal--12-*-*-*-*-*-iso10646-1"
   ;; "-*-Consolas-medium-r-normal--14-*-*-*-*-*-iso10646-1"
@@ -30,6 +30,9 @@
 				    initial-frame-alist)
 	default-frame-alist (append sj/default-frame-parameters
 				    default-frame-alist)))
+
+(global-set-key (kbd "<XF86Forward>") 'other-window)
+(global-set-key (kbd "<XF86Back>") 'previous-buffer)
 
 
 ;;; Local Variables:
