@@ -72,6 +72,14 @@
 ;; No tool bar, please
 (tool-bar-mode -1)
 
+;; Don't blink the cursor
+(blink-cursor-mode -1)
+
+;; Better display of long lines
+(setq visual-line-fringe-indicators	; always display wrap indicators
+      (cdr (assq 'continuation fringe-indicator-alist)))
+(global-visual-line-mode)
+
 ;; Tweak some of the defaults
 (setq track-eol 		t
       scroll-step 		0
