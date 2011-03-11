@@ -5,7 +5,8 @@
 
 ;; SQL mode
 (eval-when-compile (require 'sql))
-(setq sql-product 'postgres)
+(setq sql-product 'mysql
+      sql-electric-stuff 'semicolon)
 
 ;; eldoc: automatic docs in minibuffer
 (autoload 'turn-on-eldoc-mode "eldoc" nil t)
