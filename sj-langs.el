@@ -163,25 +163,33 @@
   '(distel-setup))
 
 ;; Rinari (load before ruby-mode, since Rinari has its own copy)
-(sj/load-path-prepend "external/rinari" "doc")
-(require 'rinari)
-(defun sj/clone-rinari-keymap ()
-  "Copy Rinari's difficult to reach keymaps to someplace better."
-  (define-prefix-command 'sj/rinari-main-keymap)
-  (define-prefix-command 'sj/rinari-jump-keymap)
-  (set-keymap-parent 'sj/rinari-main-keymap
-		     (lookup-key rinari-minor-mode-map (kbd "C-c ;")))
-  (set-keymap-parent 'sj/rinari-jump-keymap
-		     (lookup-key rinari-minor-mode-map (kbd "C-c ; f")))
-  (define-key rinari-minor-mode-map [(super g)] sj/rinari-main-keymap)
-  (define-key rinari-minor-mode-map [(super j)] sj/rinari-jump-keymap))
-(eval-after-load 'rinari
-  '(sj/clone-rinari-keymap))
+;; (sj/load-path-prepend "external/rinari" "doc")
+;; (require 'rinari)
+;; (defun sj/clone-rinari-keymap ()
+;;   "Copy Rinari's difficult to reach keymaps to someplace better."
+;;   (define-prefix-command 'sj/rinari-main-keymap)
+;;   (define-prefix-command 'sj/rinari-jump-keymap)
+;;   (set-keymap-parent 'sj/rinari-main-keymap
+;; 		     (lookup-key rinari-minor-mode-map (kbd "C-c ;")))
+;;   (set-keymap-parent 'sj/rinari-jump-keymap
+;; 		     (lookup-key rinari-minor-mode-map (kbd "C-c ; f")))
+;;   (define-key rinari-minor-mode-map [(super g)] sj/rinari-main-keymap)
+;;   (define-key rinari-minor-mode-map [(super j)] sj/rinari-jump-keymap))
+;; (eval-after-load 'rinari
+;;   '(sj/clone-rinari-keymap))
 
-;; Emacs-Rails minor mode
-;; git://github.com/remvee/emacs-rails.git
-;; (sj/load-path-prepend "external/emacs-rails")
-;; (require 'rails)
+;; ruby-mode & inf-ruby from the ruby-lang repo
+(sj/load-path-prepend "external/ruby-lang")
+
+;; rvm integration
+(sj/load-path-prepend "external/rvm.el")
+(defun sj/rvm-activate ()
+  "Run rvm activation every time we load a ruby-mode file.
+This facilitates the use of per-project .rvmrc files."
+  (require 'rvm)
+  (rvm-activate-corresponding-ruby))
+(eval-after-load 'ruby-mode
+  '(add-hook 'ruby-mode-hook 'sj/rvm-activate))
 
 ;; Rhtml mode
 (sj/load-path-prepend "external/rhtml")
@@ -238,6 +246,11 @@
 (setq rsense-home (expand-file-name "~/src/git/rsense")
       rsense-rurema-home (expand-file-name "~/src/Langs/Ruby/ruby-refm"))
 ;(require 'rsense)
+
+;; Emacs-Rails minor mode
+;; git://github.com/remvee/emacs-rails.git
+(sj/load-path-prepend "external/emacs-rails")
+(require 'rails)
 
 ;; cc-mode stuff
 (eval-when-compile (require 'cc-mode))
