@@ -169,7 +169,7 @@
 
 ;; gnuserv
 (setenv "GNUSERV_SHOW_EMACS" "1")        ; always raise Emacs window
-(when (memq system-type '(darwin))
+(when (memq system-type '(darwin gnu/linux))
   (server-start))
 
 ;; emacs_chrome edit-server: service requests from the Chrome extension
@@ -177,7 +177,10 @@
 (require 'edit-server)
 (setq edit-server-verbose t
       edit-server-new-frame-alist nil)
-(edit-server-start)
+(condition-case err
+    (edit-server-start)
+  (error
+   (message "edit-server: %s" (error-message-string err))))
 
 ;; smex: IDO for interactive commands (an IDO-enabled M-x)
 ;; (sj/load-path-prepend "external/smex")
