@@ -10,10 +10,22 @@
 				    slime-repl-mode-hook
 				    python-mode-hook)
   "Hooks for modes where we enable special paren handling
-(paredit and highlight-paren)")
+through paredit and highlight-paren")
+
+;; color themes
+(sj/load-path-prepend "site-lisp/color-theme")
+(require 'color-theme)
+;; (sj/load-path-prepend "external/zenburn-emacs")
+;; (require 'zenburn)
+(sj/load-path-prepend "external/ir_black_emacs")
+(require 'color-theme-irblack)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-irblack)))
 
 ;; Angry fruit salad
-(setq frame-background-mode 'light
+(setq frame-background-mode 'dark
       font-lock-maximum-decoration t)
 (require 'font-lock)
 
