@@ -37,8 +37,42 @@
 
 (define-key global-map [ns-drag-file] 'ns-find-file)
 
+;; Typester's fullscreen hack
 (when (fboundp 'ns-toggle-fullscreen)
   (define-key global-map [M-return] 'ns-toggle-fullscreen))
+
+;; Emacs HEAD now has support for auto-hiding the OS X menubar.
+;; Combine this with moving the frame decoration offscreen and
+;; we have fullscreen mode under OS X.
+;; (see e7f047d6f3e1ea53c8469c28279c2c284fd4d655)
+(when (boundp 'ns-auto-hide-menu-bar)
+  (define-key global-map [M-return] 'sj/ns-make-frame-fullscreen)
+  (defun sj/ns-make-frame-fullscreen ()
+    "Make the current frame fullscreen."
+    (interactive)
+    (setq ns-auto-hide-menu-bar t)
+    (labels ((fp (p) (frame-parameter (selected-frame) p)))
+      ;; Make this frame large enough to cover the whole screen.
+      ;; set-frame-size takes character rows and columns, so convert
+      ;; all the pixel-based values accordingly.
+      (let* ((rows (/ (display-pixel-height) (frame-char-height)))
+	     (cols (/ (display-pixel-width)  (frame-char-width)))
+	     (fringe-pixels (+ (fp 'left-fringe) (fp 'right-fringe)))
+	     (fringe (/ fringe-pixels (frame-char-width)))
+	     (scrollbar (/ (fp 'scroll-bar-width) (frame-char-width)))
+	     (real-cols (- cols fringe scrollbar)))
+	(set-frame-size (selected-frame) real-cols rows))
+      ;; Move this frame's window decoration offscreen.
+      ;; - The magic number here is the size of the decorator in pixels.
+      ;; - vertical-gap is any leftover vertical space (pixels) after
+      ;;   computing the number of rows above. We distribute this evenly
+      ;;   at the top and bottom.
+      ;; - vertical-offset must be negative to move the window decoration
+      ;;   offscreen.
+      (let* ((decorator-size 24)
+	     (vertical-gap (mod (display-pixel-height) (frame-char-height)))
+	     (vertical-offset (- (/ vertical-gap 2) decorator-size)))
+	(set-frame-position (selected-frame) 0 vertical-offset)))))
 
 
 ;;; Local Variables:
