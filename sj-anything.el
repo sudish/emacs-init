@@ -3,19 +3,6 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 2008-12-15
 
-;; Initialize the default anything-sources before loading anything to
-;; prevent pre-loading the content for sources we're not interested in.
-;;
-;; Most of these are defined in anything-config.el, loaded below.
-(defconst sj/anything-file-sources
-  '(anything-c-source-buffers+
-    anything-c-source-recentf
-    sj/anything-source-project-root-files
-    anything-c-source-file-cache
-    anything-c-source-locate
-    sj/anything-source-osx-spotlight))
-(setq anything-sources sj/anything-file-sources)
-
 ;; Load anything
 (sj/load-path-prepend "external/anything-config")
 (require 'anything)
@@ -28,6 +15,21 @@
 ;; (ido-mode -1)
 ;; (anything-read-string-mode t)
 ;; (defalias 'read-file-name (symbol-function 'anything-old-read-file-name))
+
+;; Initialize the default anything-sources before loading anything to
+;; prevent pre-loading the content for sources we're not interested in.
+;;
+;; Most of these are defined in anything-config.el, loaded below.
+(defconst sj/anything-file-sources
+  '(anything-c-source-buffers+
+    anything-c-source-recentf
+    sj/anything-source-project-root-files
+    anything-c-source-file-cache
+    ;; anything-c-source-locate
+    ;; sj/anything-source-osx-spotlight
+    ))
+
+(setq anything-sources sj/anything-file-sources)
 
 ;; Other anything source clusters 
 (defconst sj/anything-emacs-sources
