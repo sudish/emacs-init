@@ -13,13 +13,6 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
-;; Lisp HyperSpec from http://www.lispworks.com/documentation/common-lisp.html
-(setq sj/hyperspec-dir (expand-file-name
-			"~/src/CommonLisp/HyperSpec-7.0/HyperSpec/")
-      common-lisp-hyperspec-root (concat "file://" sj/hyperspec-dir)
-      common-lisp-hyperspec-symbol-table (concat sj/hyperspec-dir
-						 "Data/Map_Sym.txt"))
-
 ;; Clojure mode
 (sj/load-path-prepend "external/clojure-mode")
 (setq clojure-mode-use-backtracking-indent t
@@ -32,6 +25,13 @@
 (eval-after-load 'clojure-mode
   '(add-hook 'clojure-mode-hook
 	     (paren-face-add-support clojure-font-lock-keywords)))
+
+;; Lisp HyperSpec from http://www.lispworks.com/documentation/common-lisp.html
+;; (let ((sj/hyperspec-dir (expand-file-name
+;; 			 "~/src/CommonLisp/HyperSpec-7.0/HyperSpec/")))
+;;   (setq common-lisp-hyperspec-root (concat "file://" sj/hyperspec-dir)
+;; 	common-lisp-hyperspec-symbol-table (concat sj/hyperspec-dir
+;; 						   "Data/Map_Sym.txt")))
 
 ;; SBCL
 ;; (defvar sj/slime-sbcl-path "/opt/local/bin/sbcl")
