@@ -29,6 +29,11 @@ through paredit and highlight-paren")
       font-lock-maximum-decoration t)
 (require 'font-lock)
 
+;; textmate emulation
+(sj/load-path-prepend "external/textmate.el")
+(require 'textmate)
+(textmate-mode)
+
 ;; show-paren
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
