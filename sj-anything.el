@@ -19,10 +19,10 @@
 ;; Most of these are defined in anything-config.el, loaded below.
 (defconst sj/anything-file-sources
   '(anything-c-source-buffers+
-    sj/anything-source-eproject-files
     anything-c-source-recentf
-    sj/anything-source-project-root-files
     anything-c-source-file-cache
+    sj/anything-source-eproject-files
+    ;; sj/anything-source-project-root-files
     ;; anything-c-source-locate
     ;; sj/anything-source-osx-spotlight
     ))
@@ -51,11 +51,13 @@
 (defconst sj/anything-source-project-root-files
   '((name . "Project Files")
     (init . (lambda ()
-              (unless project-details
-                (project-root-fetch))
-              (setq anything-project-root project-details)))
+	      (when (featurep 'project-root)
+		(unless project-details
+		  (project-root-fetch))
+		(setq anything-project-root project-details))))
     (candidates . (lambda ()
-                    (project-root-file-find-process anything-pattern)))
+		    (when (featurep 'project-root)
+		      (project-root-file-find-process anything-pattern))))
     (candidate-transformer . sj/anything-file-candidate-filter)
     (requires-pattern . 2)
     ;; Don't make me wait for project-root files, if any
@@ -69,6 +71,7 @@
     (header-name . (lambda (name)
 		     (concat name " for " sj/eproject-root)))
     (init . (lambda ()
+	      ;; both these should be nil outside an eproject
 	      (setq sj/eproject-root (and eproject-mode
 					  (eproject-root))
 		    sj/eproject-files (and eproject-mode
