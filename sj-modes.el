@@ -159,9 +159,9 @@ through paredit and highlight-paren")
 (define-project-type rails (generic)
   (eproject--scan-parents-for file
     (lambda (directory)
-      (every (lambda (entry)
-	       (file-exists-p (format "%s/%s" directory entry)))
-	     '("app" "config" "db" "lib" "script" "test"))))
+      (let ((entries (directory-files "."  nil nil 'nosort)))
+	(every (lambda (entry) (memq entry entries))
+	       '("app" "config" "db" "lib" "script" "test")))))
   :relevant-files ("\\.rb$" "\\.yml$"))
 
 ;; winner: rotate through window config history
