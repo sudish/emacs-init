@@ -30,9 +30,9 @@ through paredit and highlight-paren")
 (require 'font-lock)
 
 ;; textmate emulation
-(sj/load-path-prepend "external/textmate.el")
-(require 'textmate)
-(textmate-mode)
+;; (sj/load-path-prepend "external/textmate.el")
+;; (require 'textmate)
+;; (textmate-mode)
 
 ;; show-paren
 (show-paren-mode t)
