@@ -152,6 +152,18 @@ through paredit and highlight-paren")
 (global-set-key (kbd "C-c p M-x")
 		'project-root-execute-extended-command)
 
+;; eproject
+(sj/load-path-prepend "external/eproject")
+(require 'eproject)
+(require 'eproject-extras)
+(define-project-type rails (generic)
+  (eproject--scan-parents-for file
+    (lambda (directory)
+      (every (lambda (entry)
+	       (file-exists-p (format "%s/%s" directory entry)))
+	     '("app" "config" "db" "lib" "script" "test"))))
+  :relevant-files ("\\.rb$" "\\.yml$"))
+
 ;; winner: rotate through window config history
 (winner-mode 1)
 
