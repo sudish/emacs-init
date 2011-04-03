@@ -9,6 +9,8 @@
 (define-key global-map [(super m)]     'magit-status)
 (define-key global-map [(super r)]     'rgrep)
 (define-key global-map [(super R)]     'sj/project-root-rgrep)
+(define-key global-map [(super t)]     'sj/anything-textmate)
+(define-key global-map [(super T)]     'sj/anything-code-nav)
 (define-key global-map [(super u)]     'undo)
 (define-key global-map [(super :)]     'eval-expression)
 (define-key global-map [(super \0)]    'delete-window)

@@ -16,12 +16,10 @@
 ;; (anything-read-string-mode t)
 ;; (defalias 'read-file-name (symbol-function 'anything-old-read-file-name))
 
-;; Initialize the default anything-sources before loading anything to
-;; prevent pre-loading the content for sources we're not interested in.
-;;
 ;; Most of these are defined in anything-config.el, loaded below.
 (defconst sj/anything-file-sources
   '(anything-c-source-buffers+
+    sj/anything-source-eproject-files
     anything-c-source-recentf
     sj/anything-source-project-root-files
     anything-c-source-file-cache
@@ -31,7 +29,7 @@
 
 (setq anything-sources sj/anything-file-sources)
 
-;; Other anything source clusters 
+;; Other anything source clusters
 (defconst sj/anything-emacs-sources
   '(anything-c-source-extended-command-history
     anything-c-source-emacs-commands
@@ -64,6 +62,27 @@
     ;; (delayed)
     (volatile)
     (type . file)))
+
+;; Files from current project root
+(defconst sj/anything-source-eproject-files
+  '((name . "eProject Files")
+    (header-name . (lambda (name)
+		     (concat name " for " sj/eproject-root)))
+    (init . (lambda ()
+	      (setq sj/eproject-root (and eproject-mode
+					  (eproject-root))
+		    sj/eproject-files (and eproject-mode
+					   (eproject-list-project-files)))))
+    (candidates . (lambda ()
+		    (mapcar
+		     (lambda (f)
+		       (cons (replace-regexp-in-string sj/eproject-root "" f) f))
+		     (reverse sj/eproject-files))))
+    (candidate-transformer . sj/anything-file-candidate-filter)
+    (type . file)))
+(defun sj/anything-textmate ()
+  (interactive)
+  (anything sj/anything-source-eproject-files))
 
 ;; Spotlight search across home directory, if available
 (defconst sj/anything-source-osx-spotlight
