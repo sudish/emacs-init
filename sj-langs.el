@@ -205,7 +205,10 @@ This facilitates the use of per-project .rvmrc files."
       ruby-deep-arglist nil)
 (autoload 'ruby-mode "ruby-mode" "Major mode for ruby files" t)
 (eval-after-load 'ruby-mode
-  '(add-hook 'ruby-mode-hook (lambda () (highlight-parentheses-mode t))))
+  '(add-hook 'ruby-mode-hook
+	     (lambda ()
+	       (highlight-parentheses-mode t)
+	       (setq show-trailing-whitespace nil))))
 (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
 (add-to-list 'viper-vi-state-mode-list 'ruby-mode)
