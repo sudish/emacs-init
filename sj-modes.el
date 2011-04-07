@@ -17,12 +17,16 @@ through paredit and highlight-paren")
 (require 'color-theme)
 ;; (sj/load-path-prepend "external/zenburn-emacs")
 ;; (require 'zenburn)
-(sj/load-path-prepend "external/ir_black_emacs")
-(require 'color-theme-irblack)
+;; (sj/load-path-prepend "external/ir_black_emacs")
+;; (require 'color-theme-irblack)
+;; (sj/load-path-prepend "external/solarized/emacs-color-theme-solarized")
+;; (require 'color-theme-solarized)
+(sj/load-path-prepend "external/color-theme-sanityinc-solarized")
+(require 'color-theme-sanityinc-solarized)
 (eval-after-load "color-theme"
   '(progn
      (color-theme-initialize)
-     (color-theme-irblack)))
+     (color-theme-sanityinc-solarized-dark)))
 
 ;; Angry fruit salad
 (setq frame-background-mode 'dark
