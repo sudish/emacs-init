@@ -15,12 +15,20 @@
 (define-key global-map [(super :)]     'eval-expression)
 (define-key global-map [(super \0)]    'delete-window)
 (define-key global-map [(super \1)]    'delete-other-windows)
-(define-key global-map [(super up)]    'windmove-up)
-(define-key global-map [(super down)]  'windmove-down)
-(define-key global-map [(super left)]  'windmove-left)
-(define-key global-map [(super right)] 'windmove-right)
-;; (define-key global-map [(super left)]  'winner-undo)
-;; (define-key global-map [(super right)] 'winner-redo)
+;; (define-key global-map [(super up)]    'windmove-up)
+;; (define-key global-map [(super down)]  'windmove-down)
+;; (define-key global-map [(super left)]  'windmove-left)
+;; (define-key global-map [(super right)] 'windmove-right)
+(define-key global-map [(super up)]
+  (defun sj/previous-window ()
+    (interactive)
+    (select-window (previous-window))))
+(define-key global-map [(super down)]
+  (defun sj/next-window ()
+    (interactive)
+    (select-window (next-window))))
+(define-key global-map [(super left)]  'winner-undo)
+(define-key global-map [(super right)] 'winner-redo)
 (define-key global-map (kbd "C-;") 'iedit-mode)
 
 ;; private keymap for useful, but less commonly used stuff
