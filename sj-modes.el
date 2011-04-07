@@ -168,7 +168,7 @@ through paredit and highlight-paren")
 (winner-mode 1)
 
 ;; Auto-update contents of non-dirty buffers from disk
-(auto-revert-mode 1)
+(global-auto-revert-mode 1)
 
 ;; icomplete: incremental minibuffer completion
 (require 'icomplete)
