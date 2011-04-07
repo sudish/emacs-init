@@ -20,9 +20,9 @@
 (defconst sj/anything-file-sources
   '(anything-c-source-buffers+
     anything-c-source-recentf
-    anything-c-source-file-cache
-    sj/anything-source-eproject-files
-    ;; sj/anything-source-project-root-files
+    sj/anything-source-project-root-files
+    ;; anything-c-source-file-cache
+    ;; sj/anything-source-eproject-files
     ;; anything-c-source-locate
     ;; sj/anything-source-osx-spotlight
     ))

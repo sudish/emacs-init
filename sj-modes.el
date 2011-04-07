@@ -135,20 +135,20 @@ through paredit and highlight-paren")
 	    (ibuffer-switch-to-saved-filter-groups "default")))
 
 ;; project-root
-;; (require 'project-root)
-;; (setq project-roots
-;;       `(("Rails Project"
-;;          :root-contains-files ("app" "config" "db" "lib" "script" "test")
-;;          :on-hit (lambda (p) (message (car p))))
-;; 	("Emacs config"
-;;          :path-matches ,(format "\\(%s\\)" sj/emacs-base-dir)
-;; 	 :on-hit (lambda (p) (message (car p))))
-;; 	("Perl Project"
-;;          :root-contains-files ("t" "lib")
-;;          :on-hit (lambda (p) (message (car p))))
-;; 	("Git Project"
-;;          :root-contains-files (".git")
-;;          :on-hit (lambda (p) (message (car p))))))
+(require 'project-root)
+(setq project-roots
+      `(("Rails Project"
+         :root-contains-files ("app" "config" "db" "lib" "script" "test")
+         :on-hit (lambda (p) (message (car p))))
+	("Emacs config"
+         :path-matches ,(format "\\(%s\\)" sj/emacs-base-dir)
+	 :on-hit (lambda (p) (message (car p))))
+	("Perl Project"
+         :root-contains-files ("t" "lib")
+         :on-hit (lambda (p) (message (car p))))
+	("Git Project"
+         :root-contains-files (".git")
+         :on-hit (lambda (p) (message (car p))))))
 ;; (global-set-key (kbd "C-c p f") 'project-root-find-file)
 ;; (global-set-key (kbd "C-c p g") 'project-root-grep)
 ;; (global-set-key (kbd "C-c p a") 'project-root-ack)
