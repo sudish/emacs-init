@@ -37,7 +37,8 @@
       gnus-use-cross-reference t
       gnus-summary-check-current t)
 
-(setq nntp-connection-timeout 5)
+(setq nntp-open-connection-function 'nntp-open-plain-stream
+      nntp-connection-timeout 5)
 
 (setq gnus-thread-sort-functions '(gnus-thread-sort-by-number)
       gnus-thread-score-function nil)
@@ -70,15 +71,6 @@
 
 ;; last choice MIME types
 (setq mm-discouraged-alternatives '("text/html" "text/richtext"))
-
-;; SOUP
-;; (setq gnus-soup-directory (expand-file-name "~/News/Soup")
-;;       gnus-soup-replies-directory (concat gnus-soup-directory "/Replies")
-;;       gnus-soup-packet-directory gnus-soup-replies-directory
-;;       nnsoup-tmp-directory (concat gnus-soup-directory "/tmp")
-;;       nnsoup-directory (concat gnus-soup-directory "/nnsoup")
-;;       nnsoup-replies-directory (concat nnsoup-directory "/replies")
-;;       nnsoup-active-file (concat nnsoup-directory "/active"))
 
 ;; do total-expiry on all groups
 (defun sj/gnus-do-total-expire ()
@@ -126,10 +118,8 @@ The first score file in the first matching entry is used."
 (gnus-demon-init)
 (defun sj/gnus-demon-scan-news ()
   (when (gnus-alive-p)
-    (save-window-excursion
-      (save-excursion
-	(set-buffer gnus-group-buffer)
-	(gnus-group-get-new-news 2)))))
+    (with-current-buffer gnus-group-buffer
+      (gnus-group-get-new-news 2))))
 (setq gnus-use-nocem nil)
 
 ;; gnus-topic
@@ -167,8 +157,7 @@ The first score file in the first matching entry is used."
       gnus-treat-hide-signature t)
 
 ;; fonts, colors, etc.
-(setq gnus-visual t
-      gnus-carpal nil)
+(setq gnus-visual t)
 
 ;; use aliases while forwarding posts
 (add-hook 'gnus-mail-forward-hook
