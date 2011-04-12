@@ -22,11 +22,8 @@
 (define-key global-map [(super up)]
   (defun sj/previous-window ()
     (interactive)
-    (select-window (previous-window))))
-(define-key global-map [(super down)]
-  (defun sj/next-window ()
-    (interactive)
-    (select-window (next-window))))
+    (other-window -1)))
+(define-key global-map [(super down)]  'other-window)
 (define-key global-map [(super left)]  'winner-undo)
 (define-key global-map [(super right)] 'winner-redo)
 (define-key global-map (kbd "C-;") 'iedit-mode)
