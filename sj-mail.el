@@ -56,7 +56,7 @@
 		 (insert ?')))))
       (isearch-dehighlight))))
 ;(add-hook 'message-send-hook 'sj/check-grammar)
-(add-hook 'message-send-hook 'ispell-message)
+;(add-hook 'message-send-hook 'ispell-message)
 
 ;; additions to the mail mode keymap
 (add-hook 'message-mode-hook 'sj/mail-mode-define-keys)
