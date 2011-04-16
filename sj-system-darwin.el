@@ -40,14 +40,19 @@
 
 ;; Typester's fullscreen hack
 (when (fboundp 'ns-toggle-fullscreen)
-  (define-key global-map [M-return] 'ns-toggle-fullscreen))
+  (define-key global-map [(super return)] 'ns-toggle-fullscreen))
 
 ;; Emacs HEAD now has support for auto-hiding the OS X menubar.
 ;; Combine this with moving the frame decoration offscreen and
 ;; we have fullscreen mode under OS X.
 ;; (see e7f047d6f3e1ea53c8469c28279c2c284fd4d655)
 (when (boundp 'ns-auto-hide-menu-bar)
-  (define-key global-map [M-return] 'sj/ns-make-frame-fullscreen)
+  (define-key global-map [(super S-return)] 'sj/ns-toggle-menu-bar)
+  (defun sj/ns-toggle-menu-bar ()
+    "Toggle the auto-hide of the menu bar."
+    (interactive)
+    (setq ns-auto-hide-menu-bar (not ns-auto-hide-menu-bar)))
+  (define-key global-map [(super return)] 'sj/ns-make-frame-fullscreen)
   (defun sj/ns-make-frame-fullscreen ()
     "Make the current frame fullscreen."
     (interactive)
