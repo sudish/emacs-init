@@ -289,7 +289,8 @@ through paredit and highlight-paren")
       ido-use-filename-at-point nil
       ido-all-frames t
       ido-use-virtual-buffers nil ; Too obtrusive, stick with anything
-      ido-max-work-file-list 30)
+      ido-max-work-file-list 30
+      ido-save-directory-list-file (concat user-emacs-directory ".ido.last"))
 
 ;; recentf -- recently visited files
 (setq recentf-save-file (concat user-emacs-directory ".recentf")
