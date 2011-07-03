@@ -113,6 +113,11 @@ through paredit and highlight-paren")
 	 ("Emacs" (or
 		   (mode . emacs-lisp-mode)
 		   (name . "^\\*scratch\\*$")))
+	 ("nXML"   (mode  . nxml-mode))
+	 ("Git"   (or
+		   (mode . magit-mode)
+		   (name . "magit")))
+	 ("Dired"  (mode . dired-mode))
 	 ("IRC"    (mode . erc-mode))
 	 ("Gnus"  (or
 		   (mode . message-mode)
@@ -123,10 +128,6 @@ through paredit and highlight-paren")
 		   (mode . gnus-article-mode)
 		   (name . "^\\.bbdb$")
 		   (name . "^\\.newsrc-dribble")))
-	 ("Dired"  (mode . dired-mode))
-	 ("Git"   (or
-		   (mode . magit-mode)
-		   (name . "magit")))
 	 ("Slime misc" (or
 			(name . "^\\*inferior-lisp")
 			(name . "^\\*slime"))))))
@@ -167,6 +168,10 @@ through paredit and highlight-paren")
 	(every (lambda (entry) (memq entry entries))
 	       '("app" "config" "db" "lib" "script" "test")))))
   :relevant-files ("\\.rb$" "\\.yml$"))
+
+;; perspective: multiple workspaces
+(sj/load-path-prepend "external/perspective-el")
+(require 'perspective)
 
 ;; winner: rotate through window config history
 (winner-mode 1)
