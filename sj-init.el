@@ -145,15 +145,6 @@
       auto-save-file-name-transforms `(,@auto-save-file-name-transforms
 				       (".*" ,sj/auto-save-directory t)))
 
-;; When to create new frames
-(setq display-buffer-reuse-frames t)
-(when nil ;window-system
-  (setq special-display-buffer-names
-	(let ((temp-frame-params '((minibuffer) (unsplittable . t)
-				   (left-fringe . 0) (right-fringe . 0))))
-	  (mapcar (lambda (buf) (cons buf temp-frame-params))
-		  '("*Help*")))))
-
 ;; garbage collection settings
 (setq gc-cons-threshold (max gc-cons-threshold (* 4 1024 1024)))
 
