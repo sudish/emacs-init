@@ -228,6 +228,7 @@ through paredit and highlight-paren")
 ;; magit -- git interface
 (sj/load-path-prepend "external/magit" t)
 (autoload 'magit-status "magit" nil t)
+(add-to-list 'viper-emacs-state-mode-list 'magit-key-mode)
 
 ;; savehist -- save minibuffer history across sessions
 (savehist-mode 1)
