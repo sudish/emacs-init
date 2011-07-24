@@ -193,9 +193,10 @@ through paredit and highlight-paren")
 ;; auto-complete: autocompletion with pop ups
 (sj/load-path-prepend "external/auto-complete")
 (require 'auto-complete)
-(require 'auto-complete-config)
 (setq ac-use-comphist t)
 (global-auto-complete-mode t)
+(require 'auto-complete-config)
+(ac-config-default)
 
 ;; complete: partial completion etc.  must be before ffap
 (require 'complete)
