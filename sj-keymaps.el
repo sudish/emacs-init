@@ -44,6 +44,17 @@
 ;; the default set-fill-column binding is annoying
 (global-set-key [?\C-x ?f] 'find-file)
 
+;; anything-specific prefix
+(define-prefix-command 'sj/anything-keymap)
+(global-set-key [(super ?,)] 'sj/anything-keymap)
+
+(define-key sj/anything-keymap [(super ?,)] 'anything)
+(define-key sj/anything-keymap [(super ?m)] 'anything-mini)
+(define-key sj/anything-keymap [(super ?i)] 'anything-imenu)
+(define-key sj/anything-keymap [(super ?o)] 'anything-occur)
+(define-key sj/anything-keymap [(super ?n)] 'anything-resume)
+(define-key sj/anything-keymap [(super ?x)] 'anything-M-x)
+
 
 ;;; Local Variables:
 ;;; sj/recompile-file:t
