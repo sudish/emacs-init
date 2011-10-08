@@ -35,6 +35,7 @@
 
 (setq anything-sources sj/anything-file-sources)
 
+
 ;; Other anything source clusters
 (defconst sj/anything-emacs-sources
   '(anything-c-source-extended-command-history
@@ -65,6 +66,16 @@
     ;; Don't make me wait for project-root files, if any
     ;; (delayed)
     (volatile)
+    (type . file)))
+
+;; Rails projects
+(defconst sj/anything-rails-files
+  '((name . "Rails")
+    (init . (lambda ()
+	      (setq anything-project-root project-details)))
+    (candidates . (lambda ()
+		    (when (equal "Rails Project" (car anything-project-root))
+		      (rails-list-project-files (cdr anything-project-root)))))
     (type . file)))
 
 ;; Files from current project root
