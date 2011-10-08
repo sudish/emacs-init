@@ -5,11 +5,15 @@
 
 ;; Load anything
 (sj/load-path-prepend "external/anything-config")
+(sj/load-path-prepend "external/anything-config/extensions")
+(sj/load-path-prepend "external/anything-config/contrib")
+
 (require 'anything)
+(require 'anything-match-plugin)
 (require 'anything-config)
+(require 'anything-rails)
 
 ;; Use anything-complete to load files, change buffers, etc.
-(sj/load-path-prepend "external/anything-config/extensions")
 (require 'anything-show-completion)
 ;; (require 'anything-complete)
 ;; (ido-mode -1)
@@ -24,10 +28,9 @@
 
 ;; Most of these are defined in anything-config.el, loaded below.
 (defconst sj/anything-file-sources
-  '(anything-c-source-buffers+
+  '(sj/anything-rails-files
     anything-c-source-recentf
     sj/anything-source-project-root-files
-    ;; anything-c-source-file-cache
     ;; sj/anything-source-eproject-files
     ;; anything-c-source-locate
     ;; sj/anything-source-osx-spotlight
