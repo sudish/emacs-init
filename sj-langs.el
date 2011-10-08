@@ -252,8 +252,8 @@ This facilitates the use of per-project .rvmrc files."
 
 ;; Emacs-Rails minor mode
 ;; git://github.com/remvee/emacs-rails.git
-(sj/load-path-prepend "external/emacs-rails")
-(require 'rails)
+;; (sj/load-path-prepend "external/emacs-rails")
+;; (require 'rails)
 
 ;; cc-mode stuff
 (eval-when-compile (require 'cc-mode))
