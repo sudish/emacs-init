@@ -26,7 +26,7 @@ through paredit and highlight-paren")
 (eval-after-load "color-theme"
   '(progn
      (color-theme-initialize)
-     (color-theme-sanityinc-solarized-dark)))
+     (color-theme-sanityinc-solarized-light)))
 
 ;; Angry fruit salad
 (setq frame-background-mode 'dark
