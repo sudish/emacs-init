@@ -196,9 +196,9 @@ This facilitates the use of per-project .rvmrc files."
 (autoload 'rhtml-mode "rhtml-mode" nil t)
 (add-to-list 'auto-mode-alist `(,(rx (and (or ".rhtml" ".html.erb") eol))
 				. rhtml-mode))
-(add-hook 'rhtml-mode-hook
-     	  (defun sj/rhtml-mode-hook ()
-	    (rinari-launch)))
+;; (add-hook 'rhtml-mode-hook
+;;      	  (defun sj/rhtml-mode-hook ()
+;; 	    (rinari-launch)))
 
 ;; Ruby
 (setq ruby-deep-indent-paren nil
