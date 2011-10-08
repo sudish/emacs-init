@@ -16,6 +16,12 @@
 ;; (anything-read-string-mode t)
 ;; (defalias 'read-file-name (symbol-function 'anything-old-read-file-name))
 
+;; Allow sources to assume that the project root is known
+(defun sj/ensure-project-root-details ()
+  (unless project-details
+    (project-root-fetch)))
+(add-hook 'anything-before-initialize-hook 'sj/ensure-project-root-details)
+
 ;; Most of these are defined in anything-config.el, loaded below.
 (defconst sj/anything-file-sources
   '(anything-c-source-buffers+
@@ -51,13 +57,9 @@
 (defconst sj/anything-source-project-root-files
   '((name . "Project Files")
     (init . (lambda ()
-	      (when (featurep 'project-root)
-		(unless project-details
-		  (project-root-fetch))
-		(setq anything-project-root project-details))))
+	      (setq anything-project-root project-details)))
     (candidates . (lambda ()
-		    (when (featurep 'project-root)
-		      (project-root-file-find-process anything-pattern))))
+		    (project-root-file-find-process anything-pattern)))
     (candidate-transformer . sj/anything-file-candidate-filter)
     (requires-pattern . 2)
     ;; Don't make me wait for project-root files, if any
