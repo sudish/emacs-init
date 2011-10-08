@@ -3,6 +3,17 @@
 ;; Copyright: Sudish Joseph
 ;; Created: 2003-08-03
 
+(setq sj/osx-version
+      (let ((version
+	     (progn
+	       (string-match ".*-darwin\\(.+\\)$" system-configuration)
+	       (match-string 1 system-configuration))))
+	(cond
+	 ((not (version< version "11")) 'lion)
+	 ((not (version< version "10")) 'snow-leopard)
+	 ((not (version< version "9"))  'leopard)
+	 (t 'old))))
+
 (prefer-coding-system 'utf-8)
 (set-language-environment "UTF-8")
 
