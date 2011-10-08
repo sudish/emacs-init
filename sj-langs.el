@@ -213,6 +213,16 @@ This facilitates the use of per-project .rvmrc files."
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
 (add-to-list 'viper-vi-state-mode-list 'ruby-mode)
 
+;; rsense: ruby code completion
+(sj/load-path-prepend "external/rsense/etc")
+(setq rsense-home (sj/emacs-path "external/rsense"))
+; (setq rsense-rurema-home (expand-file-name "~/src/Langs/Ruby/ruby-refm"))
+;; (eval-after-load 'ruby-mode '(require 'rsense))
+;; (add-hook 'ruby-mode-hook
+;;           (lambda ()
+;;             (add-to-list 'ac-sources 'ac-source-rsense-method)
+;;             (add-to-list 'ac-sources 'ac-source-rsense-constant)))
+
 ;; An irb shell
 (autoload 'inf-ruby "inf-ruby" "Run an inferior Ruby process" t)
 (autoload 'inf-ruby-keys "inf-ruby" "" t)
@@ -243,12 +253,6 @@ This facilitates the use of per-project .rvmrc files."
   '(add-hook 'yaml-mode-hook
 	     (defun sj/yaml-mode-hook ()
 	       (define-key yaml-mode-map "\C-m" 'newline-and-indent))))
-
-;; RSense -- Ruby auto-complete support
-(sj/load-path-prepend "external/rsense")
-(setq rsense-home (expand-file-name "~/src/git/rsense")
-      rsense-rurema-home (expand-file-name "~/src/Langs/Ruby/ruby-refm"))
-;(require 'rsense)
 
 ;; Emacs-Rails minor mode
 ;; git://github.com/remvee/emacs-rails.git
