@@ -190,10 +190,19 @@ through paredit and highlight-paren")
 ;; (sj/load-path-prepend "site-lisp/company-mode")
 ;; (autoload 'company-mode "company" nil t)
 
+;; pos-tip: better tooltips
+(sj/load-path-prepend "external/pos-tip.el")
+(require 'pos-tip)
+
 ;; auto-complete: autocompletion with pop ups
 (sj/load-path-prepend "external/auto-complete")
 (require 'auto-complete)
-(setq ac-use-comphist t)
+(setq ac-use-comphist t
+      ac-disable-faces nil ; '(font-lock-comment-face font-lock-string-face font-lock-doc-face)
+      ac-auto-show-menu 0.1
+      ac-quick-help-delay 0.1
+      ac-menu-height 20
+      ac-quick-help-height 20)
 (global-auto-complete-mode t)
 (require 'auto-complete-config)
 (ac-config-default)
