@@ -28,7 +28,8 @@
 
 ;; Most of these are defined in anything-config.el, loaded below.
 (defconst sj/anything-file-sources
-  '(sj/anything-rails-files
+  '(anything-c-source-buffers
+    sj/anything-rails-files
     anything-c-source-recentf
     sj/anything-source-project-root-files
     ;; sj/anything-source-eproject-files
