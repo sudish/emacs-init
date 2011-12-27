@@ -107,7 +107,7 @@
 (setq byte-compile-warnings '(not cl-functions))
 
 ;; help system
-(setq  help-window-select        'always
+(setq  help-window-select t
        help-at-pt-display-when-idle '(keymap local-map button kbd-help
 					     help-echo))
 (help-at-pt-set-timer)
