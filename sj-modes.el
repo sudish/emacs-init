@@ -48,7 +48,7 @@ through paredit and highlight-paren")
 		    :foreground "dark blue")
 
 ;; parenface: dim the color for parens
-(require 'parenface)
+;(require 'parenface)
 
 ;; highlight-parentheses: highlights currently enclosing sexps
 (require 'highlight-parentheses)

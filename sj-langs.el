@@ -27,9 +27,9 @@
 (add-to-list 'viper-vi-state-mode-list 'clojure-mode)
 (autoload 'clojure-indent-function "clojure-mode") ; for use in slime buffers
 (eval-when-compile (require 'parenface))
-(eval-after-load 'clojure-mode
-  '(add-hook 'clojure-mode-hook
-	     (paren-face-add-support clojure-font-lock-keywords)))
+;; (eval-after-load 'clojure-mode
+;;   '(add-hook 'clojure-mode-hook
+;; 	     (paren-face-add-support clojure-font-lock-keywords)))
 
 ;; Lisp HyperSpec from http://www.lispworks.com/documentation/common-lisp.html
 ;; (let ((sj/hyperspec-dir (expand-file-name
