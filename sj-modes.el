@@ -14,23 +14,13 @@ through paredit and highlight-paren")
 
 ;; color themes
 (sj/load-path-prepend "site-lisp/color-theme")
-(require 'color-theme)
-;; (sj/load-path-prepend "external/zenburn-emacs")
-;; (require 'zenburn)
-;; (sj/load-path-prepend "external/ir_black_emacs")
-;; (require 'color-theme-irblack)
-;; (sj/load-path-prepend "external/solarized/emacs-color-theme-solarized")
-;; (require 'color-theme-solarized)
 (sj/load-path-prepend "external/color-theme-sanityinc-solarized")
 (require 'color-theme-sanityinc-solarized)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-sanityinc-solarized-light)))
+(set-default 'frame-background-mode 'dark)
+(color-theme-sanityinc-solarized-light)
 
 ;; Angry fruit salad
-(setq frame-background-mode 'dark
-      font-lock-maximum-decoration t)
+(setq font-lock-maximum-decoration t)
 (require 'font-lock)
 
 ;; textmate emulation
@@ -41,11 +31,6 @@ through paredit and highlight-paren")
 ;; show-paren
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
-(set-face-attribute 'show-paren-match nil
-		    :underline nil
-		    :bold t
-		    :background "grey85" ;(face-attribute 'default :background)
-		    :foreground "dark blue")
 
 ;; parenface: dim the color for parens
 ;(require 'parenface)
