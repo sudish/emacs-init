@@ -164,6 +164,9 @@ through paredit and highlight-paren")
 	       '("app" "config" "db" "lib" "script" "test")))))
   :relevant-files ("\\.rb$" "\\.yml$"))
 
+;; ack-mode: recursive grep using ack
+(sj/load-path-prepend "external/ack-mode")
+(autoload 'ack "ack-mode" nil t)
 
 ;; winner: rotate through window config history
 (winner-mode 1)
