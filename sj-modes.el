@@ -118,7 +118,8 @@ through paredit and highlight-paren")
 			(name . "^\\*slime"))))))
 (add-hook 'ibuffer-mode-hook
 	  (defun sj/ibuffer-mode-hook ()
-	    (ibuffer-switch-to-saved-filter-groups "default")))
+	    (ibuffer-switch-to-saved-filter-groups "default")
+	    (ibuffer-auto-mode)))
 
 ;; project-root
 (require 'project-root)
