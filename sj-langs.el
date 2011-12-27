@@ -3,6 +3,11 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 1995-06-11
 
+;; CoffeeScript
+(sj/load-path-prepend "external/coffee-mode")
+(setq coffee-tab-width 2)
+(require 'coffee-mode)
+
 ;; SQL mode
 (eval-when-compile (require 'sql))
 (setq sql-product 'mysql
