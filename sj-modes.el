@@ -41,6 +41,11 @@ through paredit and highlight-paren")
   (add-hook hook (defun sj/turn-on-highlight-parentheses ()
 		   (highlight-parentheses-mode t))))
 
+;; rainbow-delimiters: colorize all delimiters
+(sj/load-path-prepend "external/rainbow-delimiters")
+(require 'rainbow-delimiters)
+(global-rainbow-delimiters-mode)
+
 ;; autopair
 (sj/load-path-prepend "external/autopair")
 (require 'autopair)
@@ -172,6 +177,11 @@ through paredit and highlight-paren")
 
 ;; iedit: in-place concurrent edit
 (autoload 'iedit-mode "iedit" nil t)
+
+;; undo-tree: better undo
+(sj/load-path-prepend "external/undo-tree")
+(require 'undo-tree)
+(global-undo-tree-mode)
 
 ;; company: complete anything
 ;; (sj/load-path-prepend "site-lisp/company-mode")
