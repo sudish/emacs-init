@@ -187,14 +187,14 @@
 (sj/load-path-prepend "external/ruby-lang")
 
 ;; rvm integration
-(sj/load-path-prepend "external/rvm.el")
-(defun sj/rvm-activate ()
-  "Run rvm activation every time we load a ruby-mode file.
-This facilitates the use of per-project .rvmrc files."
-  (require 'rvm)
-  (rvm-activate-corresponding-ruby))
-(eval-after-load 'ruby-mode
-  '(add-hook 'ruby-mode-hook 'sj/rvm-activate))
+;; (sj/load-path-prepend "external/rvm.el")
+;; (defun sj/rvm-activate ()
+;;   "Run rvm activation every time we load a ruby-mode file.
+;; This facilitates the use of per-project .rvmrc files."
+;;   (require 'rvm)
+;;   (rvm-activate-corresponding-ruby))
+;; (eval-after-load 'ruby-mode
+;;   '(add-hook 'ruby-mode-hook 'sj/rvm-activate))
 
 ;; Rhtml mode
 (sj/load-path-prepend "external/rhtml")
