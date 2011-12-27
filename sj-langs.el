@@ -238,8 +238,9 @@ This facilitates the use of per-project .rvmrc files."
 (autoload 'ruby-electric-mode "ruby-electric" "Toggle Ruby Electric mode" t)
 (eval-after-load 'ruby-mode
   '(add-hook 'ruby-mode-hook
-	     (defun sj/turn-on-ruby-electric-mode ()
-	       (ruby-electric-mode t))))
+	     (defun sj/ruby-mode-hook ()
+	       ;(ruby-electric-mode t)
+	       (autopair-mode))))
 
 ;; An interface to Ruby's RDoc documentation
 (sj/load-path-prepend "external/ri")

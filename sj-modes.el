@@ -41,6 +41,10 @@ through paredit and highlight-paren")
   (add-hook hook (defun sj/turn-on-highlight-parentheses ()
 		   (highlight-parentheses-mode t))))
 
+;; autopair
+(sj/load-path-prepend "external/autopair")
+(require 'autopair)
+
 ;; paredit mode
 (autoload 'paredit-mode "paredit" "paredit mode" t)
 (eval-after-load 'paredit
