@@ -190,6 +190,9 @@
 ;; fully initialized
 (file-cache-add-directory-list load-path)
 
+;; desktop mode restores buffers on startup
+(desktop-save-mode 1)
+
 
 ;;; Local Variables:
 ;;; sj/recompile-file:t
