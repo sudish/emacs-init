@@ -7,6 +7,8 @@
 (define-key global-map [(super f1)]    'sj/tile-or-rotate-frames)
 (define-key global-map [(super A)]     'align-regexp)
 (define-key global-map [(super m)]     'magit-status)
+(define-key global-map [(super \])]     'highlight-symbol-next)
+(define-key global-map [(super \[)]     'highlight-symbol-prev)
 (define-key global-map [(super r)]     'ack)
 (define-key global-map [(super R)]     'rgrep)
 (define-key global-map [(super t)]     'sj/anything-textmate)
@@ -19,10 +21,10 @@
   (defun sj/previous-window ()
     (interactive)
     (other-window -1)))
-(define-key global-map [(super right)]  'other-window)
+(define-key global-map [(super right)] 'other-window)
 (define-key global-map [(super down)]  'winner-undo)
-(define-key global-map [(super up)] 'winner-redo)
-(define-key global-map (kbd "C-;") 'iedit-mode)
+(define-key global-map [(super up)]    'winner-redo)
+(define-key global-map [(control \;)]  'iedit-mode)
 
 ;; private keymap for useful, but less commonly used stuff
 (define-prefix-command 'sj/private-keymap)

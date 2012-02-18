@@ -57,6 +57,7 @@
 	ghc-mod
 	haskellmode-emacs ; init file
 	highlight-parentheses
+	highlight-symbol
 	iedit
 	inf-ruby
 	(:name magit
