@@ -3,11 +3,6 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 2008-12-15
 
-;; Load anything
-(sj/load-path-prepend "external/anything-config")
-(sj/load-path-prepend "external/anything-config/extensions")
-(sj/load-path-prepend "external/anything-config/contrib")
-
 (require 'anything)
 (require 'anything-match-plugin)
 (require 'anything-config)

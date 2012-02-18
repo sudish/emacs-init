@@ -3,8 +3,6 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 1995-06-11
 
-(sj/load-path-prepend "external/bbdb/lisp" "../texinfo")
-(require 'bbdb)
 (bbdb-initialize 'gnus 'message)
 
 (setq bbdb/gnus-summary-prefer-real-names nil

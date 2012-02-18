@@ -3,6 +3,17 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 1995-06-11
 
+;; Angry fruit salad
+(setq font-lock-maximum-decoration t)
+(require 'font-lock)
+
+;; show-paren
+(show-paren-mode t)
+(setq show-paren-style 'parenthesis)
+
+;; parenface: dim the color for parens
+;(require 'parenface)
+
 (defconst sj/use-paren-mode-hooks '(emacs-lisp-mode-hook
 				    lisp-mode-hook
 				    lisp-interaction-mode-hook
@@ -12,58 +23,15 @@
   "Hooks for modes where we enable special paren handling
 through paredit and highlight-paren")
 
-;; color themes
-(sj/load-path-prepend "site-lisp/color-theme")
-(sj/load-path-prepend "external/color-theme-sanityinc-solarized")
-(require 'color-theme-sanityinc-solarized)
-(set-default 'frame-background-mode 'dark)
-(color-theme-sanityinc-solarized-light)
-
-;; Angry fruit salad
-(setq font-lock-maximum-decoration t)
-(require 'font-lock)
-
-;; textmate emulation
-;; (sj/load-path-prepend "external/textmate.el")
-;; (require 'textmate)
-;; (textmate-mode)
-
-;; show-paren
-(show-paren-mode t)
-(setq show-paren-style 'parenthesis)
-
-;; parenface: dim the color for parens
-;(require 'parenface)
-
-;; highlight-parentheses: highlights currently enclosing sexps
-(require 'highlight-parentheses)
-(dolist (hook sj/use-paren-mode-hooks)
-  (add-hook hook (defun sj/turn-on-highlight-parentheses ()
-		   (highlight-parentheses-mode t))))
-
-;; rainbow-delimiters: colorize all delimiters
-(sj/load-path-prepend "external/rainbow-delimiters")
-(require 'rainbow-delimiters)
-(global-rainbow-delimiters-mode)
-
-;; autopair
-(sj/load-path-prepend "external/autopair")
-(require 'autopair)
-
-;; paredit mode
-(autoload 'paredit-mode "paredit" "paredit mode" t)
-(eval-after-load 'paredit
-  '(progn
-     (define-key paredit-mode-map (kbd "RET") 'paredit-newline)
-     (define-key paredit-mode-map (kbd "C-j") nil)))
-(defun sj/paredit-mode-hook ()
+(defun sj/use-paren-mode-hook ()
   (paredit-mode 1)
   (setq viper-insert-local-user-map
 	(sj/copy-keys-from-keymap paredit-mode-map '([?\d] [?\C-d]
 						     ([?\d] . [backspace])
-						     ([?\d] . [delete])))))
+						     ([?\d] . [delete]))))
+  (highlight-parentheses-mode t))
 (dolist (hook sj/use-paren-mode-hooks)
-  (add-hook hook 'sj/paredit-mode-hook t))
+  (add-hook hook 'sj/use-paren-mode-hook t))
 
 
 ;; cua-mode
@@ -181,32 +149,6 @@ through paredit and highlight-paren")
 ;; iedit: in-place concurrent edit
 (autoload 'iedit-mode "iedit" nil t)
 
-;; undo-tree: better undo
-(sj/load-path-prepend "external/undo-tree")
-(require 'undo-tree)
-(global-undo-tree-mode)
-
-;; company: complete anything
-;; (sj/load-path-prepend "site-lisp/company-mode")
-;; (autoload 'company-mode "company" nil t)
-
-;; pos-tip: better tooltips
-(sj/load-path-prepend "external/pos-tip.el")
-(require 'pos-tip)
-
-;; auto-complete: autocompletion with pop ups
-(sj/load-path-prepend "external/auto-complete")
-(require 'auto-complete)
-(setq ac-use-comphist t
-      ac-disable-faces nil ; '(font-lock-comment-face font-lock-string-face font-lock-doc-face)
-      ac-auto-show-menu 0.1
-      ac-quick-help-delay 0.1
-      ac-menu-height 20
-      ac-quick-help-height 20)
-(global-auto-complete-mode t)
-(require 'auto-complete-config)
-(ac-config-default)
-
 ;; complete: partial completion etc.  must be before ffap
 (require 'complete)
 (partial-completion-mode t)
@@ -214,10 +156,6 @@ through paredit and highlight-paren")
 ;; pabbrev
 ;; (require 'pabbrev)
 ;; (global-pabbrev-mode)
-
-;; minimap: buffer overviews
-(sj/load-path-prepend "external/minimap")
-(autoload 'minimap-create "minimap" nil t)
 
 ;; diff
 (setq diff-switches '("-u"))
@@ -228,19 +166,8 @@ through paredit and highlight-paren")
   (require 'vc))
 (add-to-list 'vc-handled-backends 'Git)
 
-;; magit -- git interface
-(sj/load-path-prepend "external/magit" t)
-(autoload 'magit-status "magit" nil t)
-(add-to-list 'viper-emacs-state-mode-list 'magit-key-mode)
-
 ;; savehist -- save minibuffer history across sessions
 (savehist-mode 1)
-
-;; yasnippet -- dynamic template expansion
-;; (sj/load-path-prepend "external/yasnippet")
-;; (require 'yasnippet)
-;; (yas/initialize)
-;; (yas/load-directory (sj/emacs-path "external/yasnippet/snippets"))
 
 ;; sgml
 (setq sgml-quick-keys t)
