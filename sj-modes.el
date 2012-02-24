@@ -120,18 +120,6 @@ through paredit and highlight-paren")
 ;; (global-set-key (kbd "C-c p M-x")
 ;; 		'project-root-execute-extended-command)
 
-;; eproject
-(sj/load-path-prepend "external/eproject")
-(require 'eproject)
-(require 'eproject-extras)
-(define-project-type rails (generic)
-  (eproject--scan-parents-for file
-    (lambda (directory)
-      (let ((entries (directory-files "."  nil nil 'nosort)))
-	(every (lambda (entry) (memq entry entries))
-	       '("app" "config" "db" "lib" "script" "test")))))
-  :relevant-files ("\\.rb$" "\\.yml$"))
-
 ;; ack-mode: recursive grep using ack
 (sj/load-path-prepend "external/ack-mode")
 (autoload 'ack "ack-mode" nil t)

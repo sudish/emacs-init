@@ -51,6 +51,8 @@
 			    (edit-server-start)
 			  ((error "" &optional ARGS)
 			   (message "edit-server: %s" (error-message-string err))))))
+	(:name eproject
+	       :features (eproject eproject-extras eproject-ruby eproject-ruby-on-rails eproject-perl))
 	erlware-mode
 	(:name filladapt
 	       :after (lambda () (setq-default filladapt-mode t)))
