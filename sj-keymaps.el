@@ -33,12 +33,12 @@
 (define-key sj/private-keymap [(super .)] 'anything)
 
 (define-key sj/private-keymap [(super ?f)] 'follow-delete-other-windows-and-split)
-(define-key sj/private-keymap [?i] 'insert-buffer)
-(define-key sj/private-keymap [?l] 'load-library)
-(define-key sj/private-keymap [?L] 'locate-library)
-(define-key sj/private-keymap [?k] 'bury-buffer)
+(define-key sj/private-keymap [?i]         'insert-buffer)
+(define-key sj/private-keymap [?l]         'load-library)
+(define-key sj/private-keymap [?L]         'locate-library)
+(define-key sj/private-keymap [?k]         'bury-buffer)
 (define-key sj/private-keymap [(super ?m)] 'minimap-create)
-(define-key sj/private-keymap [?s] 'sj/swap-window-positions)
+(define-key sj/private-keymap [?s]         'sj/swap-window-positions)
 
 ;; the default set-fill-column binding is annoying
 (global-set-key [?\C-x ?f] 'find-file)
