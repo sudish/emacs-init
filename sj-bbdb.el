@@ -26,7 +26,6 @@
 (add-hook 'bbdb-change-hook 'bbdb-timestamp-hook)
 (add-hook 'bbdb-create-hook 'bbdb-creation-date-hook)
 
-(eval-when-compile (require 'bbdb-hooks))
 (add-hook 'bbdb-notice-hook 'bbdb-auto-notes-hook)
 (when user-sj-p
   (setq bbdb-auto-notes-alist
