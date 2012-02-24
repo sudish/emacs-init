@@ -1,11 +1,10 @@
 ;;; init-haskellmode-emacs ---    [sj--12/02/18]
 
 ;; Haskell mode
-(eval-when-compile
-  (require 'scion)
-  (require 'inf-haskell) ;; required for defadvice preactivation below
-  (require 'haskell-mode)
-  (require 'haskell-indentation))
+;; (eval-when-compile
+;;   (require 'scion)  
+;;   (require 'haskell-mode)
+;;   (require 'haskell-indentation))
 (setq haskell-program-name "ghci"
       inferior-haskell-wait-and-jump t
       haskell-indent-offset 4
@@ -41,11 +40,12 @@
   (flymake-mode))
 (add-hook 'haskell-mode-hook 'sj/haskell-mode-hook)
 (add-to-list 'viper-emacs-state-mode-list 'inferior-haskell-mode)
-(eval-after-load 'filladapt
-  '(progn
+;; (eval-after-load 'filladapt
+;;   '(progn
      (add-to-list 'filladapt-token-table '("-- " haskell-comment))
      (add-to-list 'filladapt-token-match-table '(haskell-comment haskell-comment))
-     (add-to-list 'filladapt-token-conversion-table '(haskell-comment . exact))))
+     (add-to-list 'filladapt-token-conversion-table '(haskell-comment . exact))
+     ;; ))
 ;; Select the inferior-haskell window when it's displayed.
 (defun sj/select-inf-haskell-buffer ()
   "Display and select the buffer used by the inferior Haskell process, if any."
@@ -53,6 +53,8 @@
   (when (processp (inferior-haskell-process))
     (let ((buf (process-buffer (inferior-haskell-process))))
       (select-window (display-buffer buf)))))
+;; required for defadvice preactivation below
+(eval-when-compile (require 'inf-haskell))
 (defadvice inferior-haskell-load-file (after sj/select-inferior-haskell
 					     preactivate compile)
   "Display and select the inferior haskell buffer."

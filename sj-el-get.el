@@ -55,11 +55,14 @@
 	       :features (eproject eproject-extras eproject-ruby eproject-ruby-on-rails eproject-perl))
 	erlware-mode
 	(:name filladapt
+	       :features filladapt
 	       :after (lambda () (setq-default filladapt-mode t)))
 	ghc-mod
-	haskellmode-emacs ; init file
+	(:name haskellmode-emacs
+	       :depends filladapt) ; init file
 	highlight-parentheses
 	highlight-symbol
+	ibuffer-vc
 	iedit
 	inf-ruby
 	(:name magit
@@ -85,8 +88,8 @@
 			  '(add-hook 'ruby-mode-hook
 				     (defun sj/ruby-mode-hook ()
 				       (highlight-parentheses-mode t)
-				       (autopair-mode)
-				       (setq show-trailing-whitespace nil))))))
+				       (setq autopair-dont-activate t ; ruby-electric
+					     show-trailing-whitespace nil))))))
 	ruby-electric
 	scion
 	(:name simplenote
@@ -111,6 +114,7 @@
 	;;        :features yasnippet
 	;;        :after (lambda () (yas/global-mode 1)))
 	))
+
 (el-get)
 
 ;;; Archived
