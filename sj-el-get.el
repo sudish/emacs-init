@@ -30,10 +30,12 @@
 	bbdb
 	coffee-mode
 	color-theme
-	(:name color-theme-solarized
+	(:name color-theme-sanityinc-solarized
+	       :features color-theme-sanityinc-solarized
 	       :after (lambda ()
 			(set-default 'frame-background-mode 'light)
-			(color-theme-solarized-light)))
+			(require 'color-theme-sanityinc-solarized)
+			(color-theme-sanityinc-solarized-light)))
 	(:name distel
 	       :features nil
 	       :after (lambda ()
