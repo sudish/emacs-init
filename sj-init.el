@@ -106,6 +106,9 @@
 ;; Don't want warnings about using funcs from cl.el
 (setq byte-compile-warnings '(not cl-functions))
 
+;; prefer splitting windows horizontally
+(setq split-height-threshold 120)
+
 ;; help system
 (setq  help-window-select t
        help-at-pt-display-when-idle '(keymap local-map button kbd-help
