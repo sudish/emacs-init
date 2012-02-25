@@ -108,6 +108,12 @@
 			(global-set-key (kbd "C-c M-x") 'execute-extended-command)))
 	(:name undo-tree
 	       :after (lambda () (global-undo-tree-mode)))
+	(:name volatile-highlights
+	       :features volatile-highlights
+	       :after (lambda ()
+			(volatile-highlights-mode t)))
+	vc-bzr
+	vc-darcs
 	(:name yaml-mode
 	       :after (lambda ()
 			(eval-after-load 'yaml-mode
