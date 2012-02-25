@@ -111,6 +111,7 @@
 	(:name volatile-highlights
 	       :features volatile-highlights
 	       :after (lambda ()
+			(require 'volatile-highlights)
 			(volatile-highlights-mode t)))
 	vc-bzr
 	vc-darcs
