@@ -21,14 +21,14 @@
 (setq viper-mode t)
 (require 'viper)
 
+;; Load misc. functions we need later
+(load "sj-funcs")
+
 ;; System-specific init
 (cond ((eq system-type 'darwin)
        (load "sj-system-darwin"))
       ((eq system-type 'gnu/linux)
        (load "sj-system-linux")))
-
-;; Load misc. functions we need later
-(load "sj-funcs")
 
 ;; Enable usage of ssh-agent from sub-shells
 (sj/copy-login-env-vars '("SSH_AUTH_SOCK" "SSH_AGENT_PID")
