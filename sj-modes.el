@@ -11,9 +11,6 @@
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
 
-;; parenface: dim the color for parens
-;(require 'parenface)
-
 (defconst sj/use-paren-mode-hooks '(emacs-lisp-mode-hook
 				    lisp-mode-hook
 				    lisp-interaction-mode-hook
