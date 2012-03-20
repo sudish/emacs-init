@@ -44,11 +44,6 @@
 	  default-frame-alist (append sj/default-frame-parameters
 				      default-frame-alist))))
 
-(setq ns-antialias-text t
-      ns-option-modifier 'meta)
-
-(define-key global-map [ns-drag-file] 'ns-find-file)
-
 ;; Typester's fullscreen hack
 (when (fboundp 'ns-toggle-fullscreen)
   (define-key global-map [(super return)] 'ns-toggle-fullscreen))
@@ -90,6 +85,36 @@
 	     (vertical-gap (mod (display-pixel-height) (frame-char-height)))
 	     (vertical-offset (- (/ vertical-gap 2) decorator-size)))
 	(set-frame-position (selected-frame) 0 vertical-offset)))))
+
+(when (boundp 'mac-carbon-version-string)
+  (defun sj/mac-carbon-toggle-frame-fullscreen ()
+    "Make the current frame fullscreen."
+    (interactive)
+    (let* ((frame (selected-frame))
+	   (fs-param (if (eq (frame-parameter frame 'fullscreen) 'fullboth)
+			 nil
+		       'fullboth)))
+      (set-frame-parameter frame 'fullscreen fs-param)))
+  (define-key global-map [(super return)] 'sj/mac-carbon-toggle-frame-fullscreen))
+
+;; Distinguish between various Emacs ports to OS X
+(cond
+ ;; ns port
+ ((boundp 'ns-version-string)
+  (setq ns-antialias-text t
+	ns-option-modifier 'meta)
+  (define-key global-map [ns-drag-file] 'ns-find-file))
+ ;; mac port
+ ((boundp 'mac-carbon-version-string)
+  (setq mac-command-modifier 'super
+	mac-option-modifier  'meta)
+  ;; Command-S to save, C to copy, V to paste, etc.
+  (let ((keys '(("\C-x\C-s"    . [(super s)])
+		("\C-w"        . [(super x)])
+		("\M-w"        . [(super c)])
+		("\C-y"        . [(super v)])
+		([(control /)] . [(super z)]))))
+    (sj/copy-keys-from-keymap global-map keys global-map))))
 
 
 ;;; Local Variables:
