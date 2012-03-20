@@ -7,6 +7,15 @@
 (setq font-lock-maximum-decoration t)
 (require 'font-lock)
 
+;; color themes
+(sj/load-path-prepend "external/color-theme-sanityinc-solarized")
+(require 'color-theme-sanityinc-solarized)
+(eval-after-load "color-theme"
+  '(progn
+     (set-default 'frame-background-mode 'dark)
+     (color-theme-initialize)
+     (color-theme-sanityinc-solarized-dark)))
+
 ;; show-paren
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
