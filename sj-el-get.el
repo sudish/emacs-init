@@ -11,7 +11,7 @@
       '((:name anything
 	       :features (anything anything-match-plugin anything-config anything-show-completion))
 	(:name auto-complete
-	       :after (lambda ()
+	       :after (progn
 			(setq ac-use-comphist t
 			      ac-disable-faces nil ; '(font-lock-comment-face font-lock-string-face font-lock-doc-face)
 			      ac-auto-show-menu 0.1
@@ -30,21 +30,21 @@
 	bbdb
 	coffee-mode
 	color-theme
-	(:name color-theme-sanityinc-solarized
-	       :features color-theme-sanityinc-solarized
-	       :after (lambda ()
-			(set-default 'frame-background-mode 'light)
-			(require 'color-theme-sanityinc-solarized)
-			(color-theme-sanityinc-solarized-light)))
+	;; (:name color-theme-sanityinc-solarized
+	;;        :features color-theme-sanityinc-solarized
+	;;        :after (progn
+	;; 		(set-default 'frame-background-mode 'dark)
+	;; 		(require 'color-theme-sanityinc-solarized)
+	;; 		(color-theme-sanityinc-solarized-dark)))
 	(:name distel
 	       :features nil
-	       :after (lambda ()
+	       :after (progn
 			(eval-after-load 'erlang
 			  '(distel-setup))))
 	el-get
 	(:name emacschrome
 	       :features edit-server
-	       :after (lambda ()
+	       :after (progn
 			;; emacs_chrome edit-server: service requests from the Chrome extension
 			(setq edit-server-verbose t
 			      edit-server-new-frame nil
@@ -58,7 +58,7 @@
 	erlware-mode
 	(:name filladapt
 	       :features filladapt
-	       :after (lambda () (setq-default filladapt-mode t)))
+	       :after (progn (setq-default filladapt-mode t)))
 	ghc-mod
 	(:name haskellmode-emacs
 	       :depends filladapt) ; init file
@@ -68,21 +68,23 @@
 	iedit
 	inf-ruby
 	(:name magit
-	       :after (lambda ()
+	       :after (progn
 			(add-to-list 'viper-emacs-state-mode-list 'magit-key-mode)))
 	markdown-mode
 	minimap
 	(:name paredit
-	       :after (lambda ()
+	       :after (progn
 			(define-key paredit-mode-map (kbd "RET") 'paredit-newline)
 			(define-key paredit-mode-map (kbd "C-j") nil)))
+	parenface
 	pos-tip
 	(:name rainbow-delimiters
 	       :features rainbow-delimiters
-	       :after (lambda () (global-rainbow-delimiters-mode)))
+	       ;; :after (progn (global-rainbow-delimiters-mode))
+	       )
 	rhtml-mode
 	(:name ruby-mode
-	       :after (lambda ()
+	       :after (progn
 			(setq ruby-deep-indent-paren nil
 			      ruby-deep-arglist nil)
 			(add-to-list 'viper-vi-state-mode-list 'ruby-mode)
@@ -95,10 +97,10 @@
 	ruby-electric
 	scion
 	(:name simplenote
-	       :after (lambda ()
+	       :after (progn
 			(setq simplenote-email user-mail-address)))
 	(:name smex
-	       :after (lambda ()
+	       :after (progn
 			(setq smex-save-file (concat user-emacs-directory ".smex")
 			      smex-history-length 15)
 			(smex-initialize)
@@ -107,21 +109,21 @@
 			;; This is the old M-x.
 			(global-set-key (kbd "C-c M-x") 'execute-extended-command)))
 	(:name undo-tree
-	       :after (lambda () (global-undo-tree-mode)))
+	       :after (progn (global-undo-tree-mode)))
 	(:name volatile-highlights
 	       :features volatile-highlights
-	       :after (lambda ()
+	       :after (progn
 			(require 'volatile-highlights)
 			(volatile-highlights-mode t)))
 	vc-bzr
 	vc-darcs
 	(:name yaml-mode
-	       :after (lambda ()
+	       :after (progn
 			(eval-after-load 'yaml-mode
 			  '(define-key yaml-mode-map "\C-m" 'newline-and-indent))))
 	;; (:name yasnippet
 	;;        :features yasnippet
-	;;        :after (lambda () (yas/global-mode 1)))
+	;;        :after (progn (yas/global-mode 1)))
 	))
 
 (el-get)
@@ -129,7 +131,7 @@
 ;;; Archived
 
 	;; (:name clojure-mode
-	;;        :after (lambda ()
+	;;        :after (progn
 	;; 		(setq clojure-mode-use-backtracking-indent t
 	;; 		      clojure-mode-font-lock-comment-sexp t)
 	;; 		(autoload 'clojure-mode "clojure-mode" "A mode for clojure lisp" t)
@@ -142,7 +144,7 @@
 	;; 			     (paren-face-add-support clojure-font-lock-keywords)))))
 	;; (:name slime
 	;;        :features slime
-	;;        :after (lambda ()
+	;;        :after (progn
 	;; 		(setq slime-default-lisp 'clojure
 	;; 		      slime-inhibit-pipelining nil
 	;; 				;slime-protocol-version 'ignore ; don't warn on mismatch
@@ -163,16 +165,16 @@
 	;; 		  '(add-to-list 'slime-lisp-implementations
 	;; 				`(sbcl (,sj/slime-sbcl-path) :coding-system utf-8-unix) t))))
 	;; (:name swank-clojure
-	;;        :after (lambda ()
+	;;        :after (progn
 	;; 		(setq swank-clojure-compile-p t)
 	;; 		;; taken from http://groups.google.com/group/swank-clojure/msg/73fe5c599d854ea5
-	;; 		(add-hook 'slime-repl-mode-hook 
-	;; 			  (defun sj/slime-clojure-repl-setup () 
-	;; 			    (when (string-equal "clojure" (slime-connection-name)) 
-	;; 			      (clojure-mode-font-lock-setup) 
-	;; 			      (when (slime-inferior-process) 
-	;; 				(slime-redirect-inferior-output)) 
-	;; 			      (swank-clojure-slime-repl-modify-syntax)))) 
+	;; 		(add-hook 'slime-repl-mode-hook
+	;; 			  (defun sj/slime-clojure-repl-setup ()
+	;; 			    (when (string-equal "clojure" (slime-connection-name))
+	;; 			      (clojure-mode-font-lock-setup)
+	;; 			      (when (slime-inferior-process)
+	;; 				(slime-redirect-inferior-output))
+	;; 			      (swank-clojure-slime-repl-modify-syntax))))
 	;; 		;; Use a wrapper shell script to start clojure.  The Clojure classpath
 	;; 		;; must contain the swank-clojure jar file for SLIME to run, so we
 	;; 		;; compute that here from the Emacs load-path instead of hard-coding
@@ -187,7 +189,7 @@
 	;; 				'(clojure (,@swank-clojure-binary) :init swank-clojure-init)))))
 
         ;; (:name rinari
-	;;        :after (lambda ()
+	;;        :after (progn
 	;; 		(defun sj/clone-rinari-keymap ()
 	;; 		  "Copy Rinari's difficult to reach keymaps to someplace better."
 	;; 		  (define-prefix-command 'sj/rinari-main-keymap)
