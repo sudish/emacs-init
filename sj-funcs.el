@@ -82,11 +82,12 @@ gildea Nov 88"
   (setq debug-on-error (not debug-on-error))
   (message "debug-on-error set to %s" debug-on-error))
 
-(defun sj/copy-keys-from-keymap (from-map keys)
-  "Copy the definitions of key sequences in `keys' from `from-map' to a new
-keymap.  `keys' should be a list of the keys whose bindings are to be copied.
-Each entry may also be of the form (from-key . to-key) if the keys differ in
-the two keymaps.
+(defun sj/copy-keys-from-keymap (from-map keys &optional to-map)
+  "Copy the definitions of key sequences in `keys' from `from-map' to `to-map'.
+A new keymap is created if `to-map' is nil.  `keys' should be a
+list of the keys whose bindings are to be copied.  Each entry may
+also be of the form (from-key . to-key) if the keys differ in the
+two keymaps.
 
 Example:
   (\"a\" [backspace]
@@ -94,10 +95,10 @@ Example:
    ([?v] . [?\C-o])
    (\"\C-y\" . \"x\"))
 
-The new keymap will have `from-map's bindings for \"v\" on \"k\" and \"\C-o\",
+The keymap will have `from-map's bindings for \"v\" on \"k\" and \"\C-o\",
 and the binding for \"\C-y\" on \"x\". The bindings for \"a\" and [backspace]
 will be copied as well."
-  (let ((new-map (make-sparse-keymap)))
+  (let ((new-map (or to-map (make-sparse-keymap))))
     (dolist (entry keys)
       (let ((from-key (if (listp entry) (car entry) entry))
 	    (to-key   (if (listp entry) (cdr entry) entry)))
