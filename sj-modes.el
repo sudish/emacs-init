@@ -12,9 +12,8 @@
 (require 'color-theme-sanityinc-solarized)
 (eval-after-load "color-theme"
   '(progn
-     (set-default 'frame-background-mode 'dark)
-     (color-theme-initialize)
-     (color-theme-sanityinc-solarized-dark)))
+     (set-default 'frame-background-mode 'light)
+     (color-theme-sanityinc-solarized-light)))
 
 ;; show-paren
 (show-paren-mode t)
