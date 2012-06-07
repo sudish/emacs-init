@@ -113,6 +113,7 @@
 		("\C-w"        . [(super x)])
 		("\M-w"        . [(super c)])
 		("\C-y"        . [(super v)])
+		("\C-xh"       . [(super a)])
 		([(control /)] . [(super z)]))))
     (sj/copy-keys-from-keymap global-map keys global-map))))
 
