@@ -51,61 +51,74 @@ through paredit and highlight-paren")
 
 ;; ibuffer -- ya improved buffer menu, included with emacs 22+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
+(setq ibuffer-formats
+      '((mark vc-status-mini modified read-only " "
+              (name 18 18 :left :elide)
+              " "
+              (size 9 -1 :right)
+              " "
+              (mode 16 16 :left :elide)
+              " "
+              (vc-status 16 16 :left)
+              " "
+              filename-and-process)))
 (setq ibuffer-show-empty-filter-groups nil)
-(setq ibuffer-saved-filter-groups
-      '(("default"
-	 ("Clojure" (or
-		     (mode . clojure-mode)
-		     (name . "^\\*slime-repl clojure")))
-	 ("C/C++/ObjC" (or
+(defconst sj/ibuffer-filter-groups
+  "Filter groups for use with ibuffer."
+  '(("Clojure" (or
+		(mode . clojure-mode)
+		(name . "^\\*slime-repl clojure")))
+    ("C/C++/ObjC" (or
 		   (mode . c-mode)
 		   (mode . c++-mode)
 		   (mode . objc-mode)
 		   (mode . makefile-mode)
 		   (mode . makefile-bsdmake-mode)))
-	 ("Ruby"   (or
-		    (mode . ruby-mode)
-		    (mode . yaml-mode)
-		    (mode . rhtml-mode)))
-	 ("SQL" (mode . sql-mode))
-	 ("Haskell" (or
-		     (mode . haskell-mode)
-		     (mode . literate-haskell-mode)
-		     (mode . inferior-haskell-mode)
-		     (name . "^\\*scion")
-		     (name . "\\.cabal$")))
-	 ("Python" (mode . python-mode))
-	 ("Erlang" (mode . erlang-mode))
-	 ("Shell"  (mode . sh-mode))
-	 ("Perl"   (mode . cperl-mode))
-	 ("Lisp"  (or
-		   (mode . lisp-mode)
-		   (name . "^\\*slime-repl")))
-	 ("Emacs" (or
-		   (mode . emacs-lisp-mode)
-		   (name . "^\\*scratch\\*$")))
-	 ("nXML"   (mode  . nxml-mode))
-	 ("Git"   (or
-		   (mode . magit-mode)
-		   (name . "magit")))
-	 ("Dired"  (mode . dired-mode))
-	 ("IRC"    (mode . erc-mode))
-	 ("Gnus"  (or
-		   (mode . message-mode)
-		   (mode . bbdb-mode)
-		   (mode . mail-mode)
-		   (mode . gnus-group-mode)
-		   (mode . gnus-summary-mode)
-		   (mode . gnus-article-mode)
-		   (name . "^\\.bbdb$")
-		   (name . "^\\.newsrc-dribble")))
-	 ("Slime misc" (or
-			(name . "^\\*inferior-lisp")
-			(name . "^\\*slime"))))))
-(add-hook 'ibuffer-mode-hook
-	  (defun sj/ibuffer-mode-hook ()
-	    (ibuffer-switch-to-saved-filter-groups "default")
-	    (ibuffer-auto-mode)))
+    ("Ruby"   (or
+	       (mode . ruby-mode)
+	       (mode . yaml-mode)
+	       (mode . rhtml-mode)))
+    ("SQL" (mode . sql-mode))
+    ("Haskell" (or
+		(mode . haskell-mode)
+		(mode . literate-haskell-mode)
+		(mode . inferior-haskell-mode)
+		(name . "^\\*scion")
+		(name . "\\.cabal$")))
+    ("Python" (mode . python-mode))
+    ("Erlang" (mode . erlang-mode))
+    ("Shell"  (mode . sh-mode))
+    ("Perl"   (mode . cperl-mode))
+    ("Lisp"  (or
+	      (mode . lisp-mode)
+	      (name . "^\\*slime-repl")))
+    ("Emacs" (or
+	      (mode . emacs-lisp-mode)
+	      (name . "^\\*scratch\\*$")))
+    ("nXML"   (mode  . nxml-mode))
+    ("Git"   (or
+	      (mode . magit-mode)
+	      (name . "magit")))
+    ("Dired"  (mode . dired-mode))
+    ("IRC"    (mode . erc-mode))
+    ("Gnus"  (or
+	      (mode . message-mode)
+	      (mode . bbdb-mode)
+	      (mode . mail-mode)
+	      (mode . gnus-group-mode)
+	      (mode . gnus-summary-mode)
+	      (mode . gnus-article-mode)
+	      (name . "^\\.bbdb$")
+	      (name . "^\\.newsrc-dribble")))
+    ("Slime misc" (or
+		   (name . "^\\*inferior-lisp")
+		   (name . "^\\*slime")))))
+(defun sj/ibuffer-mode-hook ()
+  (setq ibuffer-filter-groups
+	(append (ibuffer-vc-generate-filter-groups-by-vc-root)
+		sj/ibuffer-filter-groups))
+  (ibuffer-auto-mode +1))
+(add-hook 'ibuffer-mode-hook 'sj/ibuffer-filter-groups)
 
 ;; project-root
 (require 'project-root)
