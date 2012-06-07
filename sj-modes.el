@@ -192,11 +192,11 @@ through paredit and highlight-paren")
 (setq-default filladapt-mode t)
 
 ;; greedy-delete
-(require 'greedy-delete)
-(dolist (hook '(c-mode-hook haskell-mode-hook c++-mode-hook erlang-mode-hook
-			    emacs-lisp-mode-hook lisp-mode-hook  ruby-mode-hook
-			    clojure-mode-hook))
-  (add-hook hook 'gd-add-to-mode))
+;; (require 'greedy-delete)
+;; (dolist (hook '(c-mode-hook haskell-mode-hook c++-mode-hook erlang-mode-hook
+;; 			    emacs-lisp-mode-hook lisp-mode-hook  ruby-mode-hook
+;; 			    clojure-mode-hook))
+;;   (add-hook hook 'gd-add-to-mode))
 
 ;; ispell
 (setq ispell-program-name "/usr/bin/ispell")
