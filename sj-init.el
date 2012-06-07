@@ -92,7 +92,7 @@
       initial-buffer-choice     t
       visible-bell		t
       column-number-mode	t
-      require-final-newline 	'ask
+      require-final-newline 	t
       signal-error-on-buffer-boundary nil
       kill-whole-line 		t
       mouse-yank-at-point	t
@@ -152,6 +152,15 @@
 (setq gc-cons-threshold (max gc-cons-threshold (* 4 1024 1024)))
 
 (make-face-bold 'modeline)
+
+;; Emacs pacakage manager
+(setq package-archives
+      '(("ELPA"		. "http://tromey.com/elpa/")
+	("gnu"		. "http://elpa.gnu.org/packages/")
+	("marmalade"	. "http://marmalade-repo.org/packages/")
+	("melpa"	. "http://melpa.milkbox.net/packages/")
+	("SC"		. "http://joseito.republika.pl/sunrise-commander/")))
+(package-initialize)
 
 ;; various packages
 (load "sj-el-get")

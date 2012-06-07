@@ -13,16 +13,24 @@
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
 
-;; Lisp HyperSpec from http://www.lispworks.com/documentation/common-lisp.html
-;; (let ((sj/hyperspec-dir (expand-file-name
-;; 			 "~/src/CommonLisp/HyperSpec-7.0/HyperSpec/")))
-;;   (setq common-lisp-hyperspec-root (concat "file://" sj/hyperspec-dir)
-;; 	common-lisp-hyperspec-symbol-table (concat sj/hyperspec-dir
-;; 						   "Data/Map_Sym.txt")))
-
-
 ;; CSS mode
 (setq css-indent-offset 2)
+
+;; ruby-mode
+(setq ruby-deep-indent-paren nil
+      ruby-deep-arglist nil)
+(add-to-list 'viper-vi-state-mode-list 'ruby-mode)
+(defun sj/ruby-mode-hook ()
+  (highlight-parentheses-mode t)
+  (require 'ruby-end)
+  (ruby-end-mode +1)
+  (require 'ruby-block)
+  (ruby-block-mode t)
+  (setq autopair-dont-activate t
+	show-trailing-whitespace nil))
+(eval-after-load 'ruby-mode
+  '(add-hook 'ruby-mode-hook 'sj/ruby-mode-hook))
+
 
 ;; cc-mode stuff
 (eval-when-compile (require 'cc-mode))
