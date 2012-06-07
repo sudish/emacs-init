@@ -25,9 +25,12 @@
 	auto-complete-css
 	auto-complete-emacs-lisp
 	auto-complete-extension
-	auto-complete-ruby
+	;;auto-complete-ruby
 	autopair
 	bbdb
+	(:name clojure-mode
+	       :after (progn
+			(message "clojure-mode is %s" (featurep 'clojure-mode))))
 	coffee-mode
 	color-theme
 	;; (:name color-theme-sanityinc-solarized
@@ -36,11 +39,6 @@
 	;; 		(set-default 'frame-background-mode 'dark)
 	;; 		(require 'color-theme-sanityinc-solarized)
 	;; 		(color-theme-sanityinc-solarized-dark)))
-	(:name distel
-	       :features nil
-	       :after (progn
-			(eval-after-load 'erlang
-			  '(distel-setup))))
 	el-get
 	(:name emacschrome
 	       :features edit-server
@@ -64,9 +62,7 @@
 	       :depends filladapt) ; init file
 	highlight-parentheses
 	highlight-symbol
-	ibuffer-vc
 	iedit
-	inf-ruby
 	(:name magit
 	       :after (progn
 			(add-to-list 'viper-emacs-state-mode-list 'magit-key-mode)))
@@ -83,22 +79,11 @@
 	       ;; :after (progn (global-rainbow-delimiters-mode))
 	       )
 	rhtml-mode
-	(:name ruby-mode
-	       :after (progn
-			(setq ruby-deep-indent-paren nil
-			      ruby-deep-arglist nil)
-			(add-to-list 'viper-vi-state-mode-list 'ruby-mode)
-			(eval-after-load 'ruby-mode
-			  '(add-hook 'ruby-mode-hook
-				     (defun sj/ruby-mode-hook ()
-				       (highlight-parentheses-mode t)
-				       (setq autopair-dont-activate t ; ruby-electric
-					     show-trailing-whitespace nil))))))
-	ruby-electric
 	scion
 	(:name simplenote
 	       :after (progn
 			(setq simplenote-email user-mail-address)))
+	;;slime
 	(:name smex
 	       :after (progn
 			(setq smex-save-file (concat user-emacs-directory ".smex")
@@ -130,18 +115,6 @@
 
 ;;; Archived
 
-	;; (:name clojure-mode
-	;;        :after (progn
-	;; 		(setq clojure-mode-use-backtracking-indent t
-	;; 		      clojure-mode-font-lock-comment-sexp t)
-	;; 		(autoload 'clojure-mode "clojure-mode" "A mode for clojure lisp" t)
-	;; 		(add-to-list 'auto-mode-alist '("\\.clj$" . clojure-mode))
-	;; 		(add-to-list 'viper-vi-state-mode-list 'clojure-mode)
-	;; 		(autoload 'clojure-indent-function "clojure-mode") ; for use in slime buffers
-	;; 		(eval-when-compile (require 'parenface))
-	;; 		(eval-after-load 'clojure-mode
-	;; 		  '(add-hook 'clojure-mode-hook
-	;; 			     (paren-face-add-support clojure-font-lock-keywords)))))
 	;; (:name slime
 	;;        :features slime
 	;;        :after (progn
@@ -211,6 +184,11 @@
 	;; 	 '(add-hook 'ruby-mode-hook 'sj/rvm-activate)))
 
 
+	;; (:name distel
+	;;        :features nil
+	;;        :after (progn
+	;; 		(eval-after-load 'erlang
+	;; 		  '(distel-setup))))
 
 ;;; Local Variables:
 ;;; sj/recompile-file:t
