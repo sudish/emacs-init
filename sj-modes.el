@@ -45,6 +45,10 @@ through paredit and highlight-paren")
       cua-toggle-set-mark nil)
 (cua-mode)
 
+;; org-mode
+(setq org-startup-indented t
+      org-startup-with-inline-images t)
+
 ;; ibuffer -- ya improved buffer menu, included with emacs 22+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (setq ibuffer-show-empty-filter-groups nil)
