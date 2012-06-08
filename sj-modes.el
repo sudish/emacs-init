@@ -64,7 +64,6 @@ through paredit and highlight-paren")
               filename-and-process)))
 (setq ibuffer-show-empty-filter-groups nil)
 (defconst sj/ibuffer-filter-groups
-  "Filter groups for use with ibuffer."
   '(("Clojure" (or
 		(mode . clojure-mode)
 		(name . "^\\*slime-repl clojure")))
@@ -113,12 +112,13 @@ through paredit and highlight-paren")
     ("Slime misc" (or
 		   (name . "^\\*inferior-lisp")
 		   (name . "^\\*slime")))))
-(defun sj/ibuffer-mode-hook ()
+(defun sj/ibuffer-hook ()
   (setq ibuffer-filter-groups
 	(append (ibuffer-vc-generate-filter-groups-by-vc-root)
 		sj/ibuffer-filter-groups))
-  (ibuffer-auto-mode +1))
-(add-hook 'ibuffer-mode-hook 'sj/ibuffer-filter-groups)
+  (ibuffer-auto-mode +1)
+  (ibuffer-do-sort-by-alphabetic))
+(add-hook 'ibuffer-hook 'sj/ibuffer-hook)
 
 ;; project-root
 (require 'project-root)
