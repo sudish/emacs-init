@@ -4,8 +4,6 @@
 ;; Created: 1995-06-11
 
 ;; global bindings for everyday stuff
-(define-key global-map [(super \=)]     'text-scale-increase)
-(define-key global-map [(super \-)]     'text-scale-decrease)
 (define-key global-map [(super f1)]	'sj/tile-or-rotate-frames)
 (define-key global-map [(super A)]	'align-regexp)
 (define-key global-map [(super m)]	'magit-status)
@@ -17,8 +15,11 @@
 (define-key global-map [(super T)]	'sj/anything-code-nav)
 (define-key global-map [(super u)]	'undo)
 (define-key global-map [(super :)]	'eval-expression)
-(define-key global-map [(super \0)]	'delete-window)
-(define-key global-map [(super \1)]	'delete-other-windows)
+(define-key global-map [(super =)]	'text-scale-adjust)
+(define-key global-map [(super -)]	'text-scale-adjust)
+(define-key global-map [(super 0)]	'text-scale-adjust)
+;(define-key global-map [(super 0)]	'delete-window)
+(define-key global-map [(super 1)]	'delete-other-windows)
 (define-key global-map [(super left)]
   (defun sj/previous-window ()
     (interactive)
