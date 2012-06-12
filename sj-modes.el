@@ -97,12 +97,13 @@ through paredit and highlight-paren")
     ("Emacs" (or
 	      (mode . emacs-lisp-mode)
 	      (name . "^\\*scratch\\*$")))
-    ("nXML"   (mode  . nxml-mode))
+    ("nXML"  (mode  . nxml-mode))
+    ("Org"   (mode  . org-mode))
     ("Git"   (or
 	      (mode . magit-mode)
 	      (name . "magit")))
-    ("Dired"  (mode . dired-mode))
-    ("IRC"    (mode . erc-mode))
+    ("Dired" (mode . dired-mode))
+    ("IRC"   (mode . erc-mode))
     ("Gnus"  (or
 	      (mode . message-mode)
 	      (mode . bbdb-mode)
