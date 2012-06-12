@@ -46,7 +46,10 @@ through paredit and highlight-paren")
 (cua-mode)
 
 ;; org-mode
-(setq org-startup-indented t
+(setq org-directory (concat user-emacs-directory "org")
+      org-mobile-directory "~/Desktop/Dropbox/MobileOrg"
+      org-mobile-inbox-for-pull (concat org-directory "/from-mobile.org")
+      org-startup-indented t
       org-startup-with-inline-images t)
 
 ;; ibuffer -- ya improved buffer menu, included with emacs 22+
