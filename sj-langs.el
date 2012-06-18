@@ -26,6 +26,8 @@
   (ruby-end-mode +1)
   (require 'ruby-block)
   (ruby-block-mode t)
+  (require 'ruby-electric)
+  (ruby-electric-mode t)
   (setq autopair-dont-activate t
 	show-trailing-whitespace nil))
 (eval-after-load 'ruby-mode
