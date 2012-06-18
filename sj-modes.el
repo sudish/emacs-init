@@ -45,6 +45,12 @@ through paredit and highlight-paren")
       cua-toggle-set-mark nil)
 (cua-mode)
 
+;; deft
+(autoload 'deft "deft" nil t)
+(setq deft-use-filename-as-title t
+      deft-directory "~/Desktop/Dropbox/Simplenote"
+      deft-text-mode 'markdown-mode)
+
 ;; org-mode
 (setq org-directory (concat user-emacs-directory "org")
       org-mobile-directory "~/Desktop/Dropbox/MobileOrg"
