@@ -17,9 +17,9 @@
 (define-key global-map [(super :)]	'eval-expression)
 (define-key global-map [(super =)]	'text-scale-adjust)
 (define-key global-map [(super -)]	'text-scale-adjust)
-(define-key global-map [(super 0)]	'text-scale-adjust)
-;(define-key global-map [(super 0)]	'delete-window)
-(define-key global-map [(super 1)]	'delete-other-windows)
+;(define-key global-map [(super \0)]	'text-scale-adjust)
+(define-key global-map [(super \0)]	'delete-window)
+(define-key global-map [(super \1)]	'delete-other-windows)
 (define-key global-map [(super left)]
   (defun sj/previous-window ()
     (interactive)

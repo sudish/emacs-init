@@ -153,7 +153,7 @@
 
 (make-face-bold 'modeline)
 
-;; Emacs pacakage manager
+;; Emacs package manager
 (setq package-archives
       '(("ELPA"		. "http://tromey.com/elpa/")
 	("gnu"		. "http://elpa.gnu.org/packages/")
