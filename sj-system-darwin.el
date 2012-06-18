@@ -37,12 +37,11 @@
   "Default frame parameters for all frames, including the initial one.")
 
 (when window-system
-  (let ((left-pos (/ (- (x-display-pixel-width) (frame-pixel-width)) 2)))
-    (setq initial-frame-alist (append `((top . 0) (left . ,left-pos))
-				      sj/default-frame-parameters
-				      initial-frame-alist)
-	  default-frame-alist (append sj/default-frame-parameters
-				      default-frame-alist))))
+  (setq initial-frame-alist (append '((top . 0))
+				    sj/default-frame-parameters
+				    initial-frame-alist)
+	default-frame-alist (append sj/default-frame-parameters
+				    default-frame-alist)))
 
 ;; Typester's fullscreen hack
 (when (fboundp 'ns-toggle-fullscreen)
