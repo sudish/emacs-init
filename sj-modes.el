@@ -174,14 +174,6 @@ through paredit and highlight-paren")
 ;; iedit: in-place concurrent edit
 (autoload 'iedit-mode "iedit" nil t)
 
-;; complete: partial completion etc.  must be before ffap
-(require 'complete)
-(partial-completion-mode t)
-
-;; pabbrev
-;; (require 'pabbrev)
-;; (global-pabbrev-mode)
-
 ;; diff
 (setq diff-switches '("-u"))
 
