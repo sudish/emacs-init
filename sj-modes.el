@@ -58,6 +58,11 @@ through paredit and highlight-paren")
       org-startup-indented t
       org-startup-with-inline-images t)
 
+;; magit
+(autoload 'magit-status "magit" nil t)
+(eval-after-load "magit"
+  '(add-to-list 'viper-emacs-state-mode-list 'magit-key-mode))
+
 ;; ibuffer -- ya improved buffer menu, included with emacs 22+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (setq ibuffer-formats

@@ -63,9 +63,6 @@
 	highlight-parentheses
 	highlight-symbol
 	iedit
-	(:name magit
-	       :after (progn
-			(add-to-list 'viper-emacs-state-mode-list 'magit-key-mode)))
 	markdown-mode
 	minimap
 	(:name paredit
