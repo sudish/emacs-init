@@ -19,7 +19,7 @@
 (when user-sj-p
   (setq bbdb-user-mail-names "\\(sudish\\|sj\\)@"))
 
-(add-hook 'message-setup-hook 'bbdb-define-all-aliases)
+;(add-hook 'message-setup-hook 'bbdb-define-all-aliases)
 (add-hook 'gnus-startup-hook 'bbdb-insinuate-gnus t)
 
 (add-hook 'bbdb-change-hook 'bbdb-delete-redundant-nets)
