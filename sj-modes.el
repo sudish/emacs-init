@@ -161,9 +161,8 @@ through paredit and highlight-paren")
 (sj/load-path-prepend "external/ack-mode")
 (autoload 'ack "ack-mode" nil t)
 (defun sj/project-root-dir ()
-  (let ((root-dir (project-root-fetch)))
-    (when root-dir
-      (cdar root-dir))))
+  (when (project-root-fetch)
+    (cdr project-details)))
 (setq ack-mode-root-directory-function 'sj/project-root-dir)
 
 ;; winner: rotate through window config history
