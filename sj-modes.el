@@ -62,13 +62,13 @@ through paredit and highlight-paren")
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (setq ibuffer-formats
       '((mark vc-status-mini modified read-only " "
-              (name 18 18 :left :elide)
+              (name 24 24 :left :elide)
               " "
               (size 9 -1 :right)
               " "
-              (mode 16 16 :left :elide)
-              " "
-              (vc-status 16 16 :left)
+              (mode 12 12 :left :elide)
+              ;; " "
+              ;; (vc-status 16 16 :left)
               " "
               filename-and-process)))
 (setq ibuffer-show-empty-filter-groups nil)
