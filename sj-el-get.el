@@ -8,9 +8,7 @@
 
 ;; local sources
 (setq el-get-sources
-      '((:name anything
-	       :features (anything anything-match-plugin anything-config anything-show-completion))
-	(:name auto-complete
+      '((:name auto-complete
 	       :after (progn
 			(setq ac-use-comphist t
 			      ac-disable-faces nil ; '(font-lock-comment-face font-lock-string-face font-lock-doc-face)
@@ -51,8 +49,8 @@
 			    (edit-server-start)
 			  ((error "" &optional ARGS)
 			   (message "edit-server: %s" (error-message-string err))))))
-	(:name eproject
-	       :features (eproject eproject-extras eproject-ruby eproject-ruby-on-rails eproject-perl))
+	;; (:name eproject
+	;;        :features (eproject eproject-extras eproject-ruby eproject-ruby-on-rails eproject-perl))
 	erlware-mode
 	(:name filladapt
 	       :features filladapt
