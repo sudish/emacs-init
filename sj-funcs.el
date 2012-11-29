@@ -171,8 +171,8 @@ compile."
   (let ((prefix (concat "^" (expand-file-name (or prefix sj/emacs-base-dir))))
 	(compiled nil)
 	(errors nil))
-    (labels ((trim (prefix lib)
-		   (replace-regexp-in-string prefix "..." lib nil t)))
+    (cl-labels ((trim (prefix lib)
+		      (replace-regexp-in-string prefix "..." lib nil t)))
       (dolist (lib (sj/find-newer-libraries load-path))
 	(condition-case err
 	    (when (string-match-p prefix lib)

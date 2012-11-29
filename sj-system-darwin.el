@@ -62,7 +62,7 @@
     "Make the current frame fullscreen."
     (interactive)
     (setq ns-auto-hide-menu-bar t)
-    (labels ((fp (p) (frame-parameter (selected-frame) p)))
+    (cl-labels ((fp (p) (frame-parameter (selected-frame) p)))
       ;; Make this frame large enough to cover the whole screen.
       ;; set-frame-size takes character rows and columns, so convert
       ;; all the pixel-based values accordingly.
