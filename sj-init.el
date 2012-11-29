@@ -151,7 +151,7 @@
 ;; garbage collection settings
 (setq gc-cons-threshold (max gc-cons-threshold (* 4 1024 1024)))
 
-(make-face-bold 'modeline)
+(make-face-bold 'mode-line)
 
 ;; Emacs package manager
 (setq package-archives
