@@ -16,6 +16,9 @@
 ;; CSS mode
 (setq css-indent-offset 2)
 
+;; javascript mode
+(setq js-indent-level 2)
+
 ;; ruby-mode
 (setq ruby-deep-indent-paren nil
       ruby-deep-arglist nil)
