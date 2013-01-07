@@ -3,6 +3,26 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 1995-06-11
 
+;; smex
+(setq smex-save-file (concat user-emacs-directory ".smex")
+      smex-history-length 15)
+;; save the old M-x
+(global-set-key (kbd "C-c M-x") (lookup-key global-map (kbd "M-x")))
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+
+;; auto-completion
+(setq ac-use-comphist t
+      ac-disable-faces nil ; '(font-lock-comment-face font-lock-string-face font-lock-doc-face)
+      ac-auto-show-menu 0.1
+      ac-quick-help-delay 0.1
+      ac-menu-height 20
+      ac-quick-help-height 20)
+(global-auto-complete-mode t)
+(require 'auto-complete-config)
+(ac-config-default)
+
 ;; Angry fruit salad
 (setq font-lock-maximum-decoration t)
 (require 'font-lock)
@@ -10,10 +30,14 @@
 ;; color themes
 (sj/load-path-prepend "external/color-theme-sanityinc-solarized")
 (require 'color-theme-sanityinc-solarized)
-(eval-after-load "color-theme"
+(set-default 'frame-background-mode 'light)
+(color-theme-sanityinc-solarized-light)
+
+;; paredit
+(eval-after-load "paredit"
   '(progn
-     (set-default 'frame-background-mode 'light)
-     (color-theme-sanityinc-solarized-light)))
+     (define-key paredit-mode-map (kbd "RET") 'paredit-newline)
+     (define-key paredit-mode-map (kbd "C-j") nil)))
 
 ;; show-paren
 (show-paren-mode t)
@@ -38,12 +62,21 @@ through paredit and highlight-paren")
 (dolist (hook sj/use-paren-mode-hooks)
   (add-hook hook 'sj/use-paren-mode-hook t))
 
+;; undo-tree
+(global-undo-tree-mode)
 
 ;; cua-mode
 (setq cua-enable-cua-keys nil
       cua-highlight-region-shift-only t
       cua-toggle-set-mark nil)
 (cua-mode)
+
+;; volatile-highlights
+(require 'volatile-highlights)
+(volatile-highlights-mode t)
+
+;; simplenote
+(setq simplenote-email user-mail-address)
 
 ;; deft
 (autoload 'deft "deft" nil t)

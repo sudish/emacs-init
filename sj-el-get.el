@@ -8,102 +8,19 @@
 
 ;; local sources
 (setq el-get-sources
-      '((:name auto-complete
-	       :after (progn
-			(setq ac-use-comphist t
-			      ac-disable-faces nil ; '(font-lock-comment-face font-lock-string-face font-lock-doc-face)
-			      ac-auto-show-menu 0.1
-			      ac-quick-help-delay 0.1
-			      ac-menu-height 20
-			      ac-quick-help-height 20)
-			(global-auto-complete-mode t)
-			(require 'auto-complete-config)
-			(ac-config-default)))
-	auto-complete-clang
-	auto-complete-css
-	auto-complete-emacs-lisp
-	auto-complete-extension
-	;;auto-complete-ruby
-	autopair
-	bbdb
-	(:name clojure-mode
+      '((:name clojure-mode
 	       :after (progn
 			(message "clojure-mode is %s" (featurep 'clojure-mode))))
-	coffee-mode
-	color-theme
-	;; (:name color-theme-sanityinc-solarized
-	;;        :features color-theme-sanityinc-solarized
-	;;        :after (progn
-	;; 		(set-default 'frame-background-mode 'dark)
-	;; 		(require 'color-theme-sanityinc-solarized)
-	;; 		(color-theme-sanityinc-solarized-dark)))
 	el-get
-	(:name emacschrome
-	       :features edit-server
-	       :after (progn
-			;; emacs_chrome edit-server: service requests from the Chrome extension
-			(setq edit-server-verbose t
-			      edit-server-new-frame nil
-			      edit-server-new-frame-alist nil)
-			(condition-case err
-			    (edit-server-start)
-			  ((error "" &optional ARGS)
-			   (message "edit-server: %s" (error-message-string err))))))
-	;; (:name eproject
-	;;        :features (eproject eproject-extras eproject-ruby eproject-ruby-on-rails eproject-perl))
-	erlware-mode
 	(:name filladapt
 	       :features filladapt
 	       :after (progn (setq-default filladapt-mode t)))
 	ghc-mod
 	(:name haskellmode-emacs
 	       :depends filladapt) ; init file
-	highlight-parentheses
-	highlight-symbol
-	iedit
-	markdown-mode
-	minimap
-	(:name paredit
-	       :after (progn
-			(define-key paredit-mode-map (kbd "RET") 'paredit-newline)
-			(define-key paredit-mode-map (kbd "C-j") nil)))
-	parenface
-	pos-tip
-	(:name rainbow-delimiters
-	       :features rainbow-delimiters
-	       ;; :after (progn (global-rainbow-delimiters-mode))
-	       )
 	rhtml-mode
 	scion
-	(:name simplenote
-	       :after (progn
-			(setq simplenote-email user-mail-address)))
-	;;slime
-	(:name smex
-	       :after (progn
-			(setq smex-save-file (concat user-emacs-directory ".smex")
-			      smex-history-length 15)
-			(smex-initialize)
-			(global-set-key (kbd "M-x") 'smex)
-			(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-			;; This is the old M-x.
-			(global-set-key (kbd "C-c M-x") 'execute-extended-command)))
-	(:name undo-tree
-	       :after (progn (global-undo-tree-mode)))
-	(:name volatile-highlights
-	       :features volatile-highlights
-	       :after (progn
-			(require 'volatile-highlights)
-			(volatile-highlights-mode t)))
 	vc-bzr
-	vc-darcs
-	(:name yaml-mode
-	       :after (progn
-			(eval-after-load 'yaml-mode
-			  '(define-key yaml-mode-map "\C-m" 'newline-and-indent))))
-	;; (:name yasnippet
-	;;        :features yasnippet
-	;;        :after (progn (yas/global-mode 1)))
 	))
 
 (el-get)

@@ -36,6 +36,9 @@
 (eval-after-load 'ruby-mode
   '(add-hook 'ruby-mode-hook 'sj/ruby-mode-hook))
 
+;; yaml
+(eval-after-load 'yaml-mode
+  '(define-key yaml-mode-map "\C-m" 'newline-and-indent))
 
 ;; cc-mode stuff
 (eval-when-compile (require 'cc-mode))
