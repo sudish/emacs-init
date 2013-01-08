@@ -18,7 +18,6 @@
 	ghc-mod
 	(:name haskellmode-emacs
 	       :depends filladapt) ; init file
-	rhtml-mode
 	scion
 	vc-bzr
 	))
