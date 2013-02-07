@@ -8,16 +8,11 @@
 
 ;; local sources
 (setq el-get-sources
-      '((:name clojure-mode
-	       :after (progn
-			(message "clojure-mode is %s" (featurep 'clojure-mode))))
-	el-get
+      '(el-get
 	(:name filladapt
 	       :features filladapt
 	       :after (progn (setq-default filladapt-mode t)))
 	ghc-mod
-	(:name haskellmode-emacs
-	       :depends filladapt) ; init file
 	scion
 	vc-bzr
 	))
