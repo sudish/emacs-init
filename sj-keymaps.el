@@ -20,6 +20,8 @@
 ;(define-key global-map [(super \0)]	'text-scale-adjust)
 (define-key global-map [(super \0)]	'delete-window)
 (define-key global-map [(super \1)]	'delete-other-windows)
+(define-key global-map [(super d)]	'split-window-horizontally)
+(define-key global-map [(super D)]	'split-window-vertically)
 (define-key global-map [(super left)]
   (defun sj/previous-window ()
     (interactive)
