@@ -170,6 +170,7 @@
 (load "sj-anything")
 (load "sj-mail")
 (load "sj-bbdb")
+(load "sj-peepopen")
 
 ;; gnuserv
 (setenv "GNUSERV_SHOW_EMACS" "1")        ; always raise Emacs window
