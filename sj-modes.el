@@ -7,7 +7,8 @@
 (require 'diminish)
 (defconst sj/diminished-minor-modes
   '(paredit-mode eldoc-mode filladapt-mode auto-complete-mode
-    highlight-parentheses-mode volatile-highlights-mode undo-tree-mode))
+    highlight-parentheses-mode volatile-highlights-mode undo-tree-mode
+    ruby-end-mode ruby-block-mode ruby-electric-mode))
 (mapc (lambda (m) (diminish m)) sj/diminished-minor-modes)
 
 ;; smex
