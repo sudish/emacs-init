@@ -3,6 +3,13 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 1995-06-11
 
+;; diminish
+(require 'diminish)
+(defconst sj/diminished-minor-modes
+  '(paredit-mode eldoc-mode filladapt-mode auto-complete-mode
+    highlight-parentheses-mode volatile-highlights-mode undo-tree-mode))
+(mapc (lambda (m) (diminish m)) sj/diminished-minor-modes)
+
 ;; smex
 (setq smex-save-file (concat user-emacs-directory ".smex")
       smex-history-length 15)
