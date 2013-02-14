@@ -6,10 +6,15 @@
 ;; diminish
 (require 'diminish)
 (defconst sj/diminished-minor-modes
-  '(paredit-mode eldoc-mode filladapt-mode auto-complete-mode
-    highlight-parentheses-mode volatile-highlights-mode undo-tree-mode
-    ruby-end-mode ruby-block-mode ruby-electric-mode))
-(mapc (lambda (m) (diminish m)) sj/diminished-minor-modes)
+  '(paredit eldoc filladapt auto-complete highlight-parentheses
+    volatile-highlights undo-tree ruby-end ruby-block ruby-electric))
+(defun sj/diminish-after-load (feature)
+  (eval-after-load feature
+    `(let* ((mode-name (format "%s-mode" ',feature))
+	    (mode (intern-soft mode-name)))
+       (when mode
+	 (diminish mode)))))
+(mapc 'sj/diminish-after-load sj/diminished-minor-modes)
 
 ;; smex
 (setq smex-save-file (concat user-emacs-directory ".smex")
