@@ -23,3 +23,4 @@
 ;; Don't shadow gnus article mode bindings
 (setq viper-vi-state-mode-list
       (delq 'gnus-article-mode viper-vi-state-mode-list))
+(push 'inferior-octave-mode viper-emacs-state-mode-list)
