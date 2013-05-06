@@ -160,7 +160,8 @@ compiled version. Also lists uncompiled libraries."
 		       ;; note: this handles missing .elc files correctly!
 		       (when (file-newer-than-file-p file (concat file "c"))
 			 file))
-		     (directory-files dir 'full "\\.el$" 'no-sort)))
+		     (when (file-directory-p dir)
+		       (directory-files dir 'full "\\.el$" 'no-sort))))
 		paths))))
 
 (defun sj/recompile-newer-libs (&optional prefix)
