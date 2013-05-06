@@ -39,6 +39,7 @@
 (define-key sj/private-keymap [(super .)] 'anything)
 
 (define-key sj/private-keymap [(super ?f)] 'follow-delete-other-windows-and-split)
+(define-key sj/private-keymap [?d]         'dash-at-point)
 (define-key sj/private-keymap [?i]         'insert-buffer)
 (define-key sj/private-keymap [?l]         'load-library)
 (define-key sj/private-keymap [?L]         'locate-library)
