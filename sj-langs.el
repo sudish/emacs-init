@@ -3,6 +3,10 @@
 ;; Copyright: Sudish Joseph <sudish@gmail.com>
 ;; Created: 1995-06-11
 
+;; Octave
+(require 'octave)
+(push '("\\.m$" . octave-mode) auto-mode-alist)
+
 ;; SQL mode
 (eval-when-compile (require 'sql))
 (setq sql-product 'mysql
