@@ -6,7 +6,7 @@
 ;; diminish
 (require 'diminish)
 (defconst sj/diminished-minor-modes
-  '(paredit eldoc filladapt auto-complete highlight-parentheses
+  '(auto-fill paredit eldoc filladapt auto-complete highlight-parentheses
     volatile-highlights undo-tree ruby-end ruby-block ruby-electric))
 (defun sj/diminish-after-load (feature)
   (eval-after-load feature
